@@ -30,9 +30,8 @@ export const UserProfile = ({ userId, email }: UserProfileProps) => {
 
     const handleSignOut = async () => {
         await supabase.auth.signOut();
-        router.refresh();
-        // Force hard refresh if needed, but router.refresh usually works with middleware
-        // setTimeout(() => window.location.href = '/login', 500); 
+        // Force a hard refresh to clear all state and auth cookies
+        window.location.href = '/login';
     };
 
     // Derived initials or name

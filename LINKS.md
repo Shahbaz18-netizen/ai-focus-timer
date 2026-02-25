@@ -29,5 +29,21 @@ Here are the important links and resources for the production deployment of Aura
 * `OPENAI_API_KEY`
 * `PYTHON_VERSION` (Set to 3.11.0 due to ChromaDB requirements)
 
+## 💻 Running Locally
+
+If you want to test changes locally before pushing them to production, you need to run both the frontend and backend servers.
+
+**1. Start the Backend API (FastAPI)**
+Open a terminal, activate your virtual environment, and run:
+`uvicorn app.main:app --reload`
+*(This will start the backend on http://localhost:8000)*
+
+**2. Start the Frontend (Next.js)**
+Open a second terminal, navigate to the `frontend` folder, and run:
+`npm run dev`
+*(This will start the frontend on http://localhost:3000)*
+
+> The local frontend is configured in `frontend/.env.local` to talk to `http://localhost:8000/api/v1` automatically when running locally.
+
 ---
 *Created during deployment on Feb 25, 2026*

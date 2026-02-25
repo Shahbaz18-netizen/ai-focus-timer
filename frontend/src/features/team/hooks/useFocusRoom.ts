@@ -52,10 +52,10 @@ export const useFocusRoom = (roomId: string | null, userId: string, username: st
 
                 setParticipants(parsedParticipants);
             })
-            .on('presence', { event: 'join' }, ({ key, newPresences }) => {
+            .on('presence', { event: 'join' }, ({ key, newPresences }: { key: string; newPresences: any[] }) => {
                 console.log('join', key, newPresences);
             })
-            .on('presence', { event: 'leave' }, ({ key, leftPresences }) => {
+            .on('presence', { event: 'leave' }, ({ key, leftPresences }: { key: string; leftPresences: any[] }) => {
                 console.log('leave', key, leftPresences);
             })
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -72,7 +72,7 @@ export const useFocusRoom = (roomId: string | null, userId: string, username: st
                     setReactions((prev) => prev.filter((r) => r.id !== reaction.id));
                 }, 4000);
             })
-            .subscribe((status) => {
+            .subscribe((status: string) => {
                 if (status === 'SUBSCRIBED') {
                     setIsConnected(true);
                     // Initial track

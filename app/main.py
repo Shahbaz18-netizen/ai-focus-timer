@@ -21,7 +21,11 @@ app = FastAPI(
 # We say ["*"] which means ANY frontend can talk to us right now.
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Security rule: who can access our API
+    allow_origins=[
+        "http://localhost:3000",
+        "http://localhost:3001",
+        "https://ai-focus-timer-492bftlxq-shahbazjr2-9308s-projects.vercel.app"
+    ],  # Security rule: who can access our API
     allow_credentials=True,
     allow_methods=["*"],  # Allow GET, POST, PUT, DELETE, etc.
     allow_headers=["*"],  # Allow any headers

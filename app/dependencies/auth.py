@@ -20,13 +20,17 @@ async def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(s
 
 
     try:
+        # Check token structure before sending
+        if not token or len(token) < 20:
+             print(f"DEBUG: Token is missing or malformed. Length: {len(token) if token else 0}")
+             raise ValueError("Malformed token")
+             
         # Verify the token with Supabase
-        # NOTE: If this hangs/times out, check your network connection to Supabase.
         user_response = supabase.auth.get_user(token)
         user = user_response.user
         
         if not user:
-            print(f"DEBUG: No user found for token. Token prefix: {token[:10]}...")
+            print(f"DEBUG: No user found for token. Response: {user_response}")
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
                 detail="Invalid session or expired token",

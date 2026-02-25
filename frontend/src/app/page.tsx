@@ -385,7 +385,7 @@ export default function AuraFocusOS() {
   }
 
   return (
-    <div className={`max-w-5xl mx-auto py-8 px-6 min-h-screen flex flex-col relative z-0 zen-mode-transition ${isZenMode ? 'zen-mode' : ''}`}>
+    <div className={`max-w-5xl mx-auto py-4 px-4 sm:py-8 sm:px-6 min-h-screen flex flex-col relative z-0 zen-mode-transition ${isZenMode ? 'zen-mode' : ''}`}>
       <ImmersiveBackground />
       <AmbientPlayer />
       <JournalWidget />
@@ -394,14 +394,16 @@ export default function AuraFocusOS() {
       <SoundWidget />
       <TaskWidget userId={USER_ID} />
       {!isZenMode && (
-        <header className="mb-8 flex justify-between items-center bg-glass/10 p-6 rounded-3xl border border-glass-border backdrop-blur-md animate-in fade-in slide-in-from-top-4">
-          <div className="flex items-center gap-3">
-            <div className="w-3 h-3 rounded-full bg-accent animate-pulse shadow-[0_0_15px_rgba(var(--accent-rgb),0.5)]" />
-            <h2 className="text-xl font-bold tracking-tighter uppercase italic">Aura OS v3.0</h2>
+        <header className="mb-6 sm:mb-8 flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-0 bg-glass/10 p-4 sm:p-6 rounded-3xl border border-glass-border backdrop-blur-md animate-in fade-in slide-in-from-top-4 w-full">
+          <div className="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-start">
+            <div className="flex items-center gap-3">
+              <div className="w-3 h-3 rounded-full bg-accent animate-pulse shadow-[0_0_15px_rgba(var(--accent-rgb),0.5)]" />
+              <h2 className="text-xl font-bold tracking-tighter uppercase italic">Aura OS v3.0</h2>
+            </div>
           </div>
 
           {/* Navigation Tabs */}
-          <div className="flex bg-white/5 rounded-full p-1 border border-white/5 relative">
+          <div className="flex bg-white/5 rounded-full p-1 border border-white/5 relative overflow-x-auto max-w-[calc(100vw-3rem)] sm:max-w-none scrollbar-none snap-x w-full sm:w-auto">
             {['focus', 'team', 'brain', 'analytics'].map((tab) => (
               <button
                 key={tab}
@@ -421,7 +423,7 @@ export default function AuraFocusOS() {
             ))}
           </div>
 
-          <div className="flex flex-col items-end gap-1">
+          <div className="flex flex-row sm:flex-col items-center sm:items-end w-full sm:w-auto justify-between sm:justify-end gap-3 sm:gap-1 mt-2 sm:mt-0">
             <div className="flex items-center gap-4">
               <UserProfile userId={USER_ID} email={userEmail} />
             </div>

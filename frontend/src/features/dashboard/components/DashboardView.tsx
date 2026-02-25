@@ -121,9 +121,9 @@ export const DashboardView = ({
             />
 
             {/* Placeholder for Analytics Link */}
-            <section className="bg-glass/5 rounded-3xl p-6 border border-glass-border flex justify-between items-center transition-all hover:bg-glass/10">
-                <div className="flex items-center gap-4 cursor-pointer group" onClick={() => setIsShutdownOpen(true)}>
-                    <div className="p-3 bg-red-500/10 rounded-xl group-hover:bg-red-500/20 transition-colors">
+            <section className="bg-glass/5 rounded-3xl p-6 border border-glass-border flex flex-col md:flex-row justify-between items-start md:items-center gap-6 md:gap-0 transition-all hover:bg-glass/10">
+                <div className="flex items-center gap-4 cursor-pointer group w-full md:w-auto" onClick={() => setIsShutdownOpen(true)}>
+                    <div className="p-3 bg-red-500/10 rounded-xl group-hover:bg-red-500/20 transition-colors shrink-0">
                         <LogOut className="w-6 h-6 text-red-400" />
                     </div>
                     <div>
@@ -132,13 +132,14 @@ export const DashboardView = ({
                     </div>
                 </div>
 
-                <div className="flex items-center justify-between cursor-pointer group ml-8" onClick={() => setIsAnalyticsOpen(true)}>
+                <div className="flex items-center justify-between cursor-pointer group w-full md:w-auto md:ml-8 border-t border-glass-border md:border-none pt-4 md:pt-0" onClick={() => setIsAnalyticsOpen(true)}>
                     {/* Existing Analysis Link */}
-                    <div className="flex items-center gap-2 text-textDim">
+                    <div className="flex items-center gap-2 text-textDim shrink-0">
                         <History className="w-5 h-5 group-hover:text-accent transition-colors" />
-                        <h2 className="text-lg font-bold uppercase tracking-wider group-hover:text-foreground transition-colors">Session Archives</h2>
+                        <h2 className="text-lg font-bold uppercase tracking-wider group-hover:text-foreground transition-colors hidden sm:block">Session Archives</h2>
+                        <h2 className="text-lg font-bold uppercase tracking-wider group-hover:text-foreground transition-colors sm:hidden">Archives</h2>
                     </div>
-                    <span className="text-xs text-textDim hover:text-accent ml-2">View Analysis &rarr;</span>
+                    <span className="text-xs text-textDim hover:text-accent ml-4 shrink-0">View Analysis &rarr;</span>
                 </div>
             </section>
 

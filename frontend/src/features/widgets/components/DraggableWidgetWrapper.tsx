@@ -42,8 +42,8 @@ export const DraggableWidgetWrapper = ({
             initial={{ opacity: 0, scale: 0.9, x: defaultPosition.x, y: defaultPosition.y }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.9 }}
-            className={`fixed ${isMini ? 'w-64' : width} bg-[#121212]/95 backdrop-blur-3xl border border-white/20 rounded-2xl shadow-[0_30px_60px_rgba(0,0,0,0.8)] overflow-hidden z-40 flex flex-col ${className} ring-1 ring-white/10 transition-[width,height,background-color] duration-300`}
-            style={{ top: "6rem", left: "2rem" }} // Base position, accessible
+            className={`fixed ${isMini ? 'w-64' : width} max-w-[calc(100vw-2rem)] sm:max-w-none max-h-[85vh] sm:max-h-none bg-[#121212]/95 backdrop-blur-3xl border border-white/20 rounded-2xl shadow-[0_30px_60px_rgba(0,0,0,0.8)] overflow-hidden z-40 flex flex-col ${className} ring-1 ring-white/10 transition-[width,height,background-color] duration-300`}
+            style={{ top: "6rem", left: "1rem" }} // Base position, accessible
         >
             {/* Header */}
             {!isMini && (

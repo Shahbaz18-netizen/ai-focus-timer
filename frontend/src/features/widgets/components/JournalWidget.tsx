@@ -24,7 +24,7 @@ export const JournalWidget = () => {
             onClose={() => toggleWidget("journal")}
             defaultPosition={{ x: 800, y: 0 }}
         >
-            <div className="p-5 flex flex-col gap-4 w-[340px]">
+            <div className="p-5 flex flex-col gap-4 w-[340px] max-w-full">
                 {/* Header */}
                 <div className="flex items-center justify-between pb-3 border-b border-white/10">
                     <div className="flex items-center gap-2 text-white/50 text-xs font-mono tracking-wider uppercase">

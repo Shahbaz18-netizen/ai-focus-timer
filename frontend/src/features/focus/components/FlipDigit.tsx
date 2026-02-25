@@ -27,16 +27,16 @@ export const FlipDigit = ({ digit, label }: FlipDigitProps) => {
 
     return (
         <div className="flex flex-col items-center gap-4">
-            <div className="relative w-28 h-40 md:w-40 md:h-56 bg-[#1a1a1a] rounded-xl perspective-1000 shadow-2xl border border-white/5">
+            <div className="relative w-16 h-28 sm:w-24 sm:h-36 md:w-40 md:h-56 bg-[#1a1a1a] rounded-xl perspective-1000 shadow-2xl border border-white/5">
                 {/* Static Background (Next Number) */}
                 <div className="absolute inset-0 flex flex-col rounded-xl overflow-hidden">
                     <div className="h-1/2 bg-[#222] border-b border-black/30 flex items-end justify-center overflow-hidden">
-                        <span className="text-8xl md:text-[10rem] font-bold font-mono text-[#e0e0e0] translate-y-[50%]">
+                        <span className="text-5xl sm:text-7xl md:text-[10rem] font-bold font-mono text-[#e0e0e0] translate-y-[50%]">
                             {currentDigit}
                         </span>
                     </div>
                     <div className="h-1/2 bg-[#222] flex items-start justify-center overflow-hidden">
-                        <span className="text-8xl md:text-[10rem] font-bold font-mono text-[#e0e0e0] -translate-y-[50%]">
+                        <span className="text-5xl sm:text-7xl md:text-[10rem] font-bold font-mono text-[#e0e0e0] -translate-y-[50%]">
                             {currentDigit}
                         </span>
                     </div>
@@ -57,7 +57,7 @@ export const FlipDigit = ({ digit, label }: FlipDigitProps) => {
                             <div
                                 className="absolute inset-x-0 top-0 h-1/2 bg-[#222] flex items-end justify-center overflow-hidden backface-hidden border-b border-black/30 rounded-t-xl origin-bottom"
                             >
-                                <span className="text-8xl md:text-[10rem] font-bold font-mono text-[#e0e0e0] translate-y-[50%]">
+                                <span className="text-5xl sm:text-7xl md:text-[10rem] font-bold font-mono text-[#e0e0e0] translate-y-[50%]">
                                     {previousDigit}
                                 </span>
                                 <div className="absolute inset-0 bg-gradient-to-b from-white/10 to-transparent pointer-events-none" />
@@ -68,7 +68,7 @@ export const FlipDigit = ({ digit, label }: FlipDigitProps) => {
                                 className="absolute inset-x-0 top-1/2 h-1/2 bg-[#222] flex items-start justify-center overflow-hidden backface-hidden rounded-b-xl origin-top"
                                 style={{ transform: "rotateX(180deg)" }}
                             >
-                                <span className="text-8xl md:text-[10rem] font-bold font-mono text-[#e0e0e0] -translate-y-[50%]">
+                                <span className="text-5xl sm:text-7xl md:text-[10rem] font-bold font-mono text-[#e0e0e0] -translate-y-[50%]">
                                     {currentDigit}
                                 </span>
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none" />
@@ -80,14 +80,14 @@ export const FlipDigit = ({ digit, label }: FlipDigitProps) => {
                 {/* Static Bottom (Previous Digit) - Visible until covered by flip */}
                 {!isFlipping && (
                     <div className="absolute inset-x-0 bottom-0 h-1/2 bg-[#222] flex items-start justify-center overflow-hidden rounded-b-xl z-0">
-                        <span className="text-8xl md:text-[10rem] font-bold font-mono text-[#e0e0e0] -translate-y-[50%]">
+                        <span className="text-5xl sm:text-7xl md:text-[10rem] font-bold font-mono text-[#e0e0e0] -translate-y-[50%]">
                             {currentDigit}
                         </span>
                     </div>
                 )}
                 {isFlipping && (
                     <div className="absolute inset-x-0 bottom-0 h-1/2 bg-[#222] flex items-start justify-center overflow-hidden rounded-b-xl z-0">
-                        <span className="text-8xl md:text-[10rem] font-bold font-mono text-[#e0e0e0] -translate-y-[50%]">
+                        <span className="text-5xl sm:text-7xl md:text-[10rem] font-bold font-mono text-[#e0e0e0] -translate-y-[50%]">
                             {previousDigit}
                         </span>
                     </div>

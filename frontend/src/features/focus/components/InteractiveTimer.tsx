@@ -341,7 +341,7 @@ export const InteractiveTimer = ({
                 <div className="w-full max-w-2xl space-y-12 text-center animate-in fade-in slide-in-from-bottom-8 duration-700 relative">
 
                     <div className="space-y-4">
-                        <h2 className="text-8xl font-bold tracking-tighter text-white font-mono">{String(duration).padStart(2, '0')}:00</h2>
+                        <h2 className="text-6xl md:text-8xl font-bold tracking-tighter text-white font-mono">{String(duration).padStart(2, '0')}:00</h2>
                         <p className="text-white/40 font-mono text-xs uppercase tracking-[0.3em]">{mode === 'pomodoro' ? 'Focus Session' : mode === 'shortBreak' ? 'Short Break' : 'Long Break'}</p>
                     </div>
 

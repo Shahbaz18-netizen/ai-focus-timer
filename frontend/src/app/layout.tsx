@@ -8,6 +8,14 @@ export const metadata: Metadata = {
   title: "Aura Focus OS",
   description: "Personalized AI Productivity Coach for Deep Work",
   manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "Aura OS",
+  },
+  icons: {
+    apple: "/globe.svg",
+  },
 };
 
 export const viewport: Viewport = {
@@ -16,6 +24,7 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 1,
   userScalable: false,
+  viewportFit: "cover",
 };
 
 export default function RootLayout({

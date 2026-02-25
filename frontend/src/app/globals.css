@@ -1,0 +1,229 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+
+  --color-background: #030303;
+  --color-foreground: #fafafa;
+  --color-accent: #F1C40F;
+  --color-accent-text: #000000;
+  --color-glass: rgba(255, 255, 255, 0.03);
+  --color-glass-border: rgba(255, 255, 255, 0.08);
+
+  --animate-fade-in: fade-in 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  --animate-slide-up: slide-up 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+:root {
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: black;
+  min-height: 100vh;
+}
+
+.glass-card {
+  @apply bg-white/5 border border-white/10 backdrop-blur-xl rounded-xl transition-all duration-300;
+  position: relative;
+  overflow: hidden;
+}
+
+.glass-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: -1;
+}
+
+.glass-card:hover {
+  @apply border-white/20 -translate-y-1 shadow-2xl shadow-black/50;
+}
+
+.timer-text {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  letter-spacing: -0.05em;
+}
+
+/* Custom scrollbar for deep work aesthetic */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-glass-border);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slide-up {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* CMDK Command Palette Styles */
+[cmdk-root] {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  max-width: 640px;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 8px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  z-index: 50;
+  animation: fade-in 0.2s ease;
+}
+
+[cmdk-input] {
+  font-family: var(--font-sans);
+  border: none;
+  width: 100%;
+  font-size: 16px;
+  padding: 12px 16px;
+  outline: none;
+  background: transparent;
+  color: var(--color-foreground);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: 8px;
+}
+
+[cmdk-input]::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+[cmdk-list] {
+  max-height: 400px;
+  overflow: auto;
+  overscroll-behavior: contain;
+  transition: 100ms ease;
+  padding: 0 8px;
+}
+
+[cmdk-item] {
+  content-visibility: auto;
+  cursor: pointer;
+  height: 48px;
+  border-radius: 8px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 16px;
+  color: rgba(255, 255, 255, 0.6);
+  user-select: none;
+  will-change: background, color;
+  transition: all 0.1s ease;
+}
+
+[cmdk-item][data-selected="true"] {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+[cmdk-item][data-disabled="true"] {
+  color: rgba(255, 255, 255, 0.2);
+  cursor: not-allowed;
+}
+
+[cmdk-empty] {
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 64px;
+  white-space: pre-wrap;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+[cmdk-group-heading] {
+  user-select: none;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.4);
+  padding: 0 8px;
+  margin-bottom: 8px;
+  margin-top: 16px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+[cmdk-overlay] {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(2px);
+  z-index: 40;
+}
+
+/* 3D Flip Utilities */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+}
+
+.rotate-x-180 {
+  transform: rotateX(180deg);
+}
+
+/* --- ZEN MODE --- */
+.zen-mode .header-wrapper {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transform: translateY(-20px);
+  transition: all 0.8s ease;
+}
+
+.zen-mode .main-content-area {
+  padding-top: 0 !important;
+  transition: all 0.8s ease;
+}
+
+.zen-mode .timer-container {
+  transform: scale(1.1);
+}
+
+.zen-mode-transition {
+  transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}

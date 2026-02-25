@@ -8,6 +8,7 @@ pydantic-settings
 sqlalchemy
 psycopg2-binary
 chromadb
+supabase
 
 # AI & LLM
 langchain

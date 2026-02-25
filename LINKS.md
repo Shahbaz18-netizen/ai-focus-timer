@@ -29,7 +29,17 @@ Here are the important links and resources for the production deployment of Aura
 * `OPENAI_API_KEY`
 * `PYTHON_VERSION` (Set to 3.11.0 due to ChromaDB requirements)
 
-## 💻 Running Locally
+## � Supabase Auth Configuration
+If you ever need to set up a new Supabase project or modify authentication, remember these critical settings we changed during deployment:
+
+**1. Authentication > URL Configuration**
+*   **Site URL:** `https://ai-focus-timer.vercel.app` (The main production URL)
+*   **Redirect URLs:** Add BOTH `http://localhost:3000/**` AND `https://ai-focus-timer.vercel.app/**` so that logging in works on both your local machine and the live site.
+
+**2. Authentication > Providers > Google**
+*   **Callback URL (for Google Cloud Console):** Ensure the `Authorized redirect URIs` in your Google Cloud Console matches the exact Supabase callback URL provided in your Supabase dashboard (e.g., `https://[YOUR_SUPABASE_PROJECT_REF].supabase.co/auth/v1/callback`).
+
+## �💻 Running Locally
 
 If you want to test changes locally before pushing them to production, you need to run both the frontend and backend servers.
 

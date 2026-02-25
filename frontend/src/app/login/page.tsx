@@ -5,6 +5,7 @@ import { Auth } from '@supabase/auth-ui-react'
 import { ThemeSupa } from '@supabase/auth-ui-shared'
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
+import { AuthChangeEvent } from '@supabase/supabase-js'
 
 export default function LoginPage() {
     const supabase = createClient()
@@ -12,7 +13,7 @@ export default function LoginPage() {
 
     useEffect(() => {
         const { data: { subscription } } = supabase.auth.onAuthStateChange(
-            (event) => {
+            (event: AuthChangeEvent) => {
                 if (event === 'SIGNED_IN') {
                     router.refresh()
                 }

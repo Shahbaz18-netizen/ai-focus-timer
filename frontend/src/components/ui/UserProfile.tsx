@@ -65,7 +65,7 @@ export const UserProfile = ({ userId, email }: UserProfileProps) => {
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: -10, scale: 0.95 }}
                         transition={{ duration: 0.15 }}
-                        className="absolute right-0 top-full mt-2 w-56 bg-[#0F1115] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl z-50 overflow-hidden"
+                        className="absolute right-0 sm:right-0 -mr-4 sm:mr-0 top-full mt-2 w-56 bg-[#0F1115] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl z-[100] overflow-hidden"
                     >
                         <div className="p-4 border-b border-white/5">
                             <p className="text-sm font-medium text-foreground truncate">{email || "User"}</p>

@@ -279,12 +279,12 @@ export const InteractiveTimer = ({
                         exit={{ opacity: 0, height: 0, y: -20 }}
                         className="overflow-hidden w-full max-w-sm absolute top-40 z-[60] shadow-2xl"
                     >
-                        <div className="bg-black/90 backdrop-blur-3xl border border-white/10 rounded-2xl p-6 text-left space-y-4 shadow-[0_0_50px_rgba(0,0,0,0.8)]">
+                        <div className="bg-black/90 backdrop-blur-3xl border border-white/10 rounded-2xl p-4 sm:p-6 text-left space-y-4 shadow-[0_0_50px_rgba(0,0,0,0.8)] max-h-[80vh] overflow-y-auto w-[calc(100vw-2rem)] sm:w-full">
                             <div className="flex justify-between items-center pb-2 border-b border-white/5">
                                 <h3 className="text-white font-bold tracking-wide">Custom Pomodoro</h3>
                                 <X className="w-4 h-4 text-white/40 cursor-pointer hover:text-white" onClick={() => setShowSettings(false)} />
                             </div>
-                            <div className="grid grid-cols-2 gap-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
                                     <label className="text-[10px] uppercase tracking-wider text-white/50 block mb-1">Focus (min)</label>
                                     <input type="number" value={customSettings.focusLength} onChange={(e) => setCustomSettings({ ...customSettings, focusLength: parseInt(e.target.value) || 25 })} className="w-full bg-white/5 border border-white/10 rounded-md p-2 text-white focus:outline-none focus:border-accent" />
@@ -345,7 +345,7 @@ export const InteractiveTimer = ({
                         <p className="text-white/40 font-mono text-xs uppercase tracking-[0.3em]">{mode === 'pomodoro' ? 'Focus Session' : mode === 'shortBreak' ? 'Short Break' : 'Long Break'}</p>
                     </div>
 
-                    <div className="flex flex-wrap justify-center gap-4">
+                    <div className="flex flex-wrap justify-center gap-3 sm:gap-4 px-2">
                         {mode === 'pomodoro' && [15, 25, 45, 60].map((preset) => (
                             <button
                                 key={preset}
@@ -355,12 +355,12 @@ export const InteractiveTimer = ({
                                         secondsRemaining: preset * 60
                                     });
                                 }}
-                                className={`px-8 py-4 rounded-2xl border transition-all duration-300 ${duration === preset
+                                className={`px-4 sm:px-8 py-3 sm:py-4 rounded-2xl border transition-all duration-300 w-[calc(50%-0.5rem)] sm:w-auto ${duration === preset
                                     ? 'bg-white text-black border-white shadow-[0_0_30px_rgba(255,255,255,0.3)]'
                                     : 'bg-white/5 border-white/5 text-white/40 hover:bg-white/10 hover:text-white'
                                     }`}
                             >
-                                <span className="text-2xl font-bold font-mono block">{preset}</span>
+                                <span className="text-xl sm:text-2xl font-bold font-mono block">{preset}</span>
                                 <span className="text-[10px] uppercase tracking-wider font-bold opacity-60">MIN</span>
                             </button>
                         ))}
@@ -409,32 +409,35 @@ export const InteractiveTimer = ({
                         )}
                     </AnimatePresence>
                     {/* TIMER DISPLAY */}
-                    <div className={`transition-all duration-1000 opacity-100`}>
-                        <div className="flex items-center justify-center gap-4 md:gap-8 mb-8">
+                    <div className={`transition-all duration-1000 opacity-100 ${isZenMode ? 'mt-0' : 'mt-8'} mb-4`}>
+                        <div className="flex flex-col md:flex-row items-center justify-center gap-2 md:gap-8 mb-8">
                             {/* MINUTES GROUP */}
-                            <div className="flex flex-col items-center gap-4">
-                                <div className="flex gap-1 md:gap-2">
+                            <div className="flex flex-col items-center gap-2 md:gap-4">
+                                <div className="flex gap-2">
                                     <FlipDigit digit={m1} />
                                     <FlipDigit digit={m2} />
                                 </div>
-                                <span className="text-xs md:text-sm font-bold text-white/60 tracking-[0.5em] uppercase font-mono">
+                                <span className="text-[10px] md:text-sm font-bold text-white/60 tracking-[0.5em] md:tracking-[0.5em] uppercase font-mono hidden md:block">
                                     Minutes
                                 </span>
                             </div>
 
-                            {/* SEPARATOR */}
-                            <div className="flex flex-col gap-3 pb-8 opacity-70">
+                            {/* SEPARATOR - Horizontal line on mobile, dots on desktop */}
+                            <div className="hidden md:flex flex-col gap-3 pb-8 opacity-70">
                                 <div className="w-3 h-3 rounded-full bg-white shadow-[0_0_10px_rgba(255,255,255,0.5)]" />
                                 <div className="w-3 h-3 rounded-full bg-white shadow-[0_0_10px_rgba(255,255,255,0.5)]" />
                             </div>
 
+                            {/* Mobile Separator Line */}
+                            <div className="md:hidden w-32 h-[2px] bg-white/10 rounded-full my-2" />
+
                             {/* SECONDS GROUP */}
-                            <div className="flex flex-col items-center gap-4">
-                                <div className="flex gap-1 md:gap-2">
+                            <div className="flex flex-col items-center gap-2 md:gap-4">
+                                <div className="flex gap-2">
                                     <FlipDigit digit={s1} />
                                     <FlipDigit digit={s2} />
                                 </div>
-                                <span className="text-xs md:text-sm font-bold text-white/60 tracking-[0.5em] uppercase font-mono">
+                                <span className="text-[10px] md:text-sm font-bold text-white/60 tracking-[0.5em] md:tracking-[0.5em] uppercase font-mono hidden md:block">
                                     Seconds
                                 </span>
                             </div>
@@ -463,7 +466,7 @@ export const InteractiveTimer = ({
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 exit={{ opacity: 0, y: 20 }}
-                                className="flex items-center gap-4 bg-[#1a1a1a]/90 backdrop-blur-xl border border-white/10 p-2 rounded-full shadow-2xl z-50"
+                                className="flex items-center gap-4 bg-[#1a1a1a]/90 backdrop-blur-xl border border-white/10 p-2 rounded-full shadow-2xl z-50 mb-12 sm:mb-0"
                             >
                                 <button
                                     onClick={() => {

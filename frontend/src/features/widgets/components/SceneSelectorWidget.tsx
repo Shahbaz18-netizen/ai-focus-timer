@@ -42,7 +42,7 @@ export const SceneSelectorWidget = () => {
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            className="fixed bottom-20 sm:bottom-24 right-4 sm:right-8 w-[calc(100vw-2rem)] sm:w-80 bg-[#121212]/95 backdrop-blur-3xl border border-white/20 xl:w-96 rounded-2xl shadow-[0_30px_60px_rgba(0,0,0,0.8)] overflow-hidden z-50 flex flex-col ring-1 ring-white/10 max-h-[80vh]"
+            className="fixed top-32 left-4 sm:top-auto sm:left-auto sm:bottom-24 sm:right-8 w-[calc(100vw-2rem)] sm:w-80 bg-[#121212]/95 backdrop-blur-3xl border border-white/20 xl:w-96 rounded-2xl shadow-[0_30px_60px_rgba(0,0,0,0.8)] overflow-hidden z-50 flex flex-col ring-1 ring-white/10 max-h-[80vh]"
         >
             <div className="flex items-center justify-between p-3 border-b border-white/5 bg-white/5 select-none text-white/50">
                 <div className="flex items-center gap-2">

@@ -18,7 +18,6 @@ export const SoundWidget = () => {
             title="Soundscapes"
             icon={<Volume2 className="w-3 h-3" />}
             onClose={() => toggleWidget("sounds")}
-            defaultPosition={{ x: 740, y: 100 }}
             width="w-72"
         >
             <div className="p-4">

@@ -78,22 +78,22 @@ export const AnalyticsView = ({ userId, actualMinutes, targetMinutes, reportingT
 
     return (
         <div className="w-full max-w-4xl mx-auto space-y-8">
-            <header className="flex items-center justify-between mb-8">
-                <div className="flex items-center gap-4">
-                    <div className="p-4 bg-accent/10 rounded-2xl">
+            <header className="flex flex-col sm:flex-row items-center justify-between mb-8 gap-6 sm:gap-0">
+                <div className="flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
+                    <div className="p-4 bg-accent/10 rounded-2xl shrink-0">
                         <BarChart className="w-8 h-8 text-accent" />
                     </div>
                     <div>
-                        <h2 className="text-3xl font-bold tracking-tighter text-white">Performance Analytics</h2>
-                        <p className="text-textDim">Daily Progress: {actualMinutes}m / {targetMinutes}m</p>
+                        <h2 className="text-2xl sm:text-3xl font-bold tracking-tighter text-white">Performance Analytics</h2>
+                        <p className="text-sm sm:text-base text-textDim mt-1">Daily Progress: {actualMinutes}m / {targetMinutes}m</p>
                     </div>
                 </div>
 
                 {/* Progress Circle or Bar */}
-                <div className="flex items-center gap-4">
-                    <div className="text-right">
-                        <div className="text-2xl font-bold text-accent">{percentage}%</div>
-                        <div className="text-xs text-textDim uppercase">To Target</div>
+                <div className="flex items-center gap-4 bg-white/5 px-6 py-3 rounded-2xl border border-white/10 w-full sm:w-auto justify-center">
+                    <div className="text-center sm:text-right">
+                        <div className="text-3xl sm:text-2xl font-bold text-accent">{percentage}%</div>
+                        <div className="text-[10px] sm:text-xs text-textDim uppercase tracking-wider font-bold mt-1 sm:mt-0">To Target</div>
                     </div>
                 </div>
             </header>
@@ -163,32 +163,32 @@ export const AnalyticsView = ({ userId, actualMinutes, targetMinutes, reportingT
             </div>
 
             {/* History Control */}
-            <div className="flex items-center justify-between mb-4">
-                <h3 className="text-xl font-bold text-white px-2">
-                    {selectedDate ? `Report for ${selectedDate}` : "Recent Reports (Last 7 Days)"}
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 gap-4 sm:gap-0">
+                <h3 className="text-lg sm:text-xl font-bold text-white px-2">
+                    {selectedDate ? `Report for ${selectedDate}` : "Recent Reports"}
                 </h3>
                 <input
                     type="date"
-                    className="bg-black/50 border border-white/10 rounded-lg px-4 py-2 text-white"
+                    className="w-full sm:w-auto bg-black/50 border border-white/10 rounded-lg px-4 py-2 text-white"
                     onChange={handleDateChange}
                     max={new Date().toISOString().split('T')[0]}
                 />
             </div>
 
             {reportHistory.length > 0 ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {reportHistory.slice(0, 7).map((h, i) => (
-                        <div key={i} className="bg-white/5 p-6 rounded-2xl border border-white/5 hover:border-accent/30 transition-all cursor-pointer" onClick={() => setReport(h.summary)}>
+                        <div key={i} className="bg-white/5 p-4 sm:p-6 rounded-2xl border border-white/5 hover:border-accent/30 transition-all cursor-pointer" onClick={() => setReport(h.summary)}>
                             <div className="flex justify-between items-center mb-2">
-                                <span className="font-mono text-accent text-sm">{new Date(h.date || h.timestamp).toLocaleDateString()}</span>
-                                <span className="text-xs text-textDim bg-white/10 px-2 py-1 rounded-full">View &rarr;</span>
+                                <span className="font-mono text-accent text-xs sm:text-sm">{new Date(h.date || h.timestamp).toLocaleDateString()}</span>
+                                <span className="text-[10px] sm:text-xs text-textDim bg-white/10 px-2 py-1 rounded-full">View &rarr;</span>
                             </div>
-                            <p className="text-white/60 text-sm line-clamp-3">{h.summary}</p>
+                            <p className="text-white/60 text-xs sm:text-sm line-clamp-3">{h.summary}</p>
                         </div>
                     ))}
                 </div>
             ) : (
-                <div className="text-center p-8 text-textDim italic bg-white/5 rounded-2xl border border-white/5">
+                <div className="text-center p-8 text-textDim italic bg-white/5 rounded-2xl border border-white/5 text-sm">
                     No reports found for this period.
                 </div>
             )}
@@ -197,18 +197,21 @@ export const AnalyticsView = ({ userId, actualMinutes, targetMinutes, reportingT
             {stats && stats.summary && (
                 <div className="space-y-6">
                     {/* Stat Cards */}
-                    <div className="grid grid-cols-3 gap-4">
-                        <div className="bg-white/5 rounded-2xl p-6 flex flex-col items-center justify-center border border-white/5">
-                            <div className="text-3xl font-bold text-white mb-1">{stats.summary.total_entries}</div>
-                            <div className="text-xs text-textDim uppercase tracking-wider">Total Sessions</div>
+                    <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 gap-4">
+                        <div className="bg-white/5 rounded-2xl p-4 sm:p-6 flex flex-col items-center justify-center border border-white/5 relative overflow-hidden group">
+                            <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                            <div className="text-2xl sm:text-3xl font-bold text-white mb-1 relative z-10">{stats.summary.total_entries}</div>
+                            <div className="text-[10px] sm:text-xs text-textDim uppercase tracking-wider relative z-10 text-center">Total Sessions</div>
                         </div>
-                        <div className="bg-white/5 rounded-2xl p-6 flex flex-col items-center justify-center border border-white/5">
-                            <div className="text-3xl font-bold text-white mb-1">{stats.summary.total_hours}</div>
-                            <div className="text-xs text-textDim uppercase tracking-wider">Total Hours</div>
+                        <div className="bg-white/5 rounded-2xl p-4 sm:p-6 flex flex-col items-center justify-center border border-white/5 relative overflow-hidden group">
+                            <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                            <div className="text-2xl sm:text-3xl font-bold text-white mb-1 relative z-10">{parseFloat(stats.summary.total_hours).toFixed(1)}</div>
+                            <div className="text-[10px] sm:text-xs text-textDim uppercase tracking-wider relative z-10 text-center">Total Hours</div>
                         </div>
-                        <div className="bg-white/5 rounded-2xl p-6 flex flex-col items-center justify-center border border-white/5">
-                            <div className="text-3xl font-bold text-white mb-1">{stats.summary.avg_session_mins}</div>
-                            <div className="text-xs text-textDim uppercase tracking-wider">Avg Session (min)</div>
+                        <div className="bg-white/5 rounded-2xl p-4 sm:p-6 flex flex-col items-center justify-center border border-white/5 sm:col-span-2 md:col-span-1 relative overflow-hidden group">
+                            <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                            <div className="text-2xl sm:text-3xl font-bold text-white mb-1 relative z-10">{Math.round(stats.summary.avg_session_mins)}</div>
+                            <div className="text-[10px] sm:text-xs text-textDim uppercase tracking-wider relative z-10 text-center">Avg Session (m)</div>
                         </div>
                     </div>
                 </div>

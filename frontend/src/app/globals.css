@@ -6,8 +6,15 @@
 
   --color-background: #030303;
   --color-foreground: #fafafa;
+  /* Default/Focus Accent */
   --color-accent: #F1C40F;
   --color-accent-text: #000000;
+
+  /* Mode Specific Colors (for reference or direct class usage) */
+  --color-focus: #F1C40F;
+  --color-short-break: #2ECC71;
+  --color-long-break: #3498DB;
+
   --color-glass: rgba(255, 255, 255, 0.03);
   --color-glass-border: rgba(255, 255, 255, 0.08);
 
@@ -226,7 +233,7 @@ body {
 }
 
 .zen-mode .timer-container {
-  transform: scale(1.1);
+  transform: scale(1.05);
 }
 
 .zen-mode-transition {

@@ -42,13 +42,15 @@ export const CommandPalette = ({ onAddTasks, onSwitchTab, onStartFocus }: Comman
         }
     };
 
+    if (isZenMode) return null;
+
     return (
         <>
-            <div className="fixed bottom-4 left-1/2 -translate-x-1/2 md:bottom-auto md:top-1/2 md:left-4 md:-translate-y-1/2 md:translate-x-0 z-50 flex items-center justify-center w-full max-w-[95vw] md:max-w-max pointer-events-none">
-                {/* Main Dock - Vertical Sidebar */}
+            <div className="fixed bottom-2 left-1/2 -translate-x-1/2 md:bottom-auto md:top-1/2 md:left-4 md:-translate-y-1/2 md:translate-x-0 z-50 flex items-center justify-center w-full max-w-[98vw] md:max-w-max pointer-events-none">
+                {/* Main Dock - Horizontal Bottom on Mobile, Vertical Sidebar on Desktop */}
                 <motion.div
                     layout
-                    className="bg-black/80 backdrop-blur-2xl border border-white/10 rounded-full p-2 flex flex-row md:flex-col items-center gap-2 md:gap-3 shadow-2xl overflow-x-auto no-scrollbar pointer-events-auto w-full md:w-auto justify-start md:justify-center"
+                    className="bg-black/90 backdrop-blur-3xl border border-white/10 rounded-full p-1.5 sm:p-2 flex flex-row md:flex-col items-center gap-1 sm:gap-2 md:gap-3 shadow-2xl overflow-x-auto no-scrollbar pointer-events-auto w-auto max-w-full justify-start md:justify-center"
                 >
                     <button
                         onClick={toggleMenu}
@@ -140,7 +142,7 @@ export const CommandPalette = ({ onAddTasks, onSwitchTab, onStartFocus }: Comman
 const SidebarToggle = ({ isActive, onClick, icon: Icon, label }: { isActive: boolean, onClick: () => void, icon: any, label: string }) => (
     <button
         onClick={onClick}
-        className={`p-3 rounded-full shrink-0 transition-all group relative ${isActive
+        className={`p-2.5 sm:p-3 rounded-full shrink-0 transition-all group relative ${isActive
             ? 'bg-white text-black shadow-[0_0_15px_rgba(255,255,255,0.3)]'
             : 'hover:bg-white/10 text-white/50 hover:text-white relative'}`}
     >

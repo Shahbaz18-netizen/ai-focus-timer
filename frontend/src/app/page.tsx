@@ -29,6 +29,7 @@ import { LandingPage } from "@/components/marketing/LandingPage";
 import { TeamFeature } from "@/features/team/components/TeamFeature";
 import { AmbientPlayer } from "@/features/immersion/components/AmbientPlayer";
 import { ImmersiveBackground } from "@/features/immersion/components/ImmersiveBackground";
+import { useSceneStore } from "@/features/immersion/hooks/useSceneStore";
 import { JournalWidget } from "@/features/widgets/components/JournalWidget";
 import { MediaWidget } from "@/features/widgets/components/MediaWidget";
 import { SceneSelectorWidget } from "@/features/widgets/components/SceneSelectorWidget";
@@ -384,8 +385,45 @@ export default function AuraFocusOS() {
     return <LandingPage />;
   }
 
+  const { currentScene } = useSceneStore();
+
+  // --- Dynamic Title & Theme logic ---
+  const formatTimeForTitle = (seconds: number) => {
+    const m = Math.floor(seconds / 60);
+    const s = seconds % 60;
+    return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+  };
+
+  useEffect(() => {
+    if (!timerState.isActive || !timerState.isStarted) {
+      document.title = "Aura OS - Focus Workspace";
+      return;
+    }
+
+    const timeStr = formatTimeForTitle(timerState.secondsRemaining);
+    const modeStr = timerState.mode === 'pomodoro' ? 'Focus' : timerState.mode === 'shortBreak' ? 'Short Break' : 'Long Break';
+    document.title = `(${timeStr}) ${modeStr} - Aura OS`;
+  }, [timerState.secondsRemaining, timerState.isActive, timerState.isStarted, timerState.mode]);
+
+  // Determine Accent Color Based on Mode
+  const getAccentColor = () => {
+    if (!timerState.isStarted) return 'var(--color-focus)'; // Default
+    switch (timerState.mode) {
+      case 'shortBreak': return 'var(--color-short-break)';
+      case 'longBreak': return 'var(--color-long-break)';
+      case 'pomodoro':
+      default: return 'var(--color-focus)';
+    }
+  };
+
   return (
-    <div className={`max-w-5xl mx-auto py-4 px-4 sm:py-8 sm:px-6 min-h-screen flex flex-col relative z-0 zen-mode-transition ${isZenMode ? 'zen-mode' : ''}`}>
+    <div
+      className={`max-w-5xl mx-auto py-4 px-4 sm:py-8 sm:px-6 min-h-[100dvh] flex flex-col relative z-0 zen-mode-transition transition-colors duration-1000 ${isZenMode ? 'zen-mode' : ''}`}
+      style={{
+        '--color-accent': getAccentColor(),
+        backgroundColor: currentScene?.id ? 'transparent' : 'var(--color-background)'
+      } as React.CSSProperties}
+    >
       <ImmersiveBackground />
       <AmbientPlayer />
       <JournalWidget />

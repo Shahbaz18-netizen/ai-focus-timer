@@ -71,12 +71,11 @@ export const TaskWidget = ({ userId }: { userId: string }) => {
             title="Focus Tasks"
             icon={<CheckSquare className="w-3 h-3" />}
             onClose={() => toggleWidget("tasks")}
-            defaultPosition={{ x: 60, y: 100 }}
             width="w-80"
         >
             <div className="flex flex-col h-96">
                 {/* Task List */}
-                <div className="flex-1 overflow-y-auto p-2 space-y-1 scrollbar-thin scrollbar-thumb-white/10">
+                <div className="flex-1 overflow-y-auto p-2 space-y-2 scrollbar-thin scrollbar-thumb-white/10">
                     {dailyTasks.length === 0 && (
                         <div className="text-center text-white/30 text-xs py-8">
                             No tasks for today.
@@ -86,14 +85,14 @@ export const TaskWidget = ({ userId }: { userId: string }) => {
                     {dailyTasks.map((task) => (
                         <div
                             key={task.id}
-                            className={`group flex items-center gap-3 p-3 rounded-xl transition-all duration-200 border ${task.is_completed
+                            className={`group flex items-start sm:items-center gap-3 p-3 rounded-xl transition-all duration-200 border w-full ${task.is_completed
                                 ? 'bg-white/5 border-transparent opacity-60'
                                 : 'bg-white/5 hover:bg-white/10 border-white/5 hover:border-white/10 hover:shadow-lg hover:-translate-y-0.5'
                                 }`}
                         >
                             <button
                                 onClick={() => handleToggle(task.id, task.is_completed)}
-                                className={`transition-all duration-300 ${task.is_completed ? 'text-accent scale-110' : 'text-white/40 hover:text-white hover:scale-110'}`}
+                                className={`mt-0.5 sm:mt-0 transition-all duration-300 shrink-0 ${task.is_completed ? 'text-accent scale-110' : 'text-white/40 hover:text-white hover:scale-110'}`}
                             >
                                 {task.is_completed
                                     ? <div className="w-5 h-5 bg-accent rounded flex items-center justify-center text-black"><CheckSquare className="w-3.5 h-3.5 stroke-[3]" /></div>
@@ -101,7 +100,7 @@ export const TaskWidget = ({ userId }: { userId: string }) => {
                                 }
                             </button>
 
-                            <span className={`text-sm flex-1 truncate transition-colors font-medium ${task.is_completed ? 'line-through text-white/40' : 'text-white/90'}`}>
+                            <span className={`text-sm flex-1 break-words line-clamp-2 sm:truncate transition-colors font-medium mt-0.5 sm:mt-0 ${task.is_completed ? 'line-through text-white/40' : 'text-white/90'}`}>
                                 {task.title}
                             </span>
                         </div>

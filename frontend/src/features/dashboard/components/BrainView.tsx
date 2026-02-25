@@ -87,27 +87,27 @@ export const BrainView = ({ userId }: BrainViewProps) => {
 
     return (
         <div className="w-full max-w-4xl mx-auto space-y-8">
-            <header className="flex items-center justify-between mb-8">
+            <header className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8 gap-4 sm:gap-0">
                 <div className="flex items-center gap-4">
-                    <div className="p-4 bg-accent/10 rounded-2xl">
-                        <Brain className="w-8 h-8 text-accent" />
+                    <div className="p-4 bg-accent/10 rounded-2xl shrink-0">
+                        <Brain className="w-6 h-6 sm:w-8 sm:h-8 text-accent" />
                     </div>
                     <div>
-                        <h2 className="text-3xl font-bold tracking-tighter text-white">Memory Core</h2>
-                        <p className="text-textDim">Your AI Coach's long-term retrieval patterns.</p>
+                        <h2 className="text-xl sm:text-3xl font-bold tracking-tighter text-white">Memory Core</h2>
+                        <p className="text-sm sm:text-base text-textDim">Your AI Coach's long-term retrieval patterns.</p>
                     </div>
                 </div>
 
-                <div className="flex bg-white/5 rounded-lg p-1">
+                <div className="flex bg-white/5 rounded-lg p-1 w-full sm:w-auto overflow-x-auto">
                     <button
                         onClick={() => setActiveTab('memories')}
-                        className={`px-4 py-2 rounded-md text-sm font-bold transition-all ${activeTab === 'memories' ? 'bg-accent text-black' : 'text-white/50 hover:text-white'}`}
+                        className={`flex-1 sm:flex-none px-4 py-2 rounded-md text-sm font-bold transition-all ${activeTab === 'memories' ? 'bg-accent text-black' : 'text-white/50 hover:text-white'}`}
                     >
                         Index
                     </button>
                     <button
                         onClick={() => setActiveTab('chat')}
-                        className={`px-4 py-2 rounded-md text-sm font-bold transition-all ${activeTab === 'chat' ? 'bg-accent text-black' : 'text-white/50 hover:text-white'}`}
+                        className={`flex-1 sm:flex-none px-4 py-2 rounded-md text-sm font-bold transition-all ${activeTab === 'chat' ? 'bg-accent text-black' : 'text-white/50 hover:text-white'}`}
                     >
                         Chat
                     </button>
@@ -160,15 +160,15 @@ export const BrainView = ({ userId }: BrainViewProps) => {
                                 setMemories(data);
                             } catch (e) { console.error(e); }
                         }}
-                        className="flex gap-2"
+                        className="flex flex-col sm:flex-row gap-2"
                     >
                         <Input
                             value={query}
                             onChange={(e) => setQuery(e.target.value)}
-                            placeholder="Teach me something new (e.g., 'I prefer working in 90m blocks')"
-                            className="flex-1 bg-white/5 border-white/10 h-12 text-lg"
+                            placeholder="Teach me something new..."
+                            className="flex-1 bg-white/5 border-white/10 h-12 text-sm sm:text-lg"
                         />
-                        <Button type="submit" className="h-12 px-6">
+                        <Button type="submit" className="h-12 px-6 w-full sm:w-auto">
                             Teach Aura
                         </Button>
                     </form>

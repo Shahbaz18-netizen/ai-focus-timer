@@ -276,10 +276,17 @@ export const KanbanBoard = ({
 
     return (
         <DragDropContext onDragEnd={onDragEnd}>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 h-full min-h-[400px]">
-                <Column title="Backlog" id="todo" items={columns.todo} type="todo" />
-                <Column title="In Flow" id="in_progress" items={columns.in_progress} type="in_progress" />
-                <Column title="Completed" id="done" items={columns.done} type="done" />
+            {/* Wrapper added for horizontal scrolling on mobile */}
+            <div className="w-full overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-thin scrollbar-thumb-white/20">
+                {/* 
+                  Instead of grid-cols-1 md:grid-cols-3, we use flex to ensure 
+                  columns stay side-by-side but scroll horizontally on small screens.
+                */}
+                <div className="flex flex-nowrap md:grid md:grid-cols-3 gap-6 h-full min-h-[400px] w-max md:w-full px-1">
+                    <div className="w-[85vw] sm:w-[320px] md:w-auto snap-center"><Column title="Backlog" id="todo" items={columns.todo} type="todo" /></div>
+                    <div className="w-[85vw] sm:w-[320px] md:w-auto snap-center"><Column title="In Flow" id="in_progress" items={columns.in_progress} type="in_progress" /></div>
+                    <div className="w-[85vw] sm:w-[320px] md:w-auto snap-center"><Column title="Completed" id="done" items={columns.done} type="done" /></div>
+                </div>
             </div>
         </DragDropContext>
     );

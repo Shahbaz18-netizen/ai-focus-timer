@@ -109,16 +109,18 @@ export const DashboardView = ({
                 </div>
             </div>
 
-            <KanbanBoard
-                tasks={tasks}
-                activeTask={activeTask || null}
-                onSelectTask={onSelectTask}
-                onToggleTask={onToggleTask}
-                onEditIntent={onEditIntent}
-                userId={userId}
-                onTaskCreated={onTaskCreated}
-                onSetActiveOnly={onSetActiveOnly}
-            />
+            <div className="hidden md:block">
+                <KanbanBoard
+                    tasks={tasks}
+                    activeTask={activeTask || null}
+                    onSelectTask={onSelectTask}
+                    onToggleTask={onToggleTask}
+                    onEditIntent={onEditIntent}
+                    userId={userId}
+                    onTaskCreated={onTaskCreated}
+                    onSetActiveOnly={onSetActiveOnly}
+                />
+            </div>
 
             {/* Placeholder for Analytics Link */}
             <section className="bg-glass/5 rounded-3xl p-6 border border-glass-border flex flex-col md:flex-row justify-between items-start md:items-center gap-6 md:gap-0 transition-all hover:bg-glass/10">

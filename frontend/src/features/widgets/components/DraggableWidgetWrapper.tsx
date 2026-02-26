@@ -82,7 +82,7 @@ export const DraggableWidgetWrapper = ({
             initial={{ opacity: 0, scale: 0.9, x: defaultPosition.x, y: defaultPosition.y }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.9 }}
-            className={`fixed ${isMini ? 'w-64' : width} max-w-[calc(100vw-2rem)] sm:max-w-none max-h-[50vh] sm:max-h-[85vh] bg-[#121212]/95 backdrop-blur-3xl border border-white/20 rounded-2xl shadow-[0_30px_60px_rgba(0,0,0,0.8)] overflow-hidden z-40 flex flex-col ${className} ring-1 ring-white/10 transition-[background-color] duration-300 left-4 sm:left-auto sm:right-4 top-24`}
+            className={`fixed ${isMini ? 'w-56 sm:w-64' : width} max-w-[calc(100vw-1rem)] sm:max-w-none max-h-[45vh] sm:max-h-[85vh] bg-[#121212]/95 backdrop-blur-3xl border border-white/20 rounded-2xl shadow-[0_30px_60px_rgba(0,0,0,0.8)] overflow-hidden z-40 flex flex-col ${className} ring-1 ring-white/10 transition-[background-color] duration-300 left-2 sm:left-auto sm:right-4 top-24 origin-top`}
         >
             {/* Header */}
             {!isMini && (

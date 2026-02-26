@@ -151,7 +151,7 @@ export const MediaWidget = () => {
             onClose={() => toggleWidget("media")}
             isMini={isMini}
             defaultPosition={{ x: 0, y: typeof window !== 'undefined' && window.innerWidth < 640 ? 250 : 0 }}
-            className="w-full sm:w-96 max-w-[calc(100vw-2rem)]"
+            className="w-[280px] sm:w-96 max-w-[calc(100vw-1rem)]"
             headerActions={
                 <>
                     <button

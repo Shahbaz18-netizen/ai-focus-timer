@@ -18,9 +18,9 @@ export const SoundWidget = () => {
             title="Soundscapes"
             icon={<Volume2 className="w-3 h-3" />}
             onClose={() => toggleWidget("sounds")}
-            width="w-72"
+            width="w-[280px] sm:w-72"
         >
-            <div className="p-4">
+            <div className="p-3 sm:p-4">
                 <SoundMixer />
             </div>
         </DraggableWidgetWrapper>

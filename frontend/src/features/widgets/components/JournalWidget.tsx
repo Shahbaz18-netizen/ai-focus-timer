@@ -23,10 +23,10 @@ export const JournalWidget = () => {
             icon={<BookOpen className="w-4 h-4 text-accent" />}
             onClose={() => toggleWidget("journal")}
             defaultPosition={{ x: 0, y: typeof window !== 'undefined' && window.innerWidth < 640 ? 350 : 0 }}
-            width="w-full sm:w-[340px]"
-            className="max-w-[calc(100vw-2rem)]"
+            width="w-[280px] sm:w-[340px]"
+            className="max-w-[calc(100vw-1rem)]"
         >
-            <div className="p-3 sm:p-5 flex flex-col gap-4 w-full h-full min-h-[300px]">
+            <div className="p-2 sm:p-5 flex flex-col gap-3 sm:gap-4 w-full h-full min-h-[220px] sm:min-h-[300px]">
                 {/* Header */}
                 <div className="flex items-center justify-between pb-3 border-b border-white/10">
                     <div className="flex items-center gap-2 text-white/50 text-xs font-mono tracking-wider uppercase">
@@ -39,8 +39,8 @@ export const JournalWidget = () => {
                 <textarea
                     value={journalContent}
                     onChange={(e) => setJournalContent(e.target.value)}
-                    placeholder="Capture your thoughts, ideas, or reflections..."
-                    className="w-full h-64 bg-white/5 rounded-lg p-4 border border-white/5 focus:border-accent/40 hover:border-white/10 transition-colors resize-none focus:outline-none text-base font-sans font-medium leading-relaxed text-white placeholder:text-white/30 scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent shadow-inner"
+                    placeholder="Capture your thoughts..."
+                    className="w-full h-full min-h-[140px] sm:min-h-[200px] bg-white/5 rounded-lg p-3 sm:p-4 border border-white/5 focus:border-accent/40 hover:border-white/10 transition-colors resize-none focus:outline-none text-sm sm:text-base font-sans font-medium leading-relaxed text-white placeholder:text-white/30 scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent shadow-inner"
                 />
 
                 {/* Footer */}

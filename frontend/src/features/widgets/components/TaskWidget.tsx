@@ -89,9 +89,9 @@ export const TaskWidget = ({ userId }: { userId: string }) => {
             icon={<CheckSquare className="w-3 h-3" />}
             onClose={() => toggleWidget("tasks")}
             defaultPosition={{ x: 0, y: typeof window !== 'undefined' && window.innerWidth < 640 ? 300 : 0 }}
-            width="w-80"
+            width="w-[280px] sm:w-80"
         >
-            <div className="flex flex-col max-h-[50vh] sm:h-96">
+            <div className="flex flex-col max-h-[40vh] sm:h-96">
                 {/* Task List */}
                 <div className="flex-1 overflow-y-auto p-2 space-y-2 scrollbar-thin scrollbar-thumb-white/10">
                     {dailyTasks.length === 0 && (

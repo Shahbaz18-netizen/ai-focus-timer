@@ -1,7 +1,7 @@
 
 "use client";
 
-import { ReactNode } from "react";
+import { ReactNode, useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { X } from "lucide-react";
 
@@ -30,11 +30,23 @@ export const DraggableWidgetWrapper = ({
     className = "",
     isMini = false,
 }: DraggableWidgetWrapperProps) => {
+    // Start with loose bounds to avoid hydration mismatch, then snap to window bounds
+    const [constraints, setConstraints] = useState({ left: -2000, right: 2000, top: -2000, bottom: 2000 });
+
+    useEffect(() => {
+        setConstraints({
+            left: -window.innerWidth + 100,
+            right: window.innerWidth - 100,
+            top: -window.innerHeight + 100,
+            bottom: window.innerHeight - 100
+        });
+    }, []);
+
     return (
         <motion.div
             drag
             dragMomentum={true}
-            dragConstraints={{ left: 0, right: window.innerWidth - 300, top: 0, bottom: window.innerHeight - 100 }}
+            dragConstraints={constraints}
             dragTransition={{
                 power: 0.1, // Low power to stop quickly
                 timeConstant: 200,

@@ -57,8 +57,9 @@ export async function middleware(request: NextRequest) {
 
     const { data: { session } } = await supabase.auth.getSession()
 
-    // Protected Routes Logic
+    // Protected Routes Logic (DEMO MODE: DISABLED)
     // 1. If no session and trying to access protected route -> redirect to login
+    /*
     if (!session
         && !request.nextUrl.pathname.startsWith('/login')
         && !request.nextUrl.pathname.startsWith('/auth') // Allow auth callback execution
@@ -72,6 +73,7 @@ export async function middleware(request: NextRequest) {
     if (session && request.nextUrl.pathname.startsWith('/login')) {
         return NextResponse.redirect(new URL('/', request.url))
     }
+    */
 
     return response
 }

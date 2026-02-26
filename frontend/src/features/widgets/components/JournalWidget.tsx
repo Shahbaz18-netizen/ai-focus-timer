@@ -22,7 +22,7 @@ export const JournalWidget = () => {
             title="Journal"
             icon={<BookOpen className="w-4 h-4 text-accent" />}
             onClose={() => toggleWidget("journal")}
-            className="w-full sm:w-[340px] max-w-[calc(100vw-2rem)]"
+            width="w-[340px]"
         >
             <div className="p-3 sm:p-5 flex flex-col gap-4 w-full h-full min-h-[300px]">
                 {/* Header */}

@@ -71,14 +71,19 @@ export default function AuraFocusOS() {
 
   useEffect(() => {
     const checkUser = async () => {
-      const { data: { user }, error } = await supabase.auth.getUser();
-      if (error || !user) {
-        // No user -> Stay on landing page (userId null)
-        setUserId(null);
-      } else {
-        setUserId(user.id);
-        setUserEmail(user.email);
-      }
+      // --- DEMO MODE BYPASS ---
+      // const { data: { user }, error } = await supabase.auth.getUser();
+      // if (error || !user) {
+      //   setUserId(null);
+      // } else {
+      //   setUserId(user.id);
+      //   setUserEmail(user.email);
+      // }
+
+      // Auto-login as demo user
+      setUserId("demo-user-123");
+      setUserEmail("guest@aura.os");
+
       setIsLoading(false);
     };
     checkUser();
@@ -237,6 +242,12 @@ export default function AuraFocusOS() {
   };
 
   const handleToggleTask = async (taskId: number, newStatus: boolean) => {
+    // Prevent patching temporary optimistic tasks
+    if (taskId < 0) {
+      console.warn("Attempted to toggle a temporary task before it synced with the database.");
+      return;
+    }
+
     // Optimistic Update
     const updatedTasks = dailyTasks.map((t: Task) =>
       t.id === taskId ? { ...t, is_completed: newStatus } : t
@@ -250,9 +261,6 @@ export default function AuraFocusOS() {
 
     try {
       await orchestratorService.updateTask(taskId, newStatus);
-
-      // Background refresh to ensure data consistency
-      // console.log("Task updated, refreshing...");
     } catch (error) {
       console.error("Failed to toggle task:", error);
       // Revert on error
@@ -373,18 +381,6 @@ export default function AuraFocusOS() {
     }
   };
 
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-black flex flex-col items-center justify-center p-4">
-        <AuraLoader />
-      </div>
-    );
-  }
-
-  if (!userId) {
-    return <LandingPage />;
-  }
-
   const { currentScene } = useSceneStore();
 
   // --- Dynamic Title & Theme logic ---
@@ -415,6 +411,18 @@ export default function AuraFocusOS() {
       default: return 'var(--color-focus)';
     }
   };
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-black flex flex-col items-center justify-center p-4">
+        <AuraLoader />
+      </div>
+    );
+  }
+
+  if (!userId) {
+    return <LandingPage />;
+  }
 
   return (
     <div

@@ -409,8 +409,8 @@ export const InteractiveTimer = ({
                         )}
                     </AnimatePresence>
                     {/* TIMER DISPLAY */}
-                    <div className={`transition-all duration-1000 opacity-100 ${isZenMode ? 'mt-0' : 'mt-8'} mb-4`}>
-                        <div className="flex flex-col md:flex-row items-center justify-center gap-2 md:gap-8 mb-8">
+                    <div className={`transition-all duration-1000 opacity-100 ${isZenMode ? 'mt-0' : 'mt-2 md:mt-8'} mb-4`}>
+                        <div className={`flex ${isZenMode ? 'flex-col' : 'flex-row'} md:flex-row items-center justify-center gap-4 md:gap-8 mb-4 md:mb-8`}>
                             {/* MINUTES GROUP */}
                             <div className="flex flex-col items-center gap-2 md:gap-4">
                                 <div className="flex gap-2">
@@ -422,14 +422,16 @@ export const InteractiveTimer = ({
                                 </span>
                             </div>
 
-                            {/* SEPARATOR - Horizontal line on mobile, dots on desktop */}
-                            <div className="hidden md:flex flex-col gap-3 pb-8 opacity-70">
-                                <div className="w-3 h-3 rounded-full bg-white shadow-[0_0_10px_rgba(255,255,255,0.5)]" />
-                                <div className="w-3 h-3 rounded-full bg-white shadow-[0_0_10px_rgba(255,255,255,0.5)]" />
+                            {/* SEPARATOR - Horizontal line on stacked mobile, dots otherwise */}
+                            <div className={`flex-col gap-2 md:gap-3 pb-2 md:pb-8 opacity-70 ${isZenMode ? 'hidden md:flex' : 'flex'}`}>
+                                <div className="w-2 h-2 md:w-3 md:h-3 rounded-full bg-white shadow-[0_0_10px_rgba(255,255,255,0.5)]" />
+                                <div className="w-2 h-2 md:w-3 md:h-3 rounded-full bg-white shadow-[0_0_10px_rgba(255,255,255,0.5)]" />
                             </div>
 
-                            {/* Mobile Separator Line */}
-                            <div className="md:hidden w-32 h-[2px] bg-white/10 rounded-full my-2" />
+                            {/* Mobile Separator Line (Only in Zen Mode Stacked) */}
+                            {isZenMode && (
+                                <div className="md:hidden w-32 h-[2px] bg-white/10 rounded-full my-2" />
+                            )}
 
                             {/* SECONDS GROUP */}
                             <div className="flex flex-col items-center gap-2 md:gap-4">

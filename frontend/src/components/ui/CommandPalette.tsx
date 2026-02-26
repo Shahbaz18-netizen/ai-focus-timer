@@ -46,7 +46,7 @@ export const CommandPalette = ({ onAddTasks, onSwitchTab, onStartFocus }: Comman
 
     return (
         <>
-            <div className="fixed bottom-2 left-1/2 -translate-x-1/2 md:bottom-auto md:top-1/2 md:left-4 md:-translate-y-1/2 md:translate-x-0 z-50 flex items-center justify-center w-full max-w-[98vw] md:max-w-max pointer-events-none">
+            <div className="fixed bottom-8 left-1/2 -translate-x-1/2 md:bottom-auto md:top-1/2 md:left-4 md:-translate-y-1/2 md:translate-x-0 z-50 flex items-center justify-center w-full max-w-[96vw] sm:max-w-[98vw] md:max-w-max pointer-events-none pb-[env(safe-area-inset-bottom)]">
                 {/* Main Dock - Horizontal Bottom on Mobile, Vertical Sidebar on Desktop */}
                 <motion.div
                     layout
@@ -122,7 +122,7 @@ export const CommandPalette = ({ onAddTasks, onSwitchTab, onStartFocus }: Comman
                         initial={{ opacity: 0, x: -20, scale: 0.95 }}
                         animate={{ opacity: 1, x: 0, scale: 1 }}
                         exit={{ opacity: 0, x: -20, scale: 0.95 }}
-                        className="fixed bottom-24 left-4 md:top-1/2 md:left-24 md:-translate-y-1/2 w-72 bg-black/90 backdrop-blur-3xl border border-white/10 rounded-3xl p-4 z-40 shadow-2xl"
+                        className="fixed bottom-28 left-4 md:top-1/2 md:left-24 md:-translate-y-1/2 w-72 bg-black/90 backdrop-blur-3xl border border-white/10 rounded-3xl p-4 z-40 shadow-2xl"
                     >
                         <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-white/40 mb-4 px-2">Navigation</h3>
                         <div className="grid grid-cols-1 gap-1.5">

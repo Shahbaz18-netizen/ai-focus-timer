@@ -23,6 +23,12 @@ export const TaskWidget = ({ userId }: { userId: string }) => {
     const handleToggle = async (taskId: number | undefined, currentStatus: boolean) => {
         if (!taskId) return;
 
+        // Prevent patching temporary optimistic tasks (IDs < 0) before they get real DB IDs
+        if (taskId < 0) {
+            console.warn("Attempted to toggle a temporary task before it synced with the database.");
+            return;
+        }
+
         // 1. Optimistic Update
         const updatedTasks = dailyTasks.map(t =>
             t.id === taskId ? { ...t, is_completed: !currentStatus } : t
@@ -34,7 +40,9 @@ export const TaskWidget = ({ userId }: { userId: string }) => {
             await orchestratorService.updateTask(taskId, !currentStatus);
         } catch (error) {
             console.error("Failed to toggle task", error);
-            // Revert? For now assume it works or next fetch fixes it.
+            // Revert on fail
+            const tasks = await orchestratorService.getTasks(userId);
+            setTasks(tasks);
         }
     };
 
@@ -42,13 +50,14 @@ export const TaskWidget = ({ userId }: { userId: string }) => {
         e.preventDefault();
         if (!newTaskTitle.trim()) return;
 
+        // Temporarily use a negative ID for optimistic UI to prevent overflowing Postgres int4
+        const tempId = -Math.floor(Math.random() * 1000000);
+
         const tempData: Task = {
-            id: Date.now(), // Temp ID
+            id: tempId,
             title: newTaskTitle,
             is_completed: false,
             estimated_minutes: 25,
-            // created_at: new Date().toISOString(), // Removed, not in type
-            // user_id: userId // Removed, not in type
         };
 
         // Optimistic Add
@@ -62,6 +71,8 @@ export const TaskWidget = ({ userId }: { userId: string }) => {
             setTasks(freshTasks);
         } catch (error) {
             console.error("Failed to add task", error);
+            // Revert on fail
+            setTasks(dailyTasks.filter(t => t.id !== tempId));
         }
     };
 
@@ -73,7 +84,7 @@ export const TaskWidget = ({ userId }: { userId: string }) => {
             onClose={() => toggleWidget("tasks")}
             width="w-80"
         >
-            <div className="flex flex-col h-96">
+            <div className="flex flex-col max-h-[50vh] sm:h-96">
                 {/* Task List */}
                 <div className="flex-1 overflow-y-auto p-2 space-y-2 scrollbar-thin scrollbar-thumb-white/10">
                     {dailyTasks.length === 0 && (

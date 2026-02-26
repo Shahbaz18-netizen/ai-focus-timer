@@ -8,10 +8,12 @@ import { DraggableWidgetWrapper } from "./DraggableWidgetWrapper";
 import { CheckSquare, Plus, Square, Trash2, X } from "lucide-react";
 import { orchestratorService } from "@/services/api"; // Assuming we can import this
 import { Task } from "@/types";
+import { useHaptics } from "@/hooks/useHaptics";
 
 export const TaskWidget = ({ userId }: { userId: string }) => {
     const { activeWidgets, toggleWidget } = useWidgetStore();
     const { dailyTasks, setTasks, activeTask, setActiveTask } = useAppStore();
+    const { lightTap, successDoubleTap } = useHaptics();
     const isOpen = activeWidgets.includes("tasks");
 
     // Local state for new task input
@@ -28,6 +30,9 @@ export const TaskWidget = ({ userId }: { userId: string }) => {
             console.warn("Attempted to toggle a temporary task before it synced with the database.");
             return;
         }
+
+        if (!currentStatus) successDoubleTap();
+        else lightTap();
 
         // 1. Optimistic Update
         const updatedTasks = dailyTasks.map(t =>
@@ -61,6 +66,7 @@ export const TaskWidget = ({ userId }: { userId: string }) => {
         };
 
         // Optimistic Add
+        lightTap();
         setTasks([...dailyTasks, tempData]);
         setNewTaskTitle("");
         setIsAdding(false);

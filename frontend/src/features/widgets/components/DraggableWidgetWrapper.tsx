@@ -4,6 +4,7 @@
 import { ReactNode, useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { X } from "lucide-react";
+import { useHaptics } from "@/hooks/useHaptics";
 
 interface DraggableWidgetWrapperProps {
     id: string;
@@ -30,6 +31,8 @@ export const DraggableWidgetWrapper = ({
     className = "",
     isMini = false,
 }: DraggableWidgetWrapperProps) => {
+    const { lightTap } = useHaptics();
+
     // Start with loose bounds to avoid hydration mismatch, then snap to window bounds
     const [constraints, setConstraints] = useState({ left: -2000, right: 2000, top: -2000, bottom: 2000 });
 
@@ -50,12 +53,13 @@ export const DraggableWidgetWrapper = ({
             dragTransition={{
                 power: 0.1, // Low power to stop quickly
                 timeConstant: 200,
-                modifyTarget: (target) => Math.round(target / 40) * 40
+                modifyTarget: (target) => Math.round(target / 100) * 100
             }}
+            onDragEnd={() => lightTap()}
             initial={{ opacity: 0, scale: 0.9, x: defaultPosition.x, y: defaultPosition.y }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.9 }}
-            className={`fixed ${isMini ? 'w-64' : width} max-w-[calc(100vw-2rem)] sm:max-w-none max-h-[85vh] sm:max-h-none bg-[#121212]/95 backdrop-blur-3xl border border-white/20 rounded-2xl shadow-[0_30px_60px_rgba(0,0,0,0.8)] overflow-hidden z-40 flex flex-col ${className} ring-1 ring-white/10 transition-[width,height,background-color] duration-300 left-4 sm:left-auto top-32 sm:top-24`}
+            className={`fixed ${isMini ? 'w-64' : width} max-w-[calc(100vw-2rem)] sm:max-w-none max-h-[50vh] sm:max-h-[85vh] bg-[#121212]/95 backdrop-blur-3xl border border-white/20 rounded-2xl shadow-[0_30px_60px_rgba(0,0,0,0.8)] overflow-hidden z-40 flex flex-col ${className} ring-1 ring-white/10 transition-[width,height,background-color] duration-300 left-4 sm:left-auto top-32 sm:top-24`}
         >
             {/* Header */}
             {!isMini && (
@@ -79,7 +83,7 @@ export const DraggableWidgetWrapper = ({
             )}
 
             {/* Content */}
-            <div className="flex-1 min-h-0 relative">
+            <div className="flex-1 min-h-0 relative overflow-y-auto overflow-x-hidden">
                 {children}
             </div>
         </motion.div>

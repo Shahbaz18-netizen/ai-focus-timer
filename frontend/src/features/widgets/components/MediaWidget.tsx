@@ -6,8 +6,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect, useRef } from "react";
 import { DraggableWidgetWrapper } from "./DraggableWidgetWrapper";
 import { useSceneStore } from "@/features/immersion/hooks/useSceneStore";
-
 import { useMediaStore, PLAYLISTS } from "../stores/useMediaStore";
+import { useHaptics } from "@/hooks/useHaptics";
 
 // Helper to extract YouTube Video ID from various link formats
 const extractVideoID = (url: string) => {
@@ -19,6 +19,7 @@ const extractVideoID = (url: string) => {
 export const MediaWidget = () => {
     const { activeWidgets, toggleWidget } = useWidgetStore();
     const { isDucking } = useSceneStore();
+    const { lightTap } = useHaptics();
     const isOpen = activeWidgets.includes("media");
     const { currentStation, setCurrentStation } = useMediaStore();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -153,14 +154,20 @@ export const MediaWidget = () => {
             headerActions={
                 <>
                     <button
-                        onClick={() => setIsMenuOpen(!isMenuOpen)}
+                        onClick={() => {
+                            lightTap();
+                            setIsMenuOpen(!isMenuOpen);
+                        }}
                         className={`p-1.5 rounded-full transition-colors ${isMenuOpen ? 'bg-accent text-black' : 'hover:bg-white/10 text-white/40'}`}
                         title="Library"
                     >
                         <ListMusic className="w-4 h-4" />
                     </button>
                     <button
-                        onClick={() => setIsMini(true)}
+                        onClick={() => {
+                            lightTap();
+                            setIsMini(true);
+                        }}
                         className="p-1.5 hover:bg-white/10 rounded-full text-white/40 hover:text-white transition-colors ml-1"
                         title="Mini Player"
                     >
@@ -185,7 +192,10 @@ export const MediaWidget = () => {
                 {isMini && (
                     <div className="absolute inset-0 opacity-0 group-hover/player:opacity-100 transition-opacity bg-black/40 flex items-start justify-end p-2 pointer-events-none">
                         <button
-                            onClick={() => setIsMini(false)}
+                            onClick={() => {
+                                lightTap();
+                                setIsMini(false);
+                            }}
                             className="p-1.5 bg-black/80 hover:bg-accent text-white hover:text-black rounded-full backdrop-blur transition-colors pointer-events-auto"
                             title="Expand"
                         >
@@ -219,7 +229,7 @@ export const MediaWidget = () => {
                                         onChange={(e) => setCustomUrl(e.target.value)}
                                         className="flex-1 bg-white/5 border border-white/10 rounded-lg px-3 py-1.5 text-xs text-white placeholder:text-white/30 focus:outline-none focus:border-accent"
                                     />
-                                    <button type="submit" className="bg-accent text-black px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-accent/90 shrink-0">
+                                    <button type="submit" onClick={lightTap} className="bg-accent text-black px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-accent/90 shrink-0">
                                         Play
                                     </button>
                                 </form>
@@ -229,6 +239,7 @@ export const MediaWidget = () => {
                                 <button
                                     key={station.id}
                                     onClick={() => {
+                                        lightTap();
                                         setCurrentStation(station);
                                         setIsMenuOpen(false);
                                     }}

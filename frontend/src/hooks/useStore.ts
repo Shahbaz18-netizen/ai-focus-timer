@@ -123,6 +123,7 @@ export const useAppStore = create<AppState>()(
                 actualMins: state.actualMins,
                 plannedToday: state.plannedToday,
                 timerState: state.timerState,
+                dailyTasks: state.dailyTasks, // Persist tasks for offline mode
             }),
         }
     )

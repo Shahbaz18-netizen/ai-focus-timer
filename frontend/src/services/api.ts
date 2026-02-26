@@ -6,6 +6,7 @@ import {
     StrategyResponse,
     DashboardStatsResponse
 } from '@/types';
+import { offlineSyncService } from './offlineSync';
 
 const supabase = createClient();
 
@@ -92,21 +93,50 @@ export const orchestratorService = {
     },
 
     updateTask: async (taskId: number, isCompleted: boolean) => {
+        if (typeof window !== 'undefined' && !navigator.onLine) {
+            await offlineSyncService.enqueueAction({
+                type: 'UPDATE_TASK',
+                payload: { taskId, isCompleted }
+            });
+            return { message: "Queued offline" };
+        }
         const response = await api.patch(`/brain/tasks/${taskId}`, { is_completed: isCompleted });
         return response.data;
     },
 
     createTask: async (userId: string, title: string) => {
+        if (typeof window !== 'undefined' && !navigator.onLine) {
+            await offlineSyncService.enqueueAction({
+                type: 'CREATE_TASK',
+                payload: { userId, title }
+            });
+            // Return fake response for optimistic UI
+            return { id: -Date.now(), title, is_completed: false };
+        }
         const response = await api.post(`/brain/tasks`, { title });
         return response.data;
     },
 
     deleteTask: async (taskId: number) => {
+        if (typeof window !== 'undefined' && !navigator.onLine) {
+            await offlineSyncService.enqueueAction({
+                type: 'DELETE_TASK',
+                payload: { taskId }
+            });
+            return { message: "Queued offline" };
+        }
         const response = await api.delete(`/brain/tasks/${taskId}`);
         return response.data;
     },
 
     logSession: async (userId: string, taskIntent: string, durationMinutes: number, startTime: string) => {
+        if (typeof window !== 'undefined' && !navigator.onLine) {
+            await offlineSyncService.enqueueAction({
+                type: 'LOG_SESSION',
+                payload: { userId, taskIntent, durationMinutes, startTime }
+            });
+            return { message: "Queued offline" };
+        }
         const response = await api.post('/brain/sessions/log', {
             task_intent: taskIntent,
             duration_minutes: durationMinutes,

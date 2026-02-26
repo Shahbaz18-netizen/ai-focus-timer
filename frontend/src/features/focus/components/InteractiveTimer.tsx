@@ -2,12 +2,16 @@
 
 import { useState, useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Play, Pause, Plus, X, Settings, Maximize2, Minimize2, Wind } from "lucide-react";
+import { Play, Pause, Plus, X, Settings, Maximize2, Minimize2, Wind, PictureInPicture } from "lucide-react";
+import { createPortal } from "react-dom";
 import { FlipDigit } from "./FlipDigit";
 import { useAppStore } from "@/hooks/useStore";
 import { useFullscreen } from "@/hooks/useFullscreen";
 import { useWidgetStore } from "@/features/widgets/stores/useWidgetStore";
 import { useSceneStore } from "@/features/immersion/hooks/useSceneStore";
+import { useHaptics } from "@/hooks/useHaptics";
+import { useWakeLock } from "@/hooks/useWakeLock";
+import { useDocumentPiP } from "@/hooks/useDocumentPiP";
 
 interface InteractiveTimerProps {
     onComplete: (actualMins: number) => void;
@@ -40,6 +44,9 @@ export const InteractiveTimer = ({
     const { isFullscreen, enterFullscreen, exitFullscreen } = useFullscreen();
     const { isZenMode, toggleZenMode } = useWidgetStore();
     const { isDucking, setDucking } = useSceneStore();
+    const { lightTap, solidTap, successDoubleTap } = useHaptics();
+    const { requestLock, releaseLock } = useWakeLock();
+    const { isSupported: isPipSupported, pipWindow, requestPiP, closePiP } = useDocumentPiP();
 
     const [showSettings, setShowSettings] = useState(false);
     const [customSettings, setCustomSettings] = useState(pomodoroSettings);
@@ -100,6 +107,8 @@ export const InteractiveTimer = ({
     }, [isStarted, mode, playSound]);
 
     const handleComplete = useCallback(() => {
+        successDoubleTap();
+        releaseLock();
         if (isZenMode) {
             toggleZenMode();
             exitFullscreen();
@@ -125,6 +134,7 @@ export const InteractiveTimer = ({
     }, [duration, onComplete, onStatusChange, isZenMode, toggleZenMode, exitFullscreen]);
 
     const handleCancel = () => {
+        releaseLock();
         if (isZenMode) {
             toggleZenMode();
             exitFullscreen();
@@ -143,11 +153,14 @@ export const InteractiveTimer = ({
 
             if (e.code === 'Space' && isStarted) {
                 e.preventDefault();
+                lightTap();
                 const newActive = !isActive;
                 setTimerState({
                     isActive: newActive,
                     endTime: newActive ? Date.now() + secondsRemaining * 1000 : null
                 });
+                if (newActive) requestLock();
+                else releaseLock();
                 onStatusChange?.(newActive ? 'focusing' : 'paused');
             }
             if (e.code === 'Escape' && isStarted) {
@@ -231,6 +244,7 @@ export const InteractiveTimer = ({
                         <button
                             key={tab.id}
                             onClick={() => {
+                                lightTap();
                                 setTimerState({
                                     mode: tab.id as any,
                                     duration: tab.mins,
@@ -345,11 +359,34 @@ export const InteractiveTimer = ({
                         <p className="text-white/40 font-mono text-xs uppercase tracking-[0.3em]">{mode === 'pomodoro' ? 'Focus Session' : mode === 'shortBreak' ? 'Short Break' : 'Long Break'}</p>
                     </div>
 
+                    <div className="flex flex-col items-center gap-6 mt-8 mb-8">
+                        <button
+                            onClick={() => {
+                                solidTap();
+                                requestLock();
+                                const initialSeconds = duration * 60;
+                                setTimerState({
+                                    isStarted: true,
+                                    isActive: true,
+                                    secondsRemaining: initialSeconds,
+                                    endTime: Date.now() + initialSeconds * 1000
+                                });
+                                onStatusChange?.('focusing');
+                            }}
+                            className="group relative px-12 py-4 bg-accent text-black rounded-full font-bold text-lg tracking-wider hover:bg-accent/90 transition-all shadow-[0_0_20px_rgba(var(--accent-rgb),0.5)] z-10"
+                        >
+                            <span className="flex items-center gap-2">
+                                <Play className="w-5 h-5 fill-current" /> {mode === 'pomodoro' ? 'START FOCUS' : 'START BREAK'}
+                            </span>
+                        </button>
+                    </div>
+
                     <div className="flex flex-wrap justify-center gap-3 sm:gap-4 px-2">
                         {mode === 'pomodoro' && [15, 25, 45, 60].map((preset) => (
                             <button
                                 key={preset}
                                 onClick={() => {
+                                    lightTap();
                                     setTimerState({
                                         duration: preset,
                                         secondsRemaining: preset * 60
@@ -364,26 +401,6 @@ export const InteractiveTimer = ({
                                 <span className="text-[10px] uppercase tracking-wider font-bold opacity-60">MIN</span>
                             </button>
                         ))}
-                    </div>
-
-                    <div className="flex flex-col items-center gap-6 mt-8">
-                        <button
-                            onClick={() => {
-                                const initialSeconds = duration * 60;
-                                setTimerState({
-                                    isStarted: true,
-                                    isActive: true,
-                                    secondsRemaining: initialSeconds,
-                                    endTime: Date.now() + initialSeconds * 1000
-                                });
-                                onStatusChange?.('focusing');
-                            }}
-                            className="group relative px-12 py-4 bg-accent text-black rounded-full font-bold text-lg tracking-wider hover:bg-accent/90 transition-all shadow-[0_0_20px_rgba(var(--accent-rgb),0.4)]"
-                        >
-                            <span className="flex items-center gap-2">
-                                <Play className="w-5 h-5 fill-current" /> {mode === 'pomodoro' ? 'START FOCUS' : 'START BREAK'}
-                            </span>
-                        </button>
                     </div>
 
                 </div>
@@ -409,11 +426,11 @@ export const InteractiveTimer = ({
                         )}
                     </AnimatePresence>
                     {/* TIMER DISPLAY */}
-                    <div className={`transition-all duration-1000 opacity-100 ${isZenMode ? 'mt-0' : 'mt-2 md:mt-8'} mb-4`}>
-                        <div className={`flex ${isZenMode ? 'flex-col' : 'flex-row'} md:flex-row items-center justify-center gap-4 md:gap-8 mb-4 md:mb-8`}>
+                    <div className={`transition-all duration-1000 opacity-100 ${isZenMode ? 'mt-8' : 'mt-2 md:mt-8'} mb-4`}>
+                        <div className={`flex flex-row items-center justify-center gap-2 sm:gap-4 md:gap-8 mb-4 md:mb-8`}>
                             {/* MINUTES GROUP */}
                             <div className="flex flex-col items-center gap-2 md:gap-4">
-                                <div className="flex gap-2">
+                                <div className="flex gap-1 sm:gap-2 scale-90 sm:scale-100">
                                     <FlipDigit digit={m1} />
                                     <FlipDigit digit={m2} />
                                 </div>
@@ -422,16 +439,11 @@ export const InteractiveTimer = ({
                                 </span>
                             </div>
 
-                            {/* SEPARATOR - Horizontal line on stacked mobile, dots otherwise */}
-                            <div className={`flex-col gap-2 md:gap-3 pb-2 md:pb-8 opacity-70 ${isZenMode ? 'hidden md:flex' : 'flex'}`}>
-                                <div className="w-2 h-2 md:w-3 md:h-3 rounded-full bg-white shadow-[0_0_10px_rgba(255,255,255,0.5)]" />
-                                <div className="w-2 h-2 md:w-3 md:h-3 rounded-full bg-white shadow-[0_0_10px_rgba(255,255,255,0.5)]" />
+                            {/* SEPARATOR - Dots always for sideways view */}
+                            <div className={`flex-col gap-2 md:gap-3 pb-2 md:pb-8 opacity-70 flex`}>
+                                <div className="w-1.5 h-1.5 md:w-3 md:h-3 rounded-full bg-white shadow-[0_0_10px_rgba(255,255,255,0.5)]" />
+                                <div className="w-1.5 h-1.5 md:w-3 md:h-3 rounded-full bg-white shadow-[0_0_10px_rgba(255,255,255,0.5)]" />
                             </div>
-
-                            {/* Mobile Separator Line (Only in Zen Mode Stacked) */}
-                            {isZenMode && (
-                                <div className="md:hidden w-32 h-[2px] bg-white/10 rounded-full my-2" />
-                            )}
 
                             {/* SECONDS GROUP */}
                             <div className="flex flex-col items-center gap-2 md:gap-4">
@@ -463,15 +475,17 @@ export const InteractiveTimer = ({
 
                     {/* FLOATING CONTROLS (Pill) */}
                     <AnimatePresence>
-                        {showControls && (
+                        {/* Always show controls on sm screens (mobile) or if hovered on desktop */}
+                        {(showControls || (typeof window !== 'undefined' && window.innerWidth < 640)) && (
                             <motion.div
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 exit={{ opacity: 0, y: 20 }}
-                                className="flex items-center gap-4 bg-[#1a1a1a]/90 backdrop-blur-xl border border-white/10 p-2 rounded-full shadow-2xl z-50 mb-12 sm:mb-0"
+                                className="flex items-center gap-2 sm:gap-4 bg-[#1a1a1a]/90 backdrop-blur-xl border border-white/10 p-2 sm:p-2 rounded-full shadow-2xl z-50 mb-12 sm:mb-0 scale-90 sm:scale-100"
                             >
                                 <button
                                     onClick={() => {
+                                        lightTap();
                                         // Bug fix #3: update all three — state, countdown, and wall-clock ref
                                         const addSecs = 5 * 60;
                                         setTimerState({
@@ -490,11 +504,14 @@ export const InteractiveTimer = ({
 
                                 <button
                                     onClick={() => {
+                                        lightTap();
                                         const newActive = !isActive;
                                         setTimerState({
                                             isActive: newActive,
                                             endTime: newActive ? Date.now() + secondsRemaining * 1000 : null
                                         });
+                                        if (newActive) requestLock();
+                                        else releaseLock();
                                         onStatusChange?.(newActive ? 'focusing' : 'paused');
                                     }}
                                     className={`p-4 rounded-full transition-all ${isActive
@@ -515,6 +532,19 @@ export const InteractiveTimer = ({
                                 >
                                     {isZenMode ? <Minimize2 className="w-5 h-5" /> : <Maximize2 className="w-5 h-5" />}
                                 </button>
+
+                                {isPipSupported && (
+                                    <button
+                                        onClick={() => {
+                                            if (pipWindow) closePiP();
+                                            else requestPiP({ width: 340, height: 180 });
+                                        }}
+                                        className={`p-3 rounded-full transition-colors ${pipWindow ? 'text-accent bg-accent/10' : 'text-white/30 hover:text-white hover:bg-white/10'}`}
+                                        title={pipWindow ? "Close PiP" : "Pop Out Timer"}
+                                    >
+                                        <PictureInPicture className="w-5 h-5" />
+                                    </button>
+                                )}
 
                                 <div className="w-[1px] h-6 bg-white/10" />
 
@@ -551,6 +581,34 @@ export const InteractiveTimer = ({
                         />
                     </div>
                 </div>
+            )}
+
+            {/* PICTURE-IN-PICTURE RENDERER */}
+            {pipWindow && createPortal(
+                <div className="flex flex-col items-center justify-center h-full w-full bg-[#0a0a0a] text-white select-none">
+                    <div className="flex items-center gap-2 mb-4 scale-75 origin-bottom">
+                        <FlipDigit digit={m1} />
+                        <FlipDigit digit={m2} />
+                        <span className="text-4xl opacity-50 font-mono">:</span>
+                        <FlipDigit digit={s1} />
+                        <FlipDigit digit={s2} />
+                    </div>
+                    <button
+                        onClick={() => {
+                            const newActive = !isActive;
+                            setTimerState({
+                                isActive: newActive,
+                                endTime: newActive ? Date.now() + secondsRemaining * 1000 : null
+                            });
+                            if (newActive) requestLock();
+                            else releaseLock();
+                        }}
+                        className={`p-3 rounded-full transition-all ${isActive ? 'bg-white/10 text-white' : 'bg-[#e5ff45] text-black'} outline-none`}
+                    >
+                        {isActive ? <Pause className="w-5 h-5 fill-current" /> : <Play className="w-5 h-5 fill-current" />}
+                    </button>
+                </div>,
+                pipWindow.document.body
             )}
         </div>
     );

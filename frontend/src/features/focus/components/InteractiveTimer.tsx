@@ -79,6 +79,8 @@ export const InteractiveTimer = ({
         }
     }, []); // Run once on mount
 
+    const duckingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
     const playSound = useCallback((type: 'startFocus' | 'startBreak' | 'end') => {
         const sounds = {
             startFocus: "https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3",
@@ -88,13 +90,23 @@ export const InteractiveTimer = ({
         const audio = new Audio(sounds[type]);
         audio.volume = 0.5;
 
+        // Clear any existing timeout
+        if (duckingTimeoutRef.current) clearTimeout(duckingTimeoutRef.current);
+
         setDucking(true);
         audio.play().catch(e => console.log("Audio play failed:", e));
 
-        // Restore volume after sound completes (approx 3-4 seconds depending on file)
-        audio.onended = () => setDucking(false);
-        // Fallback safety if onended fails to trigger
-        setTimeout(() => setDucking(false), 4000);
+        // Browsers frequently drop `audio.onended` if the tab is backgrounded.
+        // A hard timeout is vastly more reliable for visual state cleanup.
+        // Mixkit chimes used here are all ~2.5 - 3.5 seconds long.
+        duckingTimeoutRef.current = setTimeout(() => {
+            setDucking(false);
+        }, 4000);
+
+        audio.onended = () => {
+            if (duckingTimeoutRef.current) clearTimeout(duckingTimeoutRef.current);
+            setDucking(false);
+        };
     }, [setDucking]);
 
     // Automatically play start sounds when isStarted flips to true

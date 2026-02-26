@@ -1,9 +1,9 @@
 
 "use client";
 
-import { ReactNode, useState, useEffect } from "react";
+import { ReactNode, useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
-import { X } from "lucide-react";
+import { X, GripHorizontal } from "lucide-react";
 import { useHaptics } from "@/hooks/useHaptics";
 
 interface DraggableWidgetWrapperProps {
@@ -32,21 +32,44 @@ export const DraggableWidgetWrapper = ({
     isMini = false,
 }: DraggableWidgetWrapperProps) => {
     const { lightTap } = useHaptics();
+    const widgetRef = useRef<HTMLDivElement>(null);
 
     // Start with loose bounds to avoid hydration mismatch, then snap to window bounds
     const [constraints, setConstraints] = useState({ left: -2000, right: 2000, top: -2000, bottom: 2000 });
 
     useEffect(() => {
-        setConstraints({
-            left: -window.innerWidth + 100,
-            right: window.innerWidth - 100,
-            top: -window.innerHeight + 100,
-            bottom: window.innerHeight - 100
-        });
+        const updateConstraints = () => {
+            if (!widgetRef.current) return;
+            const widgetWidth = widgetRef.current.offsetWidth;
+            const widgetHeight = widgetRef.current.offsetHeight;
+
+            // On mobile, the wrapper uses fixed CSS offsets (left-4, top-32)
+            // We need to calculate how far it can move from that origin before hitting screen edges
+            const isMobile = window.innerWidth < 640;
+            const originX = isMobile ? 16 : window.innerWidth - widgetWidth - 16; // left-4 is 16px, or right-aligned on desktop
+            const originY = isMobile ? 128 : 96; // top-32 is 128px, top-24 is 96px
+
+            // Bottom nav bar height to avoid on mobile (~80px)
+            const mobileBottomNavBuffer = isMobile ? 100 : 0;
+
+            setConstraints({
+                left: -originX + 16, // Don't go past left edge (+16px padding)
+                right: window.innerWidth - originX - widgetWidth - 16, // Don't go past right edge
+                top: -originY + 16, // Don't go past top edge
+                bottom: window.innerHeight - originY - widgetHeight - mobileBottomNavBuffer // Don't go past bottom
+            });
+        };
+
+        // Delay slightly to ensure layout is complete
+        setTimeout(updateConstraints, 100);
+
+        window.addEventListener('resize', updateConstraints);
+        return () => window.removeEventListener('resize', updateConstraints);
     }, []);
 
     return (
         <motion.div
+            ref={widgetRef}
             drag
             dragMomentum={true}
             dragConstraints={constraints}
@@ -59,12 +82,13 @@ export const DraggableWidgetWrapper = ({
             initial={{ opacity: 0, scale: 0.9, x: defaultPosition.x, y: defaultPosition.y }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.9 }}
-            className={`fixed ${isMini ? 'w-64' : width} max-w-[calc(100vw-2rem)] sm:max-w-none max-h-[50vh] sm:max-h-[85vh] bg-[#121212]/95 backdrop-blur-3xl border border-white/20 rounded-2xl shadow-[0_30px_60px_rgba(0,0,0,0.8)] overflow-hidden z-40 flex flex-col ${className} ring-1 ring-white/10 transition-[width,height,background-color] duration-300 left-4 sm:left-auto top-32 sm:top-24`}
+            className={`fixed ${isMini ? 'w-64' : width} max-w-[calc(100vw-2rem)] sm:max-w-none max-h-[50vh] sm:max-h-[85vh] bg-[#121212]/95 backdrop-blur-3xl border border-white/20 rounded-2xl shadow-[0_30px_60px_rgba(0,0,0,0.8)] overflow-hidden z-40 flex flex-col ${className} ring-1 ring-white/10 transition-[background-color] duration-300 left-4 sm:left-auto sm:right-4 top-24`}
         >
             {/* Header */}
             {!isMini && (
-                <div className="flex items-center justify-between p-3 border-b border-white/5 bg-white/5 cursor-move active:cursor-grabbing select-none group">
+                <div className="flex items-center justify-between p-3 border-b border-white/5 bg-white/5 cursor-move active:cursor-grabbing select-none group touch-none">
                     <div className="flex items-center gap-2">
+                        <GripHorizontal className="w-4 h-4 text-white/20 group-hover:text-white/40 transition-colors" />
                         {icon && <span className="text-accent">{icon}</span>}
                         <span className="text-xs font-bold uppercase tracking-widest text-white/50 group-hover:text-white/80 transition-colors">
                             {title}

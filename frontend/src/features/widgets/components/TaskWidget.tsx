@@ -88,6 +88,7 @@ export const TaskWidget = ({ userId }: { userId: string }) => {
             title="Focus Tasks"
             icon={<CheckSquare className="w-3 h-3" />}
             onClose={() => toggleWidget("tasks")}
+            defaultPosition={{ x: 0, y: typeof window !== 'undefined' && window.innerWidth < 640 ? 300 : 0 }}
             width="w-80"
         >
             <div className="flex flex-col max-h-[50vh] sm:h-96">

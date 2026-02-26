@@ -150,6 +150,7 @@ export const MediaWidget = () => {
             icon={<Music className="w-4 h-4 text-accent" />}
             onClose={() => toggleWidget("media")}
             isMini={isMini}
+            defaultPosition={{ x: 0, y: typeof window !== 'undefined' && window.innerWidth < 640 ? 250 : 0 }}
             className="w-full sm:w-96 max-w-[calc(100vw-2rem)]"
             headerActions={
                 <>

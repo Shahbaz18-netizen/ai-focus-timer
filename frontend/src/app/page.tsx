@@ -24,6 +24,7 @@ import { Task } from "@/types";
 import { createClient } from "@/lib/supabase/client";
 import { CommandPalette } from "@/components/ui/CommandPalette";
 import { AppDock } from "@/components/ui/AppDock";
+import { WidgetToolbar } from "@/components/ui/WidgetToolbar";
 
 import { LandingPage } from "@/components/marketing/LandingPage";
 
@@ -455,6 +456,9 @@ export default function AuraFocusOS() {
             <div className="w-px h-4 bg-white/20" />
             <DigitalClock />
           </div>
+
+          {/* Desktop Widget Toolbar */}
+          <WidgetToolbar />
 
           {/* App Dock Navigation */}
           <AppDock currentTab={currentTab} onTabChange={setCurrentTab} />

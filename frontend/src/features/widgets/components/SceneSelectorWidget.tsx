@@ -19,7 +19,7 @@ const extractVideoID = (url: string) => {
 export const SceneSelectorWidget = () => {
     const { activeWidgets, toggleWidget } = useWidgetStore();
     const { currentScene, setScene, setCustomScene, blurLevel, setBlurLevel, brightness, setBrightness } = useBackgroundStore();
-    const isOpen = activeWidgets.includes("scenes") || (typeof window !== 'undefined' && window.innerWidth < 640);
+    const isOpen = activeWidgets.includes("scenes");
     const [isAddingCustom, setIsAddingCustom] = useState(false);
     const [customUrl, setCustomUrl] = useState("");
 

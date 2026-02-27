@@ -14,7 +14,7 @@ export const TaskWidget = ({ userId }: { userId: string }) => {
     const { activeWidgets, toggleWidget } = useWidgetStore();
     const { dailyTasks, setTasks, activeTask, setActiveTask } = useAppStore();
     const { lightTap, successDoubleTap } = useHaptics();
-    const isOpen = activeWidgets.includes("tasks") || (typeof window !== 'undefined' && window.innerWidth < 640);
+    const isOpen = activeWidgets.includes("tasks");
 
     // Local state for new task input
     const [newTaskTitle, setNewTaskTitle] = useState("");

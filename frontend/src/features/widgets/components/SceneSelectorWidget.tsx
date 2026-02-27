@@ -5,6 +5,7 @@ import { useWidgetStore } from "@/features/widgets/stores/useWidgetStore";
 import { useBackgroundStore } from "@/features/immersion/stores/useBackgroundStore";
 import { SCENES } from "@/features/immersion/data/scenes";
 import { Image as ImageIcon, Check, Link as LinkIcon } from "lucide-react";
+import { DraggableWidgetWrapper } from "./DraggableWidgetWrapper";
 import { useState } from "react";
 import { motion } from "framer-motion";
 
@@ -18,11 +19,10 @@ const extractVideoID = (url: string) => {
 export const SceneSelectorWidget = () => {
     const { activeWidgets, toggleWidget } = useWidgetStore();
     const { currentScene, setScene, setCustomScene, blurLevel, setBlurLevel, brightness, setBrightness } = useBackgroundStore();
-    const isOpen = activeWidgets.includes("scenes");
+    const isOpen = activeWidgets.includes("scenes") || (typeof window !== 'undefined' && window.innerWidth < 640);
     const [isAddingCustom, setIsAddingCustom] = useState(false);
     const [customUrl, setCustomUrl] = useState("");
 
-    // Default to open if not specified? No, typical toggle.
     if (!isOpen) return null;
 
     const handleAddCustom = (e: React.FormEvent) => {
@@ -38,35 +38,22 @@ export const SceneSelectorWidget = () => {
     };
 
     return (
-        <motion.div
-            initial={{ opacity: 0, y: 20, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            className="fixed top-32 left-4 sm:top-auto sm:left-auto sm:bottom-24 sm:right-8 w-[calc(100vw-2rem)] sm:w-80 bg-[#121212]/95 backdrop-blur-3xl border border-white/20 xl:w-96 rounded-2xl shadow-[0_30px_60px_rgba(0,0,0,0.8)] overflow-hidden z-50 flex flex-col ring-1 ring-white/10 max-h-[80vh]"
+        <DraggableWidgetWrapper
+            id="scenes"
+            title="Environments"
+            icon={<ImageIcon className="w-4 h-4 text-accent" />}
+            onClose={() => toggleWidget("scenes")}
+            width="w-full sm:w-80 xl:w-96"
+            headerActions={
+                <button
+                    onClick={() => setIsAddingCustom(!isAddingCustom)}
+                    className={`p-1.5 rounded-full transition-colors ${isAddingCustom ? 'bg-accent text-black' : 'hover:bg-white/10 text-white/40 hover:text-white'}`}
+                    title="Add Custom YouTube Video"
+                >
+                    <LinkIcon className="w-4 h-4" />
+                </button>
+            }
         >
-            <div className="flex items-center justify-between p-3 border-b border-white/5 bg-white/5 select-none text-white/50">
-                <div className="flex items-center gap-2">
-                    <span className="text-accent"><ImageIcon className="w-4 h-4" /></span>
-                    <span className="text-xs font-bold uppercase tracking-widest text-white/50">
-                        Environments
-                    </span>
-                </div>
-                <div className="flex items-center gap-2">
-                    <button
-                        onClick={() => setIsAddingCustom(!isAddingCustom)}
-                        className={`p-1.5 rounded-full transition-colors ${isAddingCustom ? 'bg-accent text-black' : 'hover:bg-white/10 text-white/40 hover:text-white'}`}
-                        title="Add Custom YouTube Video"
-                    >
-                        <LinkIcon className="w-4 h-4" />
-                    </button>
-                    <button
-                        onClick={() => toggleWidget("scenes")}
-                        className="p-1.5 hover:bg-white/10 rounded-full text-white/40 hover:text-white transition-colors"
-                    >
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                    </button>
-                </div>
-            </div>
 
             <div className="p-4 flex flex-col gap-5 max-h-[60vh] overflow-y-auto scrollbar-thin scrollbar-thumb-white/10">
                 {/* Custom URL Input */}
@@ -178,6 +165,6 @@ export const SceneSelectorWidget = () => {
                     </div>
                 </div>
             </div>
-        </motion.div>
+        </DraggableWidgetWrapper>
     );
 };

@@ -51,14 +51,14 @@ export const TaskEditModal = ({ isOpen, onClose, tasks, userId, onTasksUpdated }
     return (
         <AnimatePresence>
             {isOpen && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+                <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/60 backdrop-blur-sm">
                     <motion.div
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        exit={{ opacity: 0, scale: 0.95 }}
-                        className="w-full max-w-lg mx-2"
+                        initial={{ opacity: 0, y: 100 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 100 }}
+                        className="w-full sm:w-auto mx-0 sm:mx-2"
                     >
-                        <Card className="p-4 sm:p-6 border-accent/20 shadow-[0_0_50px_rgba(0,0,0,0.5)] max-h-[90vh] flex flex-col">
+                        <Card className="w-full sm:max-w-lg p-4 sm:p-6 border-accent/20 shadow-[0_-20px_50px_rgba(0,0,0,0.3)] sm:shadow-[0_0_50px_rgba(0,0,0,0.5)] max-h-[90vh] flex flex-col rounded-t-3xl sm:rounded-2xl rounded-b-none sm:rounded-b-2xl pb-8 sm:pb-6 border-b-0 sm:border-b">
                             <div className="flex justify-between items-center mb-6 shrink-0">
                                 <h2 className="text-xl font-bold">Edit Intent</h2>
                                 <button onClick={onClose} className="text-textDim hover:text-white">

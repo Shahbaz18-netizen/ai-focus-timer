@@ -427,7 +427,7 @@ export default function AuraFocusOS() {
 
   return (
     <div
-      className={`max-w-5xl mx-auto py-4 px-4 sm:py-8 sm:px-6 min-h-[100dvh] flex flex-col relative z-0 zen-mode-transition transition-colors duration-1000 ${isZenMode ? 'zen-mode' : ''}`}
+      className={`max-w-5xl mx-auto py-4 px-4 pb-24 sm:py-8 sm:px-6 min-h-[100dvh] flex flex-col relative z-0 zen-mode-transition transition-colors duration-1000 ${isZenMode ? 'zen-mode' : ''}`}
       style={{
         '--color-accent': getAccentColor(),
         backgroundColor: currentScene?.id ? 'transparent' : 'var(--color-background)'
@@ -435,11 +435,18 @@ export default function AuraFocusOS() {
     >
       <ImmersiveBackground />
       <AmbientPlayer />
-      <JournalWidget />
-      <MediaWidget />
-      <SceneSelectorWidget />
-      <SoundWidget />
-      <TaskWidget userId={USER_ID} />
+      {/* 
+        Unified Mobile Dashboard Container 
+        On desktop, widgets float anywhere (absolute/fixed).
+        On mobile, they are forced into this relative grid below the timer.
+      */}
+      <div className="w-full max-w-lg mx-auto flex flex-col sm:contents gap-4 mt-8 px-2 z-10 relative">
+        <JournalWidget />
+        <MediaWidget />
+        <SceneSelectorWidget />
+        <SoundWidget />
+        <TaskWidget userId={USER_ID} />
+      </div>
       {!isZenMode && (
         <>
           {/* Floating Top Controls */}

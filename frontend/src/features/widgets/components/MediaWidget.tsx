@@ -20,7 +20,7 @@ export const MediaWidget = () => {
     const { activeWidgets, toggleWidget } = useWidgetStore();
     const { isDucking } = useSceneStore();
     const { lightTap } = useHaptics();
-    const isOpen = activeWidgets.includes("media");
+    const isOpen = activeWidgets.includes("media") || (typeof window !== 'undefined' && window.innerWidth < 640);
     const { currentStation, setCurrentStation } = useMediaStore();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isMini, setIsMini] = useState(false);

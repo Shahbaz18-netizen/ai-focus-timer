@@ -8,7 +8,7 @@ import { Volume2 } from "lucide-react";
 
 export const SoundWidget = () => {
     const { activeWidgets, toggleWidget } = useWidgetStore();
-    const isOpen = activeWidgets.includes("sounds");
+    const isOpen = activeWidgets.includes("sounds") || (typeof window !== 'undefined' && window.innerWidth < 640);
 
     if (!isOpen) return null;
 

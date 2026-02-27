@@ -5,8 +5,6 @@ pydantic
 pydantic-settings
 
 # Database
-sqlalchemy
-psycopg2-binary
 chromadb
 supabase
 
@@ -15,11 +13,7 @@ langchain
 langchain-openai
 langgraph
 openai
-tiktoken
-langsmith
-
 # Frontend & UI
-streamlit
 requests
 
 # Utilities

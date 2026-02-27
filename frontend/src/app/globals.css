@@ -31,15 +31,12 @@
   color: var(--color-foreground);
 }
 
-html {
-  overscroll-behavior-y: none;
-}
+html {}
 
 body {
   font-family: var(--font-sans);
   background-color: black;
   min-height: 100vh;
-  overscroll-behavior-y: none;
 }
 
 .glass-card {

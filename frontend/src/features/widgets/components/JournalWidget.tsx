@@ -7,7 +7,8 @@ import { useEffect, useState } from "react";
 
 export const JournalWidget = () => {
     const { activeWidgets, toggleWidget, journalContent, setJournalContent } = useWidgetStore();
-    const isOpen = activeWidgets.includes("journal");
+    const isOpen = activeWidgets.includes("journal") || (typeof window !== 'undefined' && window.innerWidth < 640);
+
     const [dateString, setDateString] = useState("");
 
     useEffect(() => {

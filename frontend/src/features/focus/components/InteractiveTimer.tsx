@@ -223,7 +223,7 @@ export const InteractiveTimer = ({
     const progress = Math.max(0, Math.min(1, 1 - secondsRemaining / (duration * 60)));
 
     return (
-        <div className="flex flex-col items-center justify-center w-full min-h-[60vh] relative">
+        <div className="flex flex-col items-center justify-center w-full min-h-[40vh] sm:min-h-[60vh] relative">
             {/* Audio Ducking Visual Feedback */}
             <AnimatePresence>
                 {isDucking && (
@@ -438,7 +438,7 @@ export const InteractiveTimer = ({
                         )}
                     </AnimatePresence>
                     {/* TIMER DISPLAY */}
-                    <div className={`transition-all duration-1000 opacity-100 ${isZenMode ? 'mt-8' : 'mt-2 md:mt-8'} mb-4`}>
+                    <div className={`transition-all duration-1000 opacity-100 ${isZenMode ? 'mt-8' : 'mt-0 sm:mt-2 md:mt-8'} mb-4`}>
                         <div className={`flex flex-row items-center justify-center gap-2 sm:gap-4 md:gap-8 mb-4 md:mb-8`}>
                             {/* MINUTES GROUP */}
                             <div className="flex flex-col items-center gap-2 md:gap-4">

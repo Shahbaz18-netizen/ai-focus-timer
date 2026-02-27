@@ -42,7 +42,20 @@ export const CommandPalette = ({ onAddTasks, onSwitchTab, onStartFocus }: Comman
         }
     };
 
-    if (isZenMode) return null;
+    if (isZenMode) {
+        return (
+            <div className="fixed top-6 right-6 z-[60] animate-in fade-in zoom-in duration-500">
+                <button
+                    onClick={toggleZenMode}
+                    className="flex items-center gap-2 px-4 py-2 rounded-full bg-accent/20 text-accent hover:bg-accent/30 border border-accent/20 backdrop-blur-xl shadow-[0_0_15px_rgba(var(--accent-rgb),0.3)] transition-all"
+                    title="Exit Zen Mode"
+                >
+                    <Zap className="w-4 h-4" />
+                    <span className="text-xs font-bold uppercase tracking-wider">Exit Zen</span>
+                </button>
+            </div>
+        );
+    }
 
     return (
         <>

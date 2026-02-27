@@ -23,6 +23,7 @@ import { orchestratorService } from "@/services/api";
 import { Task } from "@/types";
 import { createClient } from "@/lib/supabase/client";
 import { CommandPalette } from "@/components/ui/CommandPalette";
+import { AppDock } from "@/components/ui/AppDock";
 
 import { LandingPage } from "@/components/marketing/LandingPage";
 
@@ -440,42 +441,17 @@ export default function AuraFocusOS() {
       <SoundWidget />
       <TaskWidget userId={USER_ID} />
       {!isZenMode && (
-        <header className="mb-6 sm:mb-8 flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-0 bg-glass/10 p-4 sm:p-6 rounded-3xl border border-glass-border backdrop-blur-md animate-in fade-in slide-in-from-top-4 w-full">
-          <div className="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-start">
-            <div className="flex items-center gap-3">
-              <div className="w-3 h-3 rounded-full bg-accent animate-pulse shadow-[0_0_15px_rgba(var(--accent-rgb),0.5)]" />
-              <h2 className="text-xl font-bold tracking-tighter uppercase italic">Aura OS v3.0</h2>
-            </div>
-          </div>
-
-          {/* Navigation Tabs */}
-          <div className="flex bg-white/5 rounded-full p-1 border border-white/5 relative overflow-x-auto max-w-[calc(100vw-3rem)] sm:max-w-none scrollbar-none snap-x w-full sm:w-auto">
-            {['focus', 'team', 'brain', 'analytics'].map((tab) => (
-              <button
-                key={tab}
-                onClick={() => setCurrentTab(tab as any)}
-                className={`relative px-5 py-2 rounded-full text-xs font-bold uppercase tracking-widest transition-colors z-10 ${currentTab === tab ? 'text-black' : 'text-white/40 hover:text-white'
-                  }`}
-              >
-                {currentTab === tab && (
-                  <motion.div
-                    layoutId="activeTab"
-                    className="absolute inset-0 bg-accent rounded-full shadow-[0_0_20px_rgba(var(--accent-rgb),0.3)]"
-                    transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-                  />
-                )}
-                <span className="relative z-20">{tab}</span>
-              </button>
-            ))}
-          </div>
-
-          <div className="flex flex-row sm:flex-col items-center sm:items-end w-full sm:w-auto justify-between sm:justify-end gap-3 sm:gap-1 mt-2 sm:mt-0">
-            <div className="flex items-center gap-4">
-              <UserProfile userId={USER_ID} email={userEmail} />
-            </div>
+        <>
+          {/* Floating Top Controls */}
+          <div className="fixed top-6 right-6 z-40 flex items-center gap-4 bg-black/20 backdrop-blur-xl border border-white/10 rounded-full px-4 py-2 shadow-xl animate-in fade-in slide-in-from-top-4">
+            <UserProfile userId={USER_ID} email={userEmail} />
+            <div className="w-px h-4 bg-white/20" />
             <DigitalClock />
           </div>
-        </header>
+
+          {/* App Dock Navigation */}
+          <AppDock currentTab={currentTab} onTabChange={setCurrentTab} />
+        </>
       )}
 
       <AnimatePresence mode="wait">

@@ -71,7 +71,13 @@ def parse_agent_response(raw_content: str):
 
 @router.get("/ping")
 async def ping():
-    return {"status": "pong", "module": "orchestrator"}
+    import os
+    return {
+        "status": "pong", 
+        "module": "orchestrator", 
+        "auth_mode": os.environ.get("AURA_AUTH_MODE"),
+        "AURA_AUTH_MODE_repr": repr(os.environ.get("AURA_AUTH_MODE"))
+    }
 
 @router.post("/plan/morning")
 async def generate_morning_plan(request: MorningPlanRequest, user_id: str = Depends(get_current_user)):

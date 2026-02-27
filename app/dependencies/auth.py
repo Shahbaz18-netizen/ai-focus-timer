@@ -3,20 +3,26 @@ from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 import os
 from app.core.supabase_client import supabase
 
-security = HTTPBearer()
+security = HTTPBearer(auto_error=False)
 
 async def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(security)):
     """
     Validates the Bearer token against Supabase Auth.
     Returns the user_id (sub) if valid.
     """
-    token = credentials.credentials
-    
     # 🛠️ DEVELOPMENT OVERRIDE
-    # If network is restricted or during quick dev, use a mock user.
     if os.environ.get("AURA_AUTH_MODE") == "mock":
-        # Return a consistent demo user ID
         return "demo-user-123"
+
+    # If not in mock mode, strictly enforce the token's presence
+    if not credentials:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Not authenticated",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+
+    token = credentials.credentials
 
 
     try:

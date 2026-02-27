@@ -74,7 +74,7 @@ export const DashboardView = ({
             />
 
             {/* Quick Start Hero Section */}
-            <div className="relative group rounded-3xl overflow-hidden cursor-pointer" onClick={() => {
+            <div className="relative group rounded-3xl overflow-hidden cursor-pointer shadow-xl transition-all duration-500 hover:shadow-2xl hover:-translate-y-1" onClick={() => {
                 if (activeTask) {
                     onSelectTask(activeTask);
                 } else {
@@ -86,10 +86,10 @@ export const DashboardView = ({
                     }
                 }
             }}>
-                <div className="absolute inset-0 bg-gradient-to-r from-accent/20 to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <div className="absolute inset-0 bg-glass/10 backdrop-blur-md border border-accent/20 rounded-3xl group-hover:border-accent/50 transition-colors" />
+                <div className="absolute inset-0 bg-gradient-to-r from-accent/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                <div className="absolute inset-0 bg-black/40 backdrop-blur-2xl border border-white/10 rounded-3xl group-hover:border-white/20 transition-colors" />
 
-                <div className="relative p-8 flex flex-col items-center justify-center gap-4 text-center">
+                <div className="relative p-8 flex flex-col items-center justify-center gap-4 text-center z-10">
                     <div className="w-16 h-16 rounded-full bg-accent text-black flex items-center justify-center shadow-[0_0_30px_rgba(var(--accent-rgb),0.5)] group-hover:scale-110 transition-transform duration-300">
                         <div className="w-0 h-0 border-t-[10px] border-t-transparent border-l-[18px] border-l-black border-b-[10px] border-b-transparent ml-1" />
                     </div>
@@ -123,25 +123,25 @@ export const DashboardView = ({
             </div>
 
             {/* Placeholder for Analytics Link */}
-            <section className="bg-glass/5 rounded-3xl p-6 border border-glass-border flex flex-col md:flex-row justify-between items-start md:items-center gap-6 md:gap-0 transition-all hover:bg-glass/10">
+            <section className="bg-black/40 backdrop-blur-2xl rounded-3xl p-6 border border-white/10 shadow-lg flex flex-col md:flex-row justify-between items-start md:items-center gap-6 md:gap-0 transition-all hover:border-white/20 hover:shadow-xl">
                 <div className="flex items-center gap-4 cursor-pointer group w-full md:w-auto" onClick={() => setIsShutdownOpen(true)}>
-                    <div className="p-3 bg-red-500/10 rounded-xl group-hover:bg-red-500/20 transition-colors shrink-0">
-                        <LogOut className="w-6 h-6 text-red-400" />
+                    <div className="p-3 bg-red-500/10 rounded-2xl group-hover:bg-red-500/20 transition-colors shrink-0">
+                        <LogOut className="w-6 h-6 text-red-500" />
                     </div>
                     <div>
-                        <h2 className="text-lg font-bold uppercase tracking-wider text-white/90 group-hover:text-white transition-colors">Shutdown Ritual</h2>
-                        <p className="text-xs text-textDim group-hover:text-white/60">End day & clear mind</p>
+                        <h2 className="text-lg font-bold text-white/90 group-hover:text-white transition-colors">Shutdown Ritual</h2>
+                        <p className="text-xs text-white/50 group-hover:text-white/70 transition-colors">End day & clear mind</p>
                     </div>
                 </div>
 
-                <div className="flex items-center justify-between cursor-pointer group w-full md:w-auto md:ml-8 border-t border-glass-border md:border-none pt-4 md:pt-0" onClick={() => setIsAnalyticsOpen(true)}>
+                <div className="flex items-center justify-between cursor-pointer group w-full md:w-auto md:ml-8 border-t border-white/10 md:border-none pt-4 md:pt-0" onClick={() => setIsAnalyticsOpen(true)}>
                     {/* Existing Analysis Link */}
-                    <div className="flex items-center gap-2 text-textDim shrink-0">
+                    <div className="flex items-center gap-3 text-white/60 shrink-0">
                         <History className="w-5 h-5 group-hover:text-accent transition-colors" />
-                        <h2 className="text-lg font-bold uppercase tracking-wider group-hover:text-foreground transition-colors hidden sm:block">Session Archives</h2>
-                        <h2 className="text-lg font-bold uppercase tracking-wider group-hover:text-foreground transition-colors sm:hidden">Archives</h2>
+                        <h2 className="text-lg font-bold group-hover:text-white transition-colors hidden sm:block">Session Archives</h2>
+                        <h2 className="text-lg font-bold group-hover:text-white transition-colors sm:hidden">Archives</h2>
                     </div>
-                    <span className="text-xs text-textDim hover:text-accent ml-4 shrink-0">View Analysis &rarr;</span>
+                    <span className="text-sm font-semibold text-white/40 group-hover:text-accent ml-6 shrink-0 transition-colors">View Analysis &rarr;</span>
                 </div>
             </section>
 

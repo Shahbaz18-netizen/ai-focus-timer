@@ -95,9 +95,9 @@ export const TeamDashboard = ({ onJoinRoom, userId }: TeamDashboardProps) => {
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             onClick={() => onJoinRoom(room.id)}
-                            className="group relative bg-white/5 hover:bg-white/10 border border-white/5 hover:border-accent/30 rounded-3xl p-6 transition-all cursor-pointer overflow-hidden"
+                            className="group relative bg-black/40 backdrop-blur-2xl hover:bg-black/60 border border-white/10 hover:border-accent/30 rounded-3xl p-6 transition-all duration-500 cursor-pointer overflow-hidden shadow-lg hover:shadow-xl hover:-translate-y-1"
                         >
-                            <div className="absolute inset-0 bg-gradient-to-br from-accent/0 to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity" />
+                            <div className="absolute inset-0 bg-gradient-to-br from-accent/0 to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
                             <div className="relative flex justify-between items-start mb-4">
                                 <div className="p-3 bg-white/5 rounded-2xl">
@@ -127,11 +127,11 @@ export const TeamDashboard = ({ onJoinRoom, userId }: TeamDashboardProps) => {
 
             {/* Create Room Modal */}
             {showCreateModal && (
-                <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+                <div className="fixed inset-0 bg-black/60 backdrop-blur-md z-50 flex items-center justify-center p-4">
                     <motion.div
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
-                        className="bg-black border border-white/10 rounded-3xl p-8 w-full max-w-md space-y-6"
+                        className="bg-black/80 backdrop-blur-3xl border border-white/10 shadow-2xl rounded-3xl p-8 w-full max-w-md space-y-6"
                     >
                         <h2 className="text-2xl font-bold">Create Focus Room</h2>
                         <form onSubmit={handleCreateRoom} className="space-y-4">

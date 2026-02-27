@@ -7,19 +7,23 @@
   --color-background: #030303;
   --color-foreground: #fafafa;
   /* Default/Focus Accent */
-  --color-accent: #F1C40F;
+  --color-accent: #F59E0B;
+  /* Warm Amber */
   --color-accent-text: #000000;
 
   /* Mode Specific Colors (for reference or direct class usage) */
-  --color-focus: #F1C40F;
-  --color-short-break: #2ECC71;
-  --color-long-break: #3498DB;
+  --color-focus: #F59E0B;
+  --color-short-break: #10B981;
+  /* Emerald */
+  --color-long-break: #3B82F6;
+  /* Azure */
 
-  --color-glass: rgba(255, 255, 255, 0.03);
-  --color-glass-border: rgba(255, 255, 255, 0.08);
+  --color-glass: rgba(255, 255, 255, 0.05);
+  --color-glass-border: rgba(255, 255, 255, 0.1);
 
   --animate-fade-in: fade-in 0.6s cubic-bezier(0.16, 1, 0.3, 1);
   --animate-slide-up: slide-up 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  --animate-slide-in-bottom: slide-in-from-bottom 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 :root {
@@ -39,7 +43,7 @@ body {
 }
 
 .glass-card {
-  @apply bg-white/5 border border-white/10 backdrop-blur-xl rounded-xl transition-all duration-300;
+  @apply bg-black/40 border border-white/10 backdrop-blur-2xl rounded-3xl transition-all duration-500 shadow-xl;
   position: relative;
   overflow: hidden;
 }
@@ -48,13 +52,14 @@ body {
   content: "";
   position: absolute;
   inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
   pointer-events: none;
   z-index: -1;
 }
 
 .glass-card:hover {
-  @apply border-white/20 -translate-y-1 shadow-2xl shadow-black/50;
+  @apply border-white/20 shadow-2xl;
+  transform: translateY(-2px);
 }
 
 .timer-text {

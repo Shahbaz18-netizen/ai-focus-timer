@@ -120,7 +120,7 @@ export const BrainView = ({ userId }: BrainViewProps) => {
                     animate={{ opacity: 1, x: 0 }}
                     className="space-y-6"
                 >
-                    <div className="bg-white/5 border border-white/5 rounded-2xl p-6 min-h-[300px]">
+                    <div className="bg-black/40 backdrop-blur-2xl border border-white/10 shadow-xl rounded-3xl p-6 min-h-[300px]">
                         {!response && !isStreaming ? (
                             <div className="h-full flex flex-col items-center justify-center text-white/20 py-20">
                                 <MessageSquare className="w-12 h-12 mb-4" />
@@ -137,9 +137,9 @@ export const BrainView = ({ userId }: BrainViewProps) => {
                             value={query}
                             onChange={(e) => setQuery(e.target.value)}
                             placeholder="Query long-term memory..."
-                            className="flex-1 bg-white/5 border-white/10 h-12 text-lg"
+                            className="flex-1 bg-black/40 backdrop-blur-md border border-white/10 rounded-xl px-4 text-white placeholder-white/40 focus:border-accent h-12 text-lg transition-colors"
                         />
-                        <Button type="submit" disabled={isStreaming} className="h-12 w-12 p-0">
+                        <Button type="submit" disabled={isStreaming} className="h-12 w-12 p-0 rounded-xl bg-accent text-black hover:bg-accent/90 transition-colors">
                             <Send className="w-5 h-5" />
                         </Button>
                     </form>
@@ -166,9 +166,9 @@ export const BrainView = ({ userId }: BrainViewProps) => {
                             value={query}
                             onChange={(e) => setQuery(e.target.value)}
                             placeholder="Teach me something new..."
-                            className="flex-1 bg-white/5 border-white/10 h-12 text-sm sm:text-lg"
+                            className="flex-1 bg-black/40 backdrop-blur-md border border-white/10 rounded-xl px-4 text-white placeholder-white/40 focus:border-accent h-12 text-sm sm:text-lg transition-colors"
                         />
-                        <Button type="submit" className="h-12 px-6 w-full sm:w-auto">
+                        <Button type="submit" className="h-12 px-6 w-full sm:w-auto rounded-xl bg-accent text-black hover:bg-accent/90 font-bold transition-colors">
                             Teach Aura
                         </Button>
                     </form>
@@ -182,7 +182,7 @@ export const BrainView = ({ userId }: BrainViewProps) => {
                                     animate={{ opacity: 1, y: 0 }}
                                     exit={{ opacity: 0, scale: 0.95 }}
                                     transition={{ delay: i * 0.05 }}
-                                    className="bg-white/5 border border-white/5 hover:border-accent/30 rounded-2xl p-6 relative group transition-colors"
+                                    className="bg-black/40 backdrop-blur-2xl border border-white/10 hover:border-accent/30 rounded-3xl p-6 relative group transition-all duration-500 shadow-lg hover:shadow-xl hover:-translate-y-1"
                                 >
                                     <div className="flex justify-between items-start mb-4">
                                         <div className="flex items-center gap-2 text-xs font-mono text-accent/70 uppercase tracking-wider">

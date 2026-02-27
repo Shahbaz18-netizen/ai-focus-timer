@@ -101,7 +101,7 @@ export const AnalyticsView = ({ userId, actualMinutes, targetMinutes, reportingT
             {/* Main Action Area */}
             <div className="p-1 rounded-3xl bg-gradient-to-br from-white/10 to-transparent border border-white/5 mx-auto">
                 {!isUnlocked ? (
-                    <div className="p-10 text-center backdrop-blur-md bg-black/40 rounded-[22px]">
+                    <div className="p-10 text-center backdrop-blur-2xl bg-black/40 shadow-xl border border-white/10 rounded-[22px]">
                         <Lock className="w-12 h-12 text-white/20 mx-auto mb-4" />
                         <h3 className="text-xl font-bold text-white mb-2">Report Locked</h3>
                         <p className="text-textDim max-w-md mx-auto">
@@ -111,7 +111,7 @@ export const AnalyticsView = ({ userId, actualMinutes, targetMinutes, reportingT
                         </p>
                     </div>
                 ) : !report ? (
-                    <div className="p-10 backdrop-blur-md bg-black/40 rounded-[22px]">
+                    <div className="p-10 backdrop-blur-2xl bg-black/40 shadow-xl border border-white/10 rounded-[22px]">
                         {!isJournaling ? (
                             <div className="text-center">
                                 <Sparkles className="w-12 h-12 text-accent mx-auto mb-4" />
@@ -150,7 +150,7 @@ export const AnalyticsView = ({ userId, actualMinutes, targetMinutes, reportingT
                         )}
                     </div>
                 ) : (
-                    <div className="p-8 backdrop-blur-md bg-black/40 rounded-[22px] border-t border-accent/20">
+                    <div className="p-8 backdrop-blur-2xl bg-black/40 shadow-xl border border-white/10 rounded-[22px]">
                         <div className="flex items-center gap-3 mb-6 pb-6 border-b border-white/10">
                             <Activity className="w-6 h-6 text-accent" />
                             <h3 className="text-lg font-bold text-white uppercase tracking-widest">Oracle's Verdict</h3>
@@ -178,7 +178,7 @@ export const AnalyticsView = ({ userId, actualMinutes, targetMinutes, reportingT
             {reportHistory.length > 0 ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {reportHistory.slice(0, 7).map((h, i) => (
-                        <div key={i} className="bg-white/5 p-4 sm:p-6 rounded-2xl border border-white/5 hover:border-accent/30 transition-all cursor-pointer" onClick={() => setReport(h.summary)}>
+                        <div key={i} className="bg-black/40 backdrop-blur-2xl p-4 sm:p-6 rounded-2xl border border-white/10 hover:border-accent/30 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer hover:-translate-y-1" onClick={() => setReport(h.summary)}>
                             <div className="flex justify-between items-center mb-2">
                                 <span className="font-mono text-accent text-xs sm:text-sm">{new Date(h.date || h.timestamp).toLocaleDateString()}</span>
                                 <span className="text-[10px] sm:text-xs text-textDim bg-white/10 px-2 py-1 rounded-full">View &rarr;</span>
@@ -198,12 +198,12 @@ export const AnalyticsView = ({ userId, actualMinutes, targetMinutes, reportingT
                 <div className="space-y-6">
                     {/* Stat Cards */}
                     <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 gap-4">
-                        <div className="bg-white/5 rounded-2xl p-4 sm:p-6 flex flex-col items-center justify-center border border-white/5 relative overflow-hidden group">
+                        <div className="bg-black/40 backdrop-blur-2xl rounded-2xl p-4 sm:p-6 flex flex-col items-center justify-center border border-white/10 shadow-lg relative overflow-hidden group">
                             <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                             <div className="text-2xl sm:text-3xl font-bold text-white mb-1 relative z-10">{stats.summary.total_entries}</div>
                             <div className="text-[10px] sm:text-xs text-textDim uppercase tracking-wider relative z-10 text-center">Total Sessions</div>
                         </div>
-                        <div className="bg-white/5 rounded-2xl p-4 sm:p-6 flex flex-col items-center justify-center border border-white/5 relative overflow-hidden group">
+                        <div className="bg-black/40 backdrop-blur-2xl rounded-2xl p-4 sm:p-6 flex flex-col items-center justify-center border border-white/10 shadow-lg relative overflow-hidden group">
                             <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                             <div className="text-2xl sm:text-3xl font-bold text-white mb-1 relative z-10">{parseFloat(stats.summary.total_hours).toFixed(1)}</div>
                             <div className="text-[10px] sm:text-xs text-textDim uppercase tracking-wider relative z-10 text-center">Total Hours</div>

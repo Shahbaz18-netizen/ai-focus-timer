@@ -14,7 +14,8 @@ async def log_requests(request: Request, call_next):
     if path in ["/openapi.json", "/docs", "/ping", "/"]:
         return await call_next(request)
         
-    print(f"--> [REQ] {method} {path}")
+    import os
+    print(f"--> [REQ] {method} {path} | AURA_AUTH_MODE: {os.environ.get('AURA_AUTH_MODE')}")
     
     # Process the request
     response = await call_next(request)

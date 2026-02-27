@@ -187,7 +187,7 @@ export const KanbanBoard = ({
                                                 <Card className={`
                                                     relative overflow-hidden border transition-all duration-300
                                                     ${snapshot.isDragging ? 'shadow-[0_0_30px_rgba(0,0,0,0.5)] scale-105 rotate-2 border-accent' : 'hover:-translate-y-1 hover:shadow-xl'}
-                                                    ${type === 'done' ? 'bg-white/[0.02] border-white/5 opacity-60' : 'bg-glass border-white/10 backdrop-blur-md'}
+                                                    ${type === 'done' ? 'bg-white/[0.02] border-white/5 opacity-60' : 'border-white/10'}
                                                 `}>
                                                     {/* Gradient Glow on Hover */}
                                                     <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />

@@ -95,7 +95,7 @@ export const TaskWidget = ({ userId }: { userId: string }) => {
                 {/* Task List */}
                 <div className="flex-1 overflow-y-auto p-2 space-y-2 scrollbar-thin scrollbar-thumb-white/10">
                     {dailyTasks.length === 0 && (
-                        <div className="text-center text-white/30 text-xs py-8">
+                        <div className="text-center text-foreground/30 text-xs py-8">
                             No tasks for today.
                         </div>
                     )}
@@ -104,13 +104,13 @@ export const TaskWidget = ({ userId }: { userId: string }) => {
                         <div
                             key={task.id}
                             className={`group flex items-start sm:items-center gap-3 p-3 rounded-xl transition-all duration-200 border w-full ${task.is_completed
-                                ? 'bg-white/5 border-transparent opacity-60'
-                                : 'bg-white/5 hover:bg-white/10 border-white/5 hover:border-white/10 hover:shadow-lg hover:-translate-y-0.5'
+                                ? 'bg-panel border-transparent opacity-60'
+                                : 'bg-panel hover:bg-panel-hover border-white/5 hover:border-border-subtle hover:shadow-lg hover:-translate-y-0.5'
                                 }`}
                         >
                             <button
                                 onClick={() => handleToggle(task.id, task.is_completed)}
-                                className={`mt-0.5 sm:mt-0 transition-all duration-300 shrink-0 ${task.is_completed ? 'text-accent scale-110' : 'text-white/40 hover:text-white hover:scale-110'}`}
+                                className={`mt-0.5 sm:mt-0 transition-all duration-300 shrink-0 ${task.is_completed ? 'text-accent scale-110' : 'text-foreground/40 hover:text-foreground hover:scale-110'}`}
                             >
                                 {task.is_completed
                                     ? <div className="w-5 h-5 bg-accent rounded flex items-center justify-center text-black"><CheckSquare className="w-3.5 h-3.5 stroke-[3]" /></div>
@@ -118,7 +118,7 @@ export const TaskWidget = ({ userId }: { userId: string }) => {
                                 }
                             </button>
 
-                            <span className={`text-sm flex-1 break-words line-clamp-2 sm:truncate transition-colors font-medium mt-0.5 sm:mt-0 ${task.is_completed ? 'line-through text-white/40' : 'text-white/90'}`}>
+                            <span className={`text-sm flex-1 break-words line-clamp-2 sm:truncate transition-colors font-medium mt-0.5 sm:mt-0 ${task.is_completed ? 'line-through text-foreground/40' : 'text-foreground/90'}`}>
                                 {task.title}
                             </span>
                         </div>
@@ -135,7 +135,7 @@ export const TaskWidget = ({ userId }: { userId: string }) => {
                                 value={newTaskTitle}
                                 onChange={(e) => setNewTaskTitle(e.target.value)}
                                 placeholder="What needs to be done?"
-                                className="w-full bg-black/40 text-white text-sm px-4 py-3 rounded-xl border border-white/10 focus:border-accent/50 focus:bg-black/60 focus:outline-none placeholder:text-white/20 transition-all"
+                                className="w-full bg-background/40 text-foreground text-sm px-4 py-3 rounded-xl border border-border-subtle focus:border-accent/50 focus:bg-background/60 focus:outline-none placeholder:text-foreground/20 transition-all"
                                 onKeyDown={(e) => {
                                     if (e.key === 'Escape') setIsAdding(false);
                                 }}
@@ -144,7 +144,7 @@ export const TaskWidget = ({ userId }: { userId: string }) => {
                                 <button
                                     type="button"
                                     onClick={() => setIsAdding(false)}
-                                    className="px-3 py-1.5 text-white/50 hover:text-white transition-colors"
+                                    className="px-3 py-1.5 text-foreground/50 hover:text-foreground transition-colors"
                                 >
                                     Cancel
                                 </button>
@@ -159,7 +159,7 @@ export const TaskWidget = ({ userId }: { userId: string }) => {
                     ) : (
                         <button
                             onClick={() => setIsAdding(true)}
-                            className="w-full flex items-center justify-center gap-2 text-xs font-bold uppercase tracking-wider text-white/40 hover:text-accent hover:bg-white/5 transition-all p-3 rounded-xl border border-dashed border-white/10 hover:border-accent/30"
+                            className="w-full flex items-center justify-center gap-2 text-xs font-bold uppercase tracking-wider text-foreground/40 hover:text-accent hover:bg-panel transition-all p-3 rounded-xl border border-dashed border-border-subtle hover:border-accent/30"
                         >
                             <Plus className="w-4 h-4" />
                             <span>Add New Task</span>

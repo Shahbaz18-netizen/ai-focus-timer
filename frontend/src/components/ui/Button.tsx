@@ -12,7 +12,7 @@ export const Button = ({
 }: React.ButtonHTMLAttributes<HTMLButtonElement> & { variant?: 'primary' | 'secondary' | 'outline' }) => {
     const variants = {
         primary: "bg-accent text-black hover:opacity-90",
-        secondary: "bg-glass text-foreground hover:bg-white/5 border border-glass-border",
+        secondary: "bg-glass text-foreground hover:bg-panel border border-glass-border",
         outline: "bg-transparent border border-accent text-accent hover:bg-accent hover:text-black",
     };
 

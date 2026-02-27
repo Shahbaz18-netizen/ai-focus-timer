@@ -231,15 +231,15 @@ export const InteractiveTimer = ({
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="absolute inset-0 bg-black/20 backdrop-blur-[1px] z-40 pointer-events-none flex flex-col items-center justify-center"
+                        className="absolute inset-0 bg-background/20 backdrop-blur-[1px] z-40 pointer-events-none flex flex-col items-center justify-center"
                     >
                         <motion.div
                             initial={{ scale: 0.9 }}
                             animate={{ scale: [0.9, 1, 0.9] }}
                             transition={{ repeat: Infinity, duration: 2 }}
-                            className="bg-white/10 px-6 py-2 rounded-full border border-white/20 shadow-2xl"
+                            className="bg-panel-hover px-6 py-2 rounded-full border border-border-subtle shadow-2xl"
                         >
-                            <span className="text-xs font-bold text-white tracking-[0.3em] uppercase">Transitioning...</span>
+                            <span className="text-xs font-bold text-foreground tracking-[0.3em] uppercase">Transitioning...</span>
                         </motion.div>
                     </motion.div>
                 )}
@@ -247,7 +247,7 @@ export const InteractiveTimer = ({
 
             {/* TABS ALWAYS VISIBLE */}
             {!isZenMode && (
-                <div className="flex bg-white/10 rounded-full p-1 w-fit mx-auto relative mb-8 z-50">
+                <div className="flex bg-panel-hover rounded-full p-1 w-fit mx-auto relative mb-8 z-50">
                     {[
                         { id: 'pomodoro', label: 'Pomodoro', mins: pomodoroSettings.focusLength },
                         { id: 'shortBreak', label: 'Short Break', mins: pomodoroSettings.shortBreakLength },
@@ -267,7 +267,7 @@ export const InteractiveTimer = ({
                                 });
                                 onStatusChange?.('idle');
                             }}
-                            className={`relative px-6 py-2 rounded-full text-sm font-bold transition-colors z-10 ${mode === tab.id ? 'text-black' : 'text-white/60 hover:text-white'
+                            className={`relative px-6 py-2 rounded-full text-sm font-bold transition-colors z-10 ${mode === tab.id ? 'text-black' : 'text-foreground/60 hover:text-foreground'
                                 }`}
                         >
                             {mode === tab.id && (
@@ -288,7 +288,7 @@ export const InteractiveTimer = ({
                 <div className="flex justify-end w-full mb-4 px-4 relative z-50">
                     <button
                         onClick={() => setShowSettings(!showSettings)}
-                        className="text-white/40 hover:text-white transition-colors cursor-pointer p-3 bg-black/40 hover:bg-black/60 rounded-full backdrop-blur-md border border-white/10 shadow-lg"
+                        className="text-foreground/40 hover:text-foreground transition-colors cursor-pointer p-3 bg-background/40 hover:bg-background/60 rounded-full backdrop-blur-md border border-border-subtle shadow-lg"
                         title="Pomodoro Settings"
                     >
                         <Settings className="w-5 h-5" />
@@ -305,41 +305,41 @@ export const InteractiveTimer = ({
                         exit={{ opacity: 0, height: 0, y: -20 }}
                         className="overflow-hidden w-full max-w-sm absolute top-40 z-[60] shadow-2xl"
                     >
-                        <div className="bg-black/90 backdrop-blur-3xl border border-white/10 rounded-2xl p-4 sm:p-6 text-left space-y-4 shadow-[0_0_50px_rgba(0,0,0,0.8)] max-h-[80vh] overflow-y-auto w-[calc(100vw-2rem)] sm:w-full">
+                        <div className="bg-background/90 backdrop-blur-3xl border border-border-subtle rounded-2xl p-4 sm:p-6 text-left space-y-4 shadow-[0_0_50px_rgba(0,0,0,0.8)] max-h-[80vh] overflow-y-auto w-[calc(100vw-2rem)] sm:w-full">
                             <div className="flex justify-between items-center pb-2 border-b border-white/5">
-                                <h3 className="text-white font-bold tracking-wide">Custom Pomodoro</h3>
-                                <X className="w-4 h-4 text-white/40 cursor-pointer hover:text-white" onClick={() => setShowSettings(false)} />
+                                <h3 className="text-foreground font-bold tracking-wide">Custom Pomodoro</h3>
+                                <X className="w-4 h-4 text-foreground/40 cursor-pointer hover:text-foreground" onClick={() => setShowSettings(false)} />
                             </div>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
-                                    <label className="text-[10px] uppercase tracking-wider text-white/50 block mb-1">Focus (min)</label>
-                                    <input type="number" value={customSettings.focusLength} onChange={(e) => setCustomSettings({ ...customSettings, focusLength: parseInt(e.target.value) || 25 })} className="w-full bg-white/5 border border-white/10 rounded-md p-2 text-white focus:outline-none focus:border-accent" />
+                                    <label className="text-[10px] uppercase tracking-wider text-foreground/50 block mb-1">Focus (min)</label>
+                                    <input type="number" value={customSettings.focusLength} onChange={(e) => setCustomSettings({ ...customSettings, focusLength: parseInt(e.target.value) || 25 })} className="w-full bg-panel border border-border-subtle rounded-md p-2 text-foreground focus:outline-none focus:border-accent" />
                                 </div>
                                 <div>
-                                    <label className="text-[10px] uppercase tracking-wider text-white/50 block mb-1">Short Break (min)</label>
-                                    <input type="number" value={customSettings.shortBreakLength} onChange={(e) => setCustomSettings({ ...customSettings, shortBreakLength: parseInt(e.target.value) || 5 })} className="w-full bg-white/5 border border-white/10 rounded-md p-2 text-white focus:outline-none focus:border-accent" />
+                                    <label className="text-[10px] uppercase tracking-wider text-foreground/50 block mb-1">Short Break (min)</label>
+                                    <input type="number" value={customSettings.shortBreakLength} onChange={(e) => setCustomSettings({ ...customSettings, shortBreakLength: parseInt(e.target.value) || 5 })} className="w-full bg-panel border border-border-subtle rounded-md p-2 text-foreground focus:outline-none focus:border-accent" />
                                 </div>
                                 <div>
-                                    <label className="text-[10px] uppercase tracking-wider text-white/50 block mb-1">Long Break (min)</label>
-                                    <input type="number" value={customSettings.longBreakLength} onChange={(e) => setCustomSettings({ ...customSettings, longBreakLength: parseInt(e.target.value) || 15 })} className="w-full bg-white/5 border border-white/10 rounded-md p-2 text-white focus:outline-none focus:border-accent" />
+                                    <label className="text-[10px] uppercase tracking-wider text-foreground/50 block mb-1">Long Break (min)</label>
+                                    <input type="number" value={customSettings.longBreakLength} onChange={(e) => setCustomSettings({ ...customSettings, longBreakLength: parseInt(e.target.value) || 15 })} className="w-full bg-panel border border-border-subtle rounded-md p-2 text-foreground focus:outline-none focus:border-accent" />
                                 </div>
                                 <div>
-                                    <label className="text-[10px] uppercase tracking-wider text-white/50 block mb-1">Rounds before Long</label>
-                                    <input type="number" value={customSettings.sessionsBeforeLongBreak} onChange={(e) => setCustomSettings({ ...customSettings, sessionsBeforeLongBreak: parseInt(e.target.value) || 4 })} className="w-full bg-white/5 border border-white/10 rounded-md p-2 text-white focus:outline-none focus:border-accent" />
+                                    <label className="text-[10px] uppercase tracking-wider text-foreground/50 block mb-1">Rounds before Long</label>
+                                    <input type="number" value={customSettings.sessionsBeforeLongBreak} onChange={(e) => setCustomSettings({ ...customSettings, sessionsBeforeLongBreak: parseInt(e.target.value) || 4 })} className="w-full bg-panel border border-border-subtle rounded-md p-2 text-foreground focus:outline-none focus:border-accent" />
                                 </div>
                             </div>
                             <div className="space-y-3 pt-2">
                                 <label className="flex items-center gap-3 cursor-pointer group">
-                                    <div className={`w-10 h-6 rounded-full p-1 transition-colors ${customSettings.autoStartBreak ? 'bg-accent' : 'bg-white/10'}`} onClick={() => setCustomSettings({ ...customSettings, autoStartBreak: !customSettings.autoStartBreak })}>
+                                    <div className={`w-10 h-6 rounded-full p-1 transition-colors ${customSettings.autoStartBreak ? 'bg-accent' : 'bg-panel-hover'}`} onClick={() => setCustomSettings({ ...customSettings, autoStartBreak: !customSettings.autoStartBreak })}>
                                         <div className={`w-4 h-4 rounded-full bg-white transition-transform ${customSettings.autoStartBreak ? 'translate-x-4' : 'translate-x-0'}`} />
                                     </div>
-                                    <span className="text-xs text-white/60 group-hover:text-white transition-colors">Auto-start Break</span>
+                                    <span className="text-xs text-foreground/60 group-hover:text-foreground transition-colors">Auto-start Break</span>
                                 </label>
                                 <label className="flex items-center gap-3 cursor-pointer group">
-                                    <div className={`w-10 h-6 rounded-full p-1 transition-colors ${customSettings.autoStartFocus ? 'bg-accent' : 'bg-white/10'}`} onClick={() => setCustomSettings({ ...customSettings, autoStartFocus: !customSettings.autoStartFocus })}>
+                                    <div className={`w-10 h-6 rounded-full p-1 transition-colors ${customSettings.autoStartFocus ? 'bg-accent' : 'bg-panel-hover'}`} onClick={() => setCustomSettings({ ...customSettings, autoStartFocus: !customSettings.autoStartFocus })}>
                                         <div className={`w-4 h-4 rounded-full bg-white transition-transform ${customSettings.autoStartFocus ? 'translate-x-4' : 'translate-x-0'}`} />
                                     </div>
-                                    <span className="text-xs text-white/60 group-hover:text-white transition-colors">Auto-start Focus</span>
+                                    <span className="text-xs text-foreground/60 group-hover:text-foreground transition-colors">Auto-start Focus</span>
                                 </label>
                             </div>
                             <button
@@ -367,8 +367,8 @@ export const InteractiveTimer = ({
                 <div className="w-full max-w-2xl space-y-12 text-center animate-in fade-in slide-in-from-bottom-8 duration-700 relative">
 
                     <div className="space-y-4">
-                        <h2 className="text-6xl md:text-8xl font-bold tracking-tighter text-white font-mono">{String(duration).padStart(2, '0')}:00</h2>
-                        <p className="text-white/40 font-mono text-xs uppercase tracking-[0.3em]">{mode === 'pomodoro' ? 'Focus Session' : mode === 'shortBreak' ? 'Short Break' : 'Long Break'}</p>
+                        <h2 className="text-6xl md:text-8xl font-bold tracking-tighter text-foreground font-mono">{String(duration).padStart(2, '0')}:00</h2>
+                        <p className="text-foreground/40 font-mono text-xs uppercase tracking-[0.3em]">{mode === 'pomodoro' ? 'Focus Session' : mode === 'shortBreak' ? 'Short Break' : 'Long Break'}</p>
                     </div>
 
                     <div className="flex flex-col items-center gap-6 mt-8 mb-8">
@@ -406,7 +406,7 @@ export const InteractiveTimer = ({
                                 }}
                                 className={`px-4 sm:px-8 py-3 sm:py-4 rounded-2xl border transition-all duration-300 w-[calc(50%-0.5rem)] sm:w-auto ${duration === preset
                                     ? 'bg-white text-black border-white shadow-[0_0_30px_rgba(255,255,255,0.3)]'
-                                    : 'bg-white/5 border-white/5 text-white/40 hover:bg-white/10 hover:text-white'
+                                    : 'bg-panel border-white/5 text-foreground/40 hover:bg-panel-hover hover:text-foreground'
                                     }`}
                             >
                                 <span className="text-xl sm:text-2xl font-bold font-mono block">{preset}</span>
@@ -446,7 +446,7 @@ export const InteractiveTimer = ({
                                     <FlipDigit digit={m1} />
                                     <FlipDigit digit={m2} />
                                 </div>
-                                <span className="text-[10px] md:text-sm font-bold text-white/60 tracking-[0.5em] md:tracking-[0.5em] uppercase font-mono hidden md:block">
+                                <span className="text-[10px] md:text-sm font-bold text-foreground/60 tracking-[0.5em] md:tracking-[0.5em] uppercase font-mono hidden md:block">
                                     Minutes
                                 </span>
                             </div>
@@ -463,7 +463,7 @@ export const InteractiveTimer = ({
                                     <FlipDigit digit={s1} />
                                     <FlipDigit digit={s2} />
                                 </div>
-                                <span className="text-[10px] md:text-sm font-bold text-white/60 tracking-[0.5em] md:tracking-[0.5em] uppercase font-mono hidden md:block">
+                                <span className="text-[10px] md:text-sm font-bold text-foreground/60 tracking-[0.5em] md:tracking-[0.5em] uppercase font-mono hidden md:block">
                                     Seconds
                                 </span>
                             </div>
@@ -472,7 +472,7 @@ export const InteractiveTimer = ({
                         {/* SESSION INDICATOR */}
                         {/* Fix #7: count uses store setting; #8: uses global session counter */}
                         <div className="flex items-center justify-center gap-3 opacity-60 hover:opacity-100 transition-opacity">
-                            <span className="text-[10px] font-bold tracking-widest text-white/70 uppercase mr-2">Session</span>
+                            <span className="text-[10px] font-bold tracking-widest text-foreground/70 uppercase mr-2">Session</span>
                             {[...Array(pomodoroSettings.sessionsBeforeLongBreak)].map((_, i) => (
                                 <div
                                     key={i}
@@ -493,7 +493,7 @@ export const InteractiveTimer = ({
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 exit={{ opacity: 0, y: 20 }}
-                                className="flex items-center gap-2 sm:gap-4 bg-[#1a1a1a]/90 backdrop-blur-xl border border-white/10 p-2 sm:p-2 rounded-full shadow-2xl z-50 mb-12 sm:mb-0 scale-90 sm:scale-100"
+                                className="flex items-center gap-2 sm:gap-4 bg-[#1a1a1a]/90 backdrop-blur-xl border border-border-subtle p-2 sm:p-2 rounded-full shadow-2xl z-50 mb-12 sm:mb-0 scale-90 sm:scale-100"
                             >
                                 <button
                                     onClick={() => {
@@ -506,13 +506,13 @@ export const InteractiveTimer = ({
                                             endTime: isActive && endTime ? endTime + addSecs * 1000 : endTime
                                         });
                                     }}
-                                    className="p-3 text-white/50 hover:text-white hover:bg-white/10 rounded-full transition-colors"
+                                    className="p-3 text-foreground/50 hover:text-foreground hover:bg-panel-hover rounded-full transition-colors"
                                     title="+5 Minutes"
                                 >
                                     <Plus className="w-5 h-5" />
                                 </button>
 
-                                <div className="w-[1px] h-6 bg-white/10" />
+                                <div className="w-[1px] h-6 bg-panel-hover" />
 
                                 <button
                                     onClick={() => {
@@ -527,7 +527,7 @@ export const InteractiveTimer = ({
                                         onStatusChange?.(newActive ? 'focusing' : 'paused');
                                     }}
                                     className={`p-4 rounded-full transition-all ${isActive
-                                        ? 'bg-white/10 text-white hover:bg-white/20'
+                                        ? 'bg-panel-hover text-foreground hover:bg-white/20'
                                         : 'bg-accent text-black hover:bg-accent/90'}`}
                                 >
                                     {isActive ? <Pause className="w-6 h-6 fill-current" /> : <Play className="w-6 h-6 fill-current" />}
@@ -539,7 +539,7 @@ export const InteractiveTimer = ({
                                         if (isZenMode) exitFullscreen();
                                         else enterFullscreen();
                                     }}
-                                    className={`p-3 rounded-full transition-colors ${isZenMode ? 'text-accent bg-accent/10' : 'text-white/30 hover:text-white hover:bg-white/10'}`}
+                                    className={`p-3 rounded-full transition-colors ${isZenMode ? 'text-accent bg-accent/10' : 'text-foreground/30 hover:text-foreground hover:bg-panel-hover'}`}
                                     title={isZenMode ? "Exit Fullscreen" : "Enter Fullscreen"}
                                 >
                                     {isZenMode ? <Minimize2 className="w-5 h-5" /> : <Maximize2 className="w-5 h-5" />}
@@ -551,25 +551,25 @@ export const InteractiveTimer = ({
                                             if (pipWindow) closePiP();
                                             else requestPiP({ width: 340, height: 180 });
                                         }}
-                                        className={`p-3 rounded-full transition-colors ${pipWindow ? 'text-accent bg-accent/10' : 'text-white/30 hover:text-white hover:bg-white/10'}`}
+                                        className={`p-3 rounded-full transition-colors ${pipWindow ? 'text-accent bg-accent/10' : 'text-foreground/30 hover:text-foreground hover:bg-panel-hover'}`}
                                         title={pipWindow ? "Close PiP" : "Pop Out Timer"}
                                     >
                                         <PictureInPicture className="w-5 h-5" />
                                     </button>
                                 )}
 
-                                <div className="w-[1px] h-6 bg-white/10" />
+                                <div className="w-[1px] h-6 bg-panel-hover" />
 
                                 <button
                                     onClick={handleCancel}
-                                    className="p-3 text-white/50 hover:text-red-400 hover:bg-red-500/10 rounded-full transition-colors"
+                                    className="p-3 text-foreground/50 hover:text-red-400 hover:bg-red-500/10 rounded-full transition-colors"
                                     title="End Session"
                                 >
                                     <X className="w-5 h-5" />
                                 </button>
                                 {mode !== 'pomodoro' && (
                                     <>
-                                        <div className="w-[1px] h-6 bg-white/10" />
+                                        <div className="w-[1px] h-6 bg-panel-hover" />
                                         <button
                                             onClick={() => onComplete(duration)}
                                             className="px-4 py-2 text-xs font-bold uppercase tracking-wider text-black bg-white rounded-full hover:bg-white/80 transition-colors"
@@ -584,7 +584,7 @@ export const InteractiveTimer = ({
                     </AnimatePresence>
 
                     {/* MINIMALIST PROGRESS BAR (Bottom) */}
-                    <div className="fixed bottom-0 left-0 right-0 h-1 bg-white/5 z-50">
+                    <div className="fixed bottom-0 left-0 right-0 h-1 bg-panel z-50">
                         <motion.div
                             className="h-full bg-accent shadow-[0_0_20px_rgba(var(--accent-rgb),0.6)]"
                             initial={{ width: 0 }}
@@ -597,7 +597,7 @@ export const InteractiveTimer = ({
 
             {/* PICTURE-IN-PICTURE RENDERER */}
             {pipWindow && createPortal(
-                <div className="flex flex-col items-center justify-center h-full w-full bg-[#0a0a0a] text-white select-none">
+                <div className="flex flex-col items-center justify-center h-full w-full bg-[#0a0a0a] text-foreground select-none">
                     <div className="flex items-center gap-2 mb-4 scale-75 origin-bottom">
                         <FlipDigit digit={m1} />
                         <FlipDigit digit={m2} />
@@ -615,7 +615,7 @@ export const InteractiveTimer = ({
                             if (newActive) requestLock();
                             else releaseLock();
                         }}
-                        className={`p-3 rounded-full transition-all ${isActive ? 'bg-white/10 text-white' : 'bg-[#e5ff45] text-black'} outline-none`}
+                        className={`p-3 rounded-full transition-all ${isActive ? 'bg-panel-hover text-foreground' : 'bg-[#e5ff45] text-black'} outline-none`}
                     >
                         {isActive ? <Pause className="w-5 h-5 fill-current" /> : <Play className="w-5 h-5 fill-current" />}
                     </button>

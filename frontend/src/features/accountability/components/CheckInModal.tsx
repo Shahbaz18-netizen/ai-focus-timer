@@ -15,7 +15,7 @@ export const CheckInModal = ({ isOpen, onClose, targetTime }: CheckInModalProps)
     return (
         <AnimatePresence>
             {isOpen && (
-                <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/60 backdrop-blur-sm">
+                <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-background/60 backdrop-blur-sm">
                     <motion.div
                         initial={{ opacity: 0, y: 100 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -23,7 +23,7 @@ export const CheckInModal = ({ isOpen, onClose, targetTime }: CheckInModalProps)
                         className="w-full sm:w-auto"
                     >
                         <Card className="max-w-md w-full border-accent shadow-[0_-20px_50px_rgba(var(--accent-rgb),0.1)] rounded-t-3xl sm:rounded-2xl rounded-b-none sm:rounded-b-2xl relative pb-8 sm:pb-6">
-                            <button onClick={onClose} className="absolute top-4 right-4 text-textDim hover:text-white">
+                            <button onClick={onClose} className="absolute top-4 right-4 text-textDim hover:text-foreground">
                                 <X className="w-5 h-5" />
                             </button>
 

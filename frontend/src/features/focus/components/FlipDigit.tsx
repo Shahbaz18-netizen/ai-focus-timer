@@ -95,7 +95,7 @@ export const FlipDigit = ({ digit, label }: FlipDigitProps) => {
 
 
                 {/* Hinge Line */}
-                <div className="absolute top-1/2 left-0 right-0 h-[3px] bg-black z-20 shadow-[0_1px_2px_rgba(0,0,0,0.5)]" />
+                <div className="absolute top-1/2 left-0 right-0 h-[3px] bg-background z-20 shadow-[0_1px_2px_rgba(0,0,0,0.5)]" />
 
                 {/* Side Accents (Hinge mechanism) */}
                 <div className="absolute top-1/2 -left-1 w-2 h-4 bg-[#333] rounded-r-md -translate-y-1/2 z-20 border border-black/40" />

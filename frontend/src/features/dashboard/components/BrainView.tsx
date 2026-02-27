@@ -83,7 +83,7 @@ export const BrainView = ({ userId }: BrainViewProps) => {
         }
     };
 
-    if (loading) return <div className="text-center text-white/50 p-20">Accessing Long-Term Memory...</div>;
+    if (loading) return <div className="text-center text-foreground/50 p-20">Accessing Long-Term Memory...</div>;
 
     return (
         <div className="w-full max-w-4xl mx-auto space-y-8">
@@ -93,21 +93,21 @@ export const BrainView = ({ userId }: BrainViewProps) => {
                         <Brain className="w-6 h-6 sm:w-8 sm:h-8 text-accent" />
                     </div>
                     <div>
-                        <h2 className="text-xl sm:text-3xl font-bold tracking-tighter text-white">Memory Core</h2>
+                        <h2 className="text-xl sm:text-3xl font-bold tracking-tighter text-foreground">Memory Core</h2>
                         <p className="text-sm sm:text-base text-textDim">Your AI Coach's long-term retrieval patterns.</p>
                     </div>
                 </div>
 
-                <div className="flex bg-white/5 rounded-lg p-1 w-full sm:w-auto overflow-x-auto">
+                <div className="flex bg-panel rounded-lg p-1 w-full sm:w-auto overflow-x-auto">
                     <button
                         onClick={() => setActiveTab('memories')}
-                        className={`flex-1 sm:flex-none px-4 py-2 rounded-md text-sm font-bold transition-all ${activeTab === 'memories' ? 'bg-accent text-black' : 'text-white/50 hover:text-white'}`}
+                        className={`flex-1 sm:flex-none px-4 py-2 rounded-md text-sm font-bold transition-all ${activeTab === 'memories' ? 'bg-accent text-black' : 'text-foreground/50 hover:text-foreground'}`}
                     >
                         Index
                     </button>
                     <button
                         onClick={() => setActiveTab('chat')}
-                        className={`flex-1 sm:flex-none px-4 py-2 rounded-md text-sm font-bold transition-all ${activeTab === 'chat' ? 'bg-accent text-black' : 'text-white/50 hover:text-white'}`}
+                        className={`flex-1 sm:flex-none px-4 py-2 rounded-md text-sm font-bold transition-all ${activeTab === 'chat' ? 'bg-accent text-black' : 'text-foreground/50 hover:text-foreground'}`}
                     >
                         Chat
                     </button>
@@ -120,9 +120,9 @@ export const BrainView = ({ userId }: BrainViewProps) => {
                     animate={{ opacity: 1, x: 0 }}
                     className="space-y-6"
                 >
-                    <div className="bg-black/40 backdrop-blur-2xl border border-white/10 shadow-xl rounded-3xl p-6 min-h-[300px]">
+                    <div className="bg-background/40 backdrop-blur-2xl border border-border-subtle shadow-xl rounded-3xl p-6 min-h-[300px]">
                         {!response && !isStreaming ? (
-                            <div className="h-full flex flex-col items-center justify-center text-white/20 py-20">
+                            <div className="h-full flex flex-col items-center justify-center text-foreground/20 py-20">
                                 <MessageSquare className="w-12 h-12 mb-4" />
                                 <p>Ask me about your past sessions, wins, or blockers.</p>
                                 <p className="text-sm mt-2">Example: "How did I fix the Redis bug?"</p>
@@ -137,7 +137,7 @@ export const BrainView = ({ userId }: BrainViewProps) => {
                             value={query}
                             onChange={(e) => setQuery(e.target.value)}
                             placeholder="Query long-term memory..."
-                            className="flex-1 bg-black/40 backdrop-blur-md border border-white/10 rounded-xl px-4 text-white placeholder-white/40 focus:border-accent h-12 text-lg transition-colors"
+                            className="flex-1 bg-background/40 backdrop-blur-md border border-border-subtle rounded-xl px-4 text-foreground placeholder-white/40 focus:border-accent h-12 text-lg transition-colors"
                         />
                         <Button type="submit" disabled={isStreaming} className="h-12 w-12 p-0 rounded-xl bg-accent text-black hover:bg-accent/90 transition-colors">
                             <Send className="w-5 h-5" />
@@ -166,7 +166,7 @@ export const BrainView = ({ userId }: BrainViewProps) => {
                             value={query}
                             onChange={(e) => setQuery(e.target.value)}
                             placeholder="Teach me something new..."
-                            className="flex-1 bg-black/40 backdrop-blur-md border border-white/10 rounded-xl px-4 text-white placeholder-white/40 focus:border-accent h-12 text-sm sm:text-lg transition-colors"
+                            className="flex-1 bg-background/40 backdrop-blur-md border border-border-subtle rounded-xl px-4 text-foreground placeholder-white/40 focus:border-accent h-12 text-sm sm:text-lg transition-colors"
                         />
                         <Button type="submit" className="h-12 px-6 w-full sm:w-auto rounded-xl bg-accent text-black hover:bg-accent/90 font-bold transition-colors">
                             Teach Aura
@@ -182,7 +182,7 @@ export const BrainView = ({ userId }: BrainViewProps) => {
                                     animate={{ opacity: 1, y: 0 }}
                                     exit={{ opacity: 0, scale: 0.95 }}
                                     transition={{ delay: i * 0.05 }}
-                                    className="bg-black/40 backdrop-blur-2xl border border-white/10 hover:border-accent/30 rounded-3xl p-6 relative group transition-all duration-500 shadow-lg hover:shadow-xl hover:-translate-y-1"
+                                    className="bg-background/40 backdrop-blur-2xl border border-border-subtle hover:border-accent/30 rounded-3xl p-6 relative group transition-all duration-500 shadow-lg hover:shadow-xl hover:-translate-y-1"
                                 >
                                     <div className="flex justify-between items-start mb-4">
                                         <div className="flex items-center gap-2 text-xs font-mono text-accent/70 uppercase tracking-wider">
@@ -201,11 +201,11 @@ export const BrainView = ({ userId }: BrainViewProps) => {
                                         </button>
                                     </div>
 
-                                    <p className="text-white/80 leading-relaxed font-light">
+                                    <p className="text-foreground/80 leading-relaxed font-light">
                                         "{memory.content}"
                                     </p>
 
-                                    <div className="mt-4 pt-4 border-t border-white/5 flex justify-between items-center text-xs text-white/30">
+                                    <div className="mt-4 pt-4 border-t border-white/5 flex justify-between items-center text-xs text-foreground/30">
                                         <span>{new Date(memory.created_at).toLocaleDateString()}</span>
                                         {memory.metadata?.duration && (
                                             <span>{memory.metadata.duration} mins</span>
@@ -217,7 +217,7 @@ export const BrainView = ({ userId }: BrainViewProps) => {
 
                         {memories.length === 0 && (
                             <div className="col-span-full py-20 text-center border-2 border-dashed border-white/5 rounded-3xl">
-                                <Brain className="w-12 h-12 text-white/10 mx-auto mb-4" />
+                                <Brain className="w-12 h-12 text-foreground/10 mx-auto mb-4" />
                                 <p className="text-textDim">No memories yet. Complete a focus session to form one.</p>
                             </div>
                         )}

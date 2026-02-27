@@ -415,7 +415,7 @@ export default function AuraFocusOS() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-black flex flex-col items-center justify-center p-4">
+      <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4">
         <AuraLoader />
       </div>
     );
@@ -450,7 +450,7 @@ export default function AuraFocusOS() {
       {!isZenMode && (
         <>
           {/* Floating Top Controls */}
-          <div className="fixed top-6 right-6 z-40 flex items-center gap-4 bg-black/20 backdrop-blur-xl border border-white/10 rounded-full px-4 py-2 shadow-xl animate-in fade-in slide-in-from-top-4">
+          <div className="fixed top-6 right-6 z-40 flex items-center gap-4 bg-background/20 backdrop-blur-xl border border-border-subtle rounded-full px-4 py-2 shadow-xl animate-in fade-in slide-in-from-top-4">
             <UserProfile userId={USER_ID} email={userEmail} />
             <div className="w-px h-4 bg-white/20" />
             <DigitalClock />

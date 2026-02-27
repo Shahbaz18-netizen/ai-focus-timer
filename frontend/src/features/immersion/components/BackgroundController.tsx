@@ -21,7 +21,7 @@ export const BackgroundController = () => {
     }, [currentScene.url]);
 
     return (
-        <div className="fixed inset-0 z-0 h-screen w-screen overflow-hidden bg-black transition-colors duration-1000">
+        <div className="fixed inset-0 z-0 h-screen w-screen overflow-hidden bg-background transition-colors duration-1000">
             <AnimatePresence mode="wait">
                 {currentScene.url ? (
                     <motion.div
@@ -53,7 +53,7 @@ export const BackgroundController = () => {
 
                         {/* Overlay to darken/tint */}
                         <div
-                            className="absolute inset-0 bg-black transition-all duration-1000"
+                            className="absolute inset-0 bg-background transition-all duration-1000"
                             style={{
                                 opacity: 1 - (currentScene.brightness ?? 0.5),
                                 backdropFilter: currentScene.blur ? `blur(${currentScene.blur}px)` : 'none'

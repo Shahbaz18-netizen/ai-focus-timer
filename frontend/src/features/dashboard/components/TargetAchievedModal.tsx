@@ -49,7 +49,7 @@ export const TargetAchievedModal = ({ isOpen, onClose, onViewAnalytics, targetMi
     return (
         <AnimatePresence>
             {isOpen && (
-                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-background/80 backdrop-blur-md">
                     <motion.div
                         initial={{ opacity: 0, scale: 0.5, y: 100 }}
                         animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -58,7 +58,7 @@ export const TargetAchievedModal = ({ isOpen, onClose, onViewAnalytics, targetMi
                     >
                         <button
                             onClick={onClose}
-                            className="absolute top-4 right-4 text-zinc-500 hover:text-white transition-colors"
+                            className="absolute top-4 right-4 text-zinc-500 hover:text-foreground transition-colors"
                         >
                             <X className="w-6 h-6" />
                         </button>
@@ -67,7 +67,7 @@ export const TargetAchievedModal = ({ isOpen, onClose, onViewAnalytics, targetMi
                             <Trophy className="w-12 h-12 text-accent" />
                         </div>
 
-                        <h2 className="text-3xl font-bold text-white mb-2 tracking-tight">
+                        <h2 className="text-3xl font-bold text-foreground mb-2 tracking-tight">
                             Target Time Reached!
                         </h2>
                         <p className="text-zinc-400 mb-8 text-lg">

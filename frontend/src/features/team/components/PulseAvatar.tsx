@@ -29,7 +29,7 @@ export const PulseAvatar = ({ participant }: PulseAvatarProps) => {
                         }}
                     />
                 )}
-                <div className={`w-12 h-12 rounded-full border-2 border-white/10 ${statusColor}/20 flex items-center justify-center overflow-hidden bg-black/50`}>
+                <div className={`w-12 h-12 rounded-full border-2 border-border-subtle ${statusColor}/20 flex items-center justify-center overflow-hidden bg-background/50`}>
                     {participant.avatar_url ? (
                         <img src={participant.avatar_url} alt={participant.username} className="w-full h-full object-cover" />
                     ) : (
@@ -38,7 +38,7 @@ export const PulseAvatar = ({ participant }: PulseAvatarProps) => {
                 </div>
                 <div className={`absolute bottom-0 right-0 w-3 h-3 rounded-full border-2 border-black ${statusColor}`} />
             </div>
-            <span className="text-xs text-white/50">{participant.username}</span>
+            <span className="text-xs text-foreground/50">{participant.username}</span>
         </div>
     );
 };

@@ -115,7 +115,7 @@ export const KanbanBoard = ({
     const ProgressBar = ({ current, total }: { current: number, total: number }) => {
         const percent = Math.min(100, Math.max(0, (current / (total || 1)) * 100));
         return (
-            <div className="h-1 bg-white/10 rounded-full overflow-hidden mt-3">
+            <div className="h-1 bg-panel-hover rounded-full overflow-hidden mt-3">
                 <div
                     className="h-full bg-accent transition-all duration-500"
                     style={{ width: `${percent}%` }}
@@ -127,23 +127,23 @@ export const KanbanBoard = ({
     const EmptyState = ({ type }: { type: string }) => {
         if (type === 'todo') return (
             <div className="flex flex-col items-center justify-center py-12 text-center border-2 border-dashed border-white/5 rounded-2xl bg-white/[0.02]">
-                <Rocket className="w-8 h-8 mb-3 text-white/20" />
-                <p className="text-sm font-medium text-white/40">No tasks pending</p>
-                <p className="text-xs text-white/20 mt-1">Add one below to get started</p>
+                <Rocket className="w-8 h-8 mb-3 text-foreground/20" />
+                <p className="text-sm font-medium text-foreground/40">No tasks pending</p>
+                <p className="text-xs text-foreground/20 mt-1">Add one below to get started</p>
             </div>
         );
         if (type === 'in_progress') return (
             <div className="flex flex-col items-center justify-center py-12 text-center border-2 border-dashed border-white/5 rounded-2xl bg-white/[0.02]">
-                <Coffee className="w-8 h-8 mb-3 text-white/20" />
-                <p className="text-sm font-medium text-white/40">Ready to focus?</p>
-                <p className="text-xs text-white/20 mt-1">Drag a task here to lock in</p>
+                <Coffee className="w-8 h-8 mb-3 text-foreground/20" />
+                <p className="text-sm font-medium text-foreground/40">Ready to focus?</p>
+                <p className="text-xs text-foreground/20 mt-1">Drag a task here to lock in</p>
             </div>
         );
         return (
             <div className="flex flex-col items-center justify-center py-12 text-center border-2 border-dashed border-white/5 rounded-2xl bg-white/[0.02]">
-                <PartyPopper className="w-8 h-8 mb-3 text-white/20" />
-                <p className="text-sm font-medium text-white/40">No wins yet</p>
-                <p className="text-xs text-white/20 mt-1">Crush a task to see it here</p>
+                <PartyPopper className="w-8 h-8 mb-3 text-foreground/20" />
+                <p className="text-sm font-medium text-foreground/40">No wins yet</p>
+                <p className="text-xs text-foreground/20 mt-1">Crush a task to see it here</p>
             </div>
         );
     };
@@ -159,8 +159,8 @@ export const KanbanBoard = ({
                     {/* Column Header */}
                     <div className="flex items-center justify-between px-2">
                         <div className="flex items-center gap-2">
-                            <h3 className="font-bold text-sm tracking-widest text-white/60 uppercase">{title}</h3>
-                            <span className="bg-white/10 text-white/60 text-[10px] font-bold px-2 py-0.5 rounded-full">
+                            <h3 className="font-bold text-sm tracking-widest text-foreground/60 uppercase">{title}</h3>
+                            <span className="bg-panel-hover text-foreground/60 text-[10px] font-bold px-2 py-0.5 rounded-full">
                                 {items.length}
                             </span>
                         </div>
@@ -187,7 +187,7 @@ export const KanbanBoard = ({
                                                 <Card className={`
                                                     relative overflow-hidden border transition-all duration-300
                                                     ${snapshot.isDragging ? 'shadow-[0_0_30px_rgba(0,0,0,0.5)] scale-105 rotate-2 border-accent' : 'hover:-translate-y-1 hover:shadow-xl'}
-                                                    ${type === 'done' ? 'bg-white/[0.02] border-white/5 opacity-60' : 'border-white/10'}
+                                                    ${type === 'done' ? 'bg-white/[0.02] border-white/5 opacity-60' : 'border-border-subtle'}
                                                 `}>
                                                     {/* Gradient Glow on Hover */}
                                                     <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
@@ -195,15 +195,15 @@ export const KanbanBoard = ({
                                                     <div className="p-4 relative z-10">
                                                         <div className="flex justify-between items-start gap-3">
                                                             <div className="flex items-start gap-3 flex-1">
-                                                                <GripVertical className="w-4 h-4 text-white/10 mt-1 opacity-0 group-hover:opacity-100 transition-opacity cursor-grab" />
+                                                                <GripVertical className="w-4 h-4 text-foreground/10 mt-1 opacity-0 group-hover:opacity-100 transition-opacity cursor-grab" />
                                                                 <div>
-                                                                    <h4 className={`font-medium text-sm leading-snug ${type === 'done' ? 'line-through text-white/40' : 'text-white/90'}`}>
+                                                                    <h4 className={`font-medium text-sm leading-snug ${type === 'done' ? 'line-through text-foreground/40' : 'text-foreground/90'}`}>
                                                                         {task.title}
                                                                     </h4>
 
                                                                     {type !== 'done' && (
                                                                         <div className="flex items-center gap-3 mt-2">
-                                                                            <div className="flex items-center gap-1.5 text-[10px] text-white/40 bg-white/5 px-2 py-1 rounded-md">
+                                                                            <div className="flex items-center gap-1.5 text-[10px] text-foreground/40 bg-panel px-2 py-1 rounded-md">
                                                                                 <Clock className="w-3 h-3" />
                                                                                 <span>{task.estimated_minutes}m est.</span>
                                                                             </div>
@@ -252,18 +252,18 @@ export const KanbanBoard = ({
                             className="relative group mt-2"
                         >
                             <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
-                                <Plus className="w-4 h-4 text-white/30" />
+                                <Plus className="w-4 h-4 text-foreground/30" />
                             </div>
                             <input
                                 type="text"
                                 value={quickAddTask}
                                 onChange={(e) => setQuickAddTask(e.target.value)}
                                 placeholder="Capture a new task..."
-                                className="w-full bg-white/5 hover:bg-white/10 focus:bg-white/10 border border-white/5 hover:border-white/10 focus:border-accent/50 rounded-xl py-3 pl-10 pr-12 text-sm text-white placeholder:text-white/20 focus:outline-none transition-all shadow-sm"
+                                className="w-full bg-panel hover:bg-panel-hover focus:bg-panel-hover border border-white/5 hover:border-border-subtle focus:border-accent/50 rounded-xl py-3 pl-10 pr-12 text-sm text-foreground placeholder:text-foreground/20 focus:outline-none transition-all shadow-sm"
                                 disabled={isAdding}
                             />
                             <div className="absolute right-2 top-1/2 -translate-y-1/2 opacity-0 group-focus-within:opacity-100 transition-opacity">
-                                <kbd className="hidden sm:inline-block px-2 py-0.5 bg-black/40 border border-white/10 rounded text-[10px] text-white/50 font-sans">
+                                <kbd className="hidden sm:inline-block px-2 py-0.5 bg-background/40 border border-border-subtle rounded text-[10px] text-foreground/50 font-sans">
                                     ↵
                                 </kbd>
                             </div>

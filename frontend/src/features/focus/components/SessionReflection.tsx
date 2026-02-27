@@ -54,7 +54,7 @@ export const SessionReflection = ({ sessionId, taskId, taskTitle, onComplete }: 
                         <button
                             key={star}
                             onClick={() => setFocusRating(star)}
-                            className={`flex-1 py-4 rounded-xl border transition-all ${focusRating >= star ? 'bg-accent/10 border-accent text-accent' : 'bg-glass border-glass-border text-textDim hover:bg-white/5'}`}
+                            className={`flex-1 py-4 rounded-xl border transition-all ${focusRating >= star ? 'bg-accent/10 border-accent text-accent' : 'bg-glass border-glass-border text-textDim hover:bg-panel'}`}
                         >
                             <Star className={`w-6 h-6 mx-auto ${focusRating >= star ? 'fill-current' : ''}`} />
                         </button>
@@ -63,7 +63,7 @@ export const SessionReflection = ({ sessionId, taskId, taskTitle, onComplete }: 
             </Card>
 
             {/* Note: Journaling is handled via the Widget during the session. It will be auto-saved on submit. */}
-            <div className="text-center text-xs text-white/30 font-mono">
+            <div className="text-center text-xs text-foreground/30 font-mono">
                 {journalContent ? "✓ Journal notes will be saved." : "No journal notes recorded."}
             </div>
 

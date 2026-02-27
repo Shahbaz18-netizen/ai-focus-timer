@@ -23,7 +23,7 @@ export const Dialog = ({ open, onOpenChange, children }: DialogProps) => {
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         onClick={() => onOpenChange(false)}
-                        className="fixed inset-0 bg-black/80 backdrop-blur-sm"
+                        className="fixed inset-0 bg-background/80 backdrop-blur-sm"
                     />
 
                     {/* Content Wrapper to trap focus/clicks could go here, but keeping simple */}

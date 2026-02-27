@@ -71,7 +71,7 @@ export const TeamDashboard = ({ onJoinRoom, userId }: TeamDashboardProps) => {
             <div className="flex items-center justify-between">
                 <div>
                     <h1 className="text-3xl font-bold tracking-tight">Focus Together</h1>
-                    <p className="text-white/50 mt-1">Join a room and stay accountable with others.</p>
+                    <p className="text-foreground/50 mt-1">Join a room and stay accountable with others.</p>
                 </div>
                 <button
                     onClick={() => setShowCreateModal(true)}
@@ -95,21 +95,21 @@ export const TeamDashboard = ({ onJoinRoom, userId }: TeamDashboardProps) => {
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             onClick={() => onJoinRoom(room.id)}
-                            className="group relative bg-black/40 backdrop-blur-2xl hover:bg-black/60 border border-white/10 hover:border-accent/30 rounded-3xl p-6 transition-all duration-500 cursor-pointer overflow-hidden shadow-lg hover:shadow-xl hover:-translate-y-1"
+                            className="group relative bg-background/40 backdrop-blur-2xl hover:bg-background/60 border border-border-subtle hover:border-accent/30 rounded-3xl p-6 transition-all duration-500 cursor-pointer overflow-hidden shadow-lg hover:shadow-xl hover:-translate-y-1"
                         >
                             <div className="absolute inset-0 bg-gradient-to-br from-accent/0 to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
                             <div className="relative flex justify-between items-start mb-4">
-                                <div className="p-3 bg-white/5 rounded-2xl">
+                                <div className="p-3 bg-panel rounded-2xl">
                                     <Users className="w-6 h-6 text-accent" />
                                 </div>
-                                {room.is_private && <Lock className="w-4 h-4 text-white/30" />}
+                                {room.is_private && <Lock className="w-4 h-4 text-foreground/30" />}
                             </div>
 
                             <h3 className="text-xl font-bold mb-2 group-hover:text-accent transition-colors">{room.name}</h3>
-                            {room.topic && <p className="text-sm text-white/50 mb-4 font-mono">{room.topic}</p>}
+                            {room.topic && <p className="text-sm text-foreground/50 mb-4 font-mono">{room.topic}</p>}
 
-                            <div className="flex items-center gap-2 text-xs text-white/30 uppercase tracking-widest">
+                            <div className="flex items-center gap-2 text-xs text-foreground/30 uppercase tracking-widest">
                                 <span className={room.current_participants > 0 ? "text-green-400" : ""}>
                                     {room.current_participants || 0} Online
                                 </span>
@@ -118,7 +118,7 @@ export const TeamDashboard = ({ onJoinRoom, userId }: TeamDashboardProps) => {
                     ))}
 
                     {rooms.length === 0 && (
-                        <div className="col-span-full py-20 text-center text-white/30">
+                        <div className="col-span-full py-20 text-center text-foreground/30">
                             No active rooms found. Create one to get started!
                         </div>
                     )}
@@ -127,33 +127,33 @@ export const TeamDashboard = ({ onJoinRoom, userId }: TeamDashboardProps) => {
 
             {/* Create Room Modal */}
             {showCreateModal && (
-                <div className="fixed inset-0 bg-black/60 backdrop-blur-md z-50 flex items-center justify-center p-4">
+                <div className="fixed inset-0 bg-background/60 backdrop-blur-md z-50 flex items-center justify-center p-4">
                     <motion.div
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
-                        className="bg-black/80 backdrop-blur-3xl border border-white/10 shadow-2xl rounded-3xl p-8 w-full max-w-md space-y-6"
+                        className="bg-background/80 backdrop-blur-3xl border border-border-subtle shadow-2xl rounded-3xl p-8 w-full max-w-md space-y-6"
                     >
                         <h2 className="text-2xl font-bold">Create Focus Room</h2>
                         <form onSubmit={handleCreateRoom} className="space-y-4">
                             <div>
-                                <label className="block text-xs uppercase tracking-wider text-white/50 mb-2">Room Name</label>
+                                <label className="block text-xs uppercase tracking-wider text-foreground/50 mb-2">Room Name</label>
                                 <input
                                     type="text"
                                     value={newRoomName}
                                     onChange={(e) => setNewRoomName(e.target.value)}
                                     placeholder="e.g. Deep Work Station"
-                                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-accent outline-none transition-colors"
+                                    className="w-full bg-panel border border-border-subtle rounded-xl px-4 py-3 text-foreground focus:border-accent outline-none transition-colors"
                                     required
                                 />
                             </div>
                             <div>
-                                <label className="block text-xs uppercase tracking-wider text-white/50 mb-2">Topic (Optional)</label>
+                                <label className="block text-xs uppercase tracking-wider text-foreground/50 mb-2">Topic (Optional)</label>
                                 <input
                                     type="text"
                                     value={newRoomTopic}
                                     onChange={(e) => setNewRoomTopic(e.target.value)}
                                     placeholder="e.g. Coding only, no chat"
-                                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-accent outline-none transition-colors"
+                                    className="w-full bg-panel border border-border-subtle rounded-xl px-4 py-3 text-foreground focus:border-accent outline-none transition-colors"
                                 />
                             </div>
                             <div className="flex items-center gap-3">
@@ -162,16 +162,16 @@ export const TeamDashboard = ({ onJoinRoom, userId }: TeamDashboardProps) => {
                                     id="isPrivate"
                                     checked={isPrivate}
                                     onChange={(e) => setIsPrivate(e.target.checked)}
-                                    className="rounded border-white/10 bg-white/5 text-accent focus:ring-accent"
+                                    className="rounded border-border-subtle bg-panel text-accent focus:ring-accent"
                                 />
-                                <label htmlFor="isPrivate" className="text-sm text-white/70">Private Room</label>
+                                <label htmlFor="isPrivate" className="text-sm text-foreground/70">Private Room</label>
                             </div>
 
                             <div className="flex gap-4 pt-4">
                                 <button
                                     type="button"
                                     onClick={() => setShowCreateModal(false)}
-                                    className="flex-1 py-3 rounded-xl border border-white/10 hover:bg-white/5 transition-colors"
+                                    className="flex-1 py-3 rounded-xl border border-border-subtle hover:bg-panel transition-colors"
                                 >
                                     Cancel
                                 </button>

@@ -76,7 +76,7 @@ export const ShutdownRitualModal = ({ isOpen, onClose, tasks, onComplete }: Shut
 
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
-            <DialogContent className="max-w-2xl bg-black/90 border border-white/10 backdrop-blur-xl rounded-3xl p-0 overflow-hidden text-white">
+            <DialogContent className="max-w-2xl bg-background/90 border border-border-subtle backdrop-blur-xl rounded-3xl p-0 overflow-hidden text-foreground">
                 <div className="relative h-[500px] flex flex-col">
                     {/* Header */}
                     <div className="absolute top-0 left-0 right-0 p-6 flex justify-between items-center z-20">
@@ -84,8 +84,8 @@ export const ShutdownRitualModal = ({ isOpen, onClose, tasks, onComplete }: Shut
                             <LogOut className="w-5 h-5 text-accent" />
                             <span className="font-mono text-sm tracking-widest uppercase text-accent/80">Shutdown Protocol</span>
                         </div>
-                        <button onClick={onClose} className="p-2 hover:bg-white/10 rounded-full transition-colors">
-                            <X className="w-5 h-5 text-white/50" />
+                        <button onClick={onClose} className="p-2 hover:bg-panel-hover rounded-full transition-colors">
+                            <X className="w-5 h-5 text-foreground/50" />
                         </button>
                     </div>
 
@@ -99,7 +99,7 @@ export const ShutdownRitualModal = ({ isOpen, onClose, tasks, onComplete }: Shut
                                 exit={{ opacity: 0, y: -20 }}
                                 className="space-y-6 max-w-lg"
                             >
-                                <div className={`w-20 h-20 mx-auto rounded-full bg-white/5 flex items-center justify-center mb-6`}>
+                                <div className={`w-20 h-20 mx-auto rounded-full bg-panel flex items-center justify-center mb-6`}>
                                     {(() => {
                                         const Icon = steps[step].icon;
                                         return <Icon className={`w-10 h-10 ${steps[step].color}`} />;
@@ -107,31 +107,31 @@ export const ShutdownRitualModal = ({ isOpen, onClose, tasks, onComplete }: Shut
                                 </div>
 
                                 <h2 className="text-3xl font-bold tracking-tight">{steps[step].title}</h2>
-                                <p className="text-lg text-white/60 leading-relaxed">{steps[step].description}</p>
+                                <p className="text-lg text-foreground/60 leading-relaxed">{steps[step].description}</p>
 
                                 {/* Step specific content */}
                                 {step === 0 && (
-                                    <div className="mt-8 bg-white/5 rounded-xl p-6 border border-white/5">
-                                        <p className="text-sm text-white/40 uppercase tracking-widest mb-4">Completed Today</p>
+                                    <div className="mt-8 bg-panel rounded-xl p-6 border border-white/5">
+                                        <p className="text-sm text-foreground/40 uppercase tracking-widest mb-4">Completed Today</p>
                                         {completedTasks.length > 0 ? (
                                             <ul className="space-y-3 text-left">
                                                 {completedTasks.map(t => (
-                                                    <li key={t.id} className="flex items-center gap-3 text-white/80">
+                                                    <li key={t.id} className="flex items-center gap-3 text-foreground/80">
                                                         <CheckCircle2 className="w-4 h-4 text-green-500/50" />
-                                                        <span className="line-through text-white/40">{t.title}</span>
+                                                        <span className="line-through text-foreground/40">{t.title}</span>
                                                     </li>
                                                 ))}
                                             </ul>
                                         ) : (
-                                            <p className="text-white/40 italic">No tasks completed yet. That's okay, tomorrow is a new day.</p>
+                                            <p className="text-foreground/40 italic">No tasks completed yet. That's okay, tomorrow is a new day.</p>
                                         )}
                                     </div>
                                 )}
 
                                 {step === 1 && (
-                                    <div className="mt-8 bg-white/5 rounded-xl p-6 border border-white/5">
-                                        <p className="text-sm text-white/40 uppercase tracking-widest mb-4">Pending Tasks</p>
-                                        <p className="text-sm text-white/60 mb-4">You have {pendingTasks.length} pending tasks. Leave them for tomorrow.</p>
+                                    <div className="mt-8 bg-panel rounded-xl p-6 border border-white/5">
+                                        <p className="text-sm text-foreground/40 uppercase tracking-widest mb-4">Pending Tasks</p>
+                                        <p className="text-sm text-foreground/60 mb-4">You have {pendingTasks.length} pending tasks. Leave them for tomorrow.</p>
                                     </div>
                                 )}
 
@@ -148,12 +148,12 @@ export const ShutdownRitualModal = ({ isOpen, onClose, tasks, onComplete }: Shut
                     </div>
 
                     {/* Footer / Controls */}
-                    <div className="p-8 border-t border-white/5 flex justify-between items-center bg-black/50 z-20">
+                    <div className="p-8 border-t border-white/5 flex justify-between items-center bg-background/50 z-20">
                         <div className="flex gap-1">
                             {steps.map((_, i) => (
                                 <div
                                     key={i}
-                                    className={`h-1.5 w-8 rounded-full transition-all duration-300 ${i <= step ? 'bg-accent' : 'bg-white/10'}`}
+                                    className={`h-1.5 w-8 rounded-full transition-all duration-300 ${i <= step ? 'bg-accent' : 'bg-panel-hover'}`}
                                 />
                             ))}
                         </div>

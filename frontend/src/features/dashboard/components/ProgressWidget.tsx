@@ -51,7 +51,7 @@ export const ProgressWidget = ({ targetMinutes, actualMinutes, reportingTime, on
                     <div className="flex items-center gap-2">
                         <p className="text-3xl font-bold">{formatReportingTime(reportingTime)}</p>
                         {onUpdateReportingTime && (
-                            <button onClick={() => setIsEditing(true)} className="opacity-0 group-hover:opacity-100 transition-opacity p-1 hover:bg-white/10 rounded">
+                            <button onClick={() => setIsEditing(true)} className="opacity-0 group-hover:opacity-100 transition-opacity p-1 hover:bg-panel-hover rounded">
                                 <Edit2 className="w-4 h-4 text-textDim" />
                             </button>
                         )}
@@ -62,7 +62,7 @@ export const ProgressWidget = ({ targetMinutes, actualMinutes, reportingTime, on
                             type="time"
                             value={tempTime}
                             onChange={(e) => setTempTime(e.target.value)}
-                            className="bg-black/50 border border-white/20 rounded px-2 py-1 text-lg text-white focus:outline-none focus:border-accent"
+                            className="bg-background/50 border border-border-subtle rounded px-2 py-1 text-lg text-foreground focus:outline-none focus:border-accent"
                         />
                         <button onClick={handleSave} className="p-1 hover:bg-green-500/20 rounded text-green-400">
                             <Check className="w-5 h-5" />

@@ -159,7 +159,7 @@ export const MediaWidget = () => {
                             lightTap();
                             setIsMenuOpen(!isMenuOpen);
                         }}
-                        className={`p-1.5 rounded-full transition-colors ${isMenuOpen ? 'bg-accent text-black' : 'hover:bg-white/10 text-white/40'}`}
+                        className={`p-1.5 rounded-full transition-colors ${isMenuOpen ? 'bg-accent text-black' : 'hover:bg-panel-hover text-foreground/40'}`}
                         title="Library"
                     >
                         <ListMusic className="w-4 h-4" />
@@ -169,7 +169,7 @@ export const MediaWidget = () => {
                             lightTap();
                             setIsMini(true);
                         }}
-                        className="p-1.5 hover:bg-white/10 rounded-full text-white/40 hover:text-white transition-colors ml-1"
+                        className="p-1.5 hover:bg-panel-hover rounded-full text-foreground/40 hover:text-foreground transition-colors ml-1"
                         title="Mini Player"
                     >
                         <Minimize2 className="w-4 h-4" />
@@ -177,27 +177,27 @@ export const MediaWidget = () => {
                 </>
             }
         >
-            <div className={`relative ${isMini ? 'aspect-video cursor-move' : 'aspect-video'} bg-black group/player`}>
+            <div className={`relative ${isMini ? 'aspect-video cursor-move' : 'aspect-video'} bg-background group/player`}>
                 <div id="youtube-player" className="absolute inset-0 w-full h-full pointer-events-auto" />
 
                 {/* Ducking Overlay (Visual Feedback) */}
                 {isDucking && (
-                    <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px] pointer-events-none flex items-center justify-center animate-pulse">
-                        <div className="bg-white/10 px-3 py-1 rounded-full border border-white/20">
-                            <span className="text-[10px] font-bold text-white tracking-widest uppercase">Audio Ducking</span>
+                    <div className="absolute inset-0 bg-background/40 backdrop-blur-[2px] pointer-events-none flex items-center justify-center animate-pulse">
+                        <div className="bg-panel-hover px-3 py-1 rounded-full border border-border-subtle">
+                            <span className="text-[10px] font-bold text-foreground tracking-widest uppercase">Audio Ducking</span>
                         </div>
                     </div>
                 )}
 
                 {/* Mini Player Overlay Controls */}
                 {isMini && (
-                    <div className="absolute inset-0 opacity-0 group-hover/player:opacity-100 transition-opacity bg-black/40 flex items-start justify-end p-2 pointer-events-none">
+                    <div className="absolute inset-0 opacity-0 group-hover/player:opacity-100 transition-opacity bg-background/40 flex items-start justify-end p-2 pointer-events-none">
                         <button
                             onClick={() => {
                                 lightTap();
                                 setIsMini(false);
                             }}
-                            className="p-1.5 bg-black/80 hover:bg-accent text-white hover:text-black rounded-full backdrop-blur transition-colors pointer-events-auto"
+                            className="p-1.5 bg-background/80 hover:bg-accent text-foreground hover:text-black rounded-full backdrop-blur transition-colors pointer-events-auto"
                             title="Expand"
                         >
                             <Maximize2 className="w-3 h-3" />
@@ -212,11 +212,11 @@ export const MediaWidget = () => {
                             initial={{ opacity: 0, y: -10 }}
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: -10 }}
-                            className="absolute inset-0 bg-black/95 backdrop-blur-xl z-20 p-4 flex flex-col gap-2 overflow-y-auto"
+                            className="absolute inset-0 bg-background/95 backdrop-blur-xl z-20 p-4 flex flex-col gap-2 overflow-y-auto"
                         >
                             <div className="flex items-center justify-between mb-2">
-                                <span className="text-xs font-bold uppercase tracking-widest text-white/50">Stations</span>
-                                <button onClick={() => setIsAddingCustom(!isAddingCustom)} className={`p-1.5 rounded-full ${isAddingCustom ? 'bg-accent text-black' : 'hover:bg-white/10 text-white/50 hover:text-white'}`}>
+                                <span className="text-xs font-bold uppercase tracking-widest text-foreground/50">Stations</span>
+                                <button onClick={() => setIsAddingCustom(!isAddingCustom)} className={`p-1.5 rounded-full ${isAddingCustom ? 'bg-accent text-black' : 'hover:bg-panel-hover text-foreground/50 hover:text-foreground'}`}>
                                     <LinkIcon className="w-3 h-3" />
                                 </button>
                             </div>
@@ -228,7 +228,7 @@ export const MediaWidget = () => {
                                         placeholder="Paste YouTube Link..."
                                         value={customUrl}
                                         onChange={(e) => setCustomUrl(e.target.value)}
-                                        className="flex-1 bg-white/5 border border-white/10 rounded-lg px-3 py-1.5 text-xs text-white placeholder:text-white/30 focus:outline-none focus:border-accent"
+                                        className="flex-1 bg-panel border border-border-subtle rounded-lg px-3 py-1.5 text-xs text-foreground placeholder:text-foreground/30 focus:outline-none focus:border-accent"
                                     />
                                     <button type="submit" onClick={lightTap} className="bg-accent text-black px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-accent/90 shrink-0">
                                         Play
@@ -246,7 +246,7 @@ export const MediaWidget = () => {
                                     }}
                                     className={`w-full text-left p-3 rounded-xl text-xs font-bold uppercase tracking-wider transition-all flex items-center justify-between group ${currentStation.id === station.id
                                         ? 'bg-accent/20 text-accent border border-accent/20'
-                                        : 'bg-white/5 hover:bg-white/10 text-white/60 hover:text-white border border-transparent hover:border-white/10'
+                                        : 'bg-panel hover:bg-panel-hover text-foreground/60 hover:text-foreground border border-transparent hover:border-border-subtle'
                                         }`}
                                 >
                                     {station.name}

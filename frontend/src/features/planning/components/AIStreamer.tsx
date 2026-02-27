@@ -41,7 +41,7 @@ const AGENT_CONFIG = {
         icon: <MessageSquare className="w-5 h-5 text-accent/60" />,
         label: "Aura Focus Coach",
         color: "border-accent/20",
-        bg: "bg-white/5",
+        bg: "bg-panel",
     },
 };
 
@@ -73,7 +73,7 @@ export const AIStreamer = ({ content, isStreaming, agentType = "General" }: AISt
                         rotate: [0, 5, -5, 0]
                     } : {}}
                     transition={{ repeat: Infinity, duration: 2 }}
-                    className={`mt-1 rounded-xl p-3 bg-black/40 border border-white/10 shadow-lg`}
+                    className={`mt-1 rounded-xl p-3 bg-background/40 border border-border-subtle shadow-lg`}
                 >
                     {config.icon}
                 </motion.div>

@@ -8,7 +8,7 @@ export const ImmersiveBackground = () => {
     const { currentScene, blurLevel, brightness } = useBackgroundStore();
 
     return (
-        <div className="fixed inset-0 z-[-1] overflow-hidden bg-black">
+        <div className="fixed inset-0 z-[-1] overflow-hidden bg-background">
             <AnimatePresence mode="wait">
                 <motion.div
                     key={currentScene.id}
@@ -58,7 +58,7 @@ export const ImmersiveBackground = () => {
 
             {/* Overlay for Brightness/Contrast Control */}
             <div
-                className="absolute inset-0 bg-black transition-opacity duration-300 pointer-events-none"
+                className="absolute inset-0 bg-background transition-opacity duration-300 pointer-events-none"
                 style={{ opacity: 1 - brightness }}
             />
 

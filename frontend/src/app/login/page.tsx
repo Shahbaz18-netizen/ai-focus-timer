@@ -24,10 +24,10 @@ export default function LoginPage() {
     }, [supabase, router])
 
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen bg-black">
+        <div className="flex flex-col items-center justify-center min-h-screen bg-background">
             <div className="w-full max-w-md p-8 bg-zinc-900 rounded-2xl border border-zinc-800 shadow-2xl">
                 <div className="text-center mb-8">
-                    <h1 className="text-3xl font-bold text-white mb-2">Aura OS</h1>
+                    <h1 className="text-3xl font-bold text-foreground mb-2">Aura OS</h1>
                     <p className="text-zinc-400">Enter the Focus Zone</p>
                 </div>
                 <Auth

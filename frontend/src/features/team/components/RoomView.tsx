@@ -27,7 +27,7 @@ export const RoomView = ({ roomId, userId, username, onLeave, userStatus }: Room
         <div className="flex flex-col h-full w-full max-w-6xl mx-auto gap-6 p-6">
             <div className="flex items-center justify-between">
                 <div className="flex items-center gap-4">
-                    <button onClick={onLeave} className="text-white/50 hover:text-white transition-colors">
+                    <button onClick={onLeave} className="text-foreground/50 hover:text-foreground transition-colors">
                         ← Back
                     </button>
                     <h2 className="text-2xl font-bold">Focus Room</h2>

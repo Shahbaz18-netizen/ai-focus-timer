@@ -76,7 +76,7 @@ export const MorningForm = ({ onComplete, userId }: MorningFormProps) => {
                             <div className="space-y-4 mb-8">
                                 <ul className="space-y-2">
                                     {tasks.map((t, i) => (
-                                        <li key={i} className="flex justify-between items-center bg-white/5 p-3 rounded-lg border border-white/5">
+                                        <li key={i} className="flex justify-between items-center bg-panel p-3 rounded-lg border border-white/5">
                                             <span>{t}</span>
                                             <button onClick={() => removeTask(i)} className="text-textDim hover:text-red-400"><X className="w-4 h-4" /></button>
                                         </li>
@@ -154,7 +154,7 @@ export const MorningForm = ({ onComplete, userId }: MorningFormProps) => {
                             <Card className="border-accent/30 bg-accent/5 p-6 text-center">
                                 <Clock className="w-8 h-8 text-accent mx-auto mb-4" />
                                 <h3 className="text-lg font-bold">Accountability Protocol Active</h3>
-                                <p className="text-textDim mt-2">I will verify your progress at <span className="text-white font-mono">{targetTime}</span>.</p>
+                                <p className="text-textDim mt-2">I will verify your progress at <span className="text-foreground font-mono">{targetTime}</span>.</p>
                             </Card>
 
                             <Button className="w-full py-6 text-lg" onClick={() => onComplete(true)}>

@@ -63,17 +63,17 @@ export const CommandPalette = ({ onAddTasks, onSwitchTab, onStartFocus }: Comman
                 {/* Main Dock - Horizontal Bottom on Mobile, Vertical Sidebar on Desktop */}
                 <motion.div
                     layout
-                    className="bg-black/90 backdrop-blur-3xl border border-white/10 rounded-full p-1.5 sm:p-2 flex flex-row md:flex-col items-center gap-1 sm:gap-2 md:gap-3 shadow-2xl overflow-x-auto no-scrollbar pointer-events-auto w-auto max-w-full justify-start md:justify-center"
+                    className="bg-background/90 backdrop-blur-3xl border border-border-subtle rounded-full p-1.5 sm:p-2 flex flex-row md:flex-col items-center gap-1 sm:gap-2 md:gap-3 shadow-2xl overflow-x-auto no-scrollbar pointer-events-auto w-auto max-w-full justify-start md:justify-center"
                 >
                     <button
                         onClick={toggleMenu}
-                        className={`p-3 rounded-full transition-all ${activePanel === 'menu' ? 'bg-accent text-black' : 'hover:bg-white/10 text-white'}`}
+                        className={`p-3 rounded-full transition-all ${activePanel === 'menu' ? 'bg-accent text-black' : 'hover:bg-panel-hover text-foreground'}`}
                         title="Menu"
                     >
                         {activePanel === 'menu' ? <X className="w-5 h-5" /> : <Command className="w-5 h-5" />}
                     </button>
 
-                    <div className="w-[1px] h-6 md:w-8 md:h-[1px] bg-white/10 shrink-0" />
+                    <div className="w-[1px] h-6 md:w-8 md:h-[1px] bg-panel-hover shrink-0" />
 
                     {/* Direct Widget Toggles */}
                     <SidebarToggle
@@ -107,11 +107,11 @@ export const CommandPalette = ({ onAddTasks, onSwitchTab, onStartFocus }: Comman
                         label="Scenes"
                     />
 
-                    <div className="w-[1px] h-6 md:w-8 md:h-[1px] bg-white/10 shrink-0" />
+                    <div className="w-[1px] h-6 md:w-8 md:h-[1px] bg-panel-hover shrink-0" />
 
                     <button
                         onClick={toggleZenMode}
-                        className={`p-3 rounded-full transition-all ${isZenMode ? 'bg-accent text-black shadow-[0_0_15px_rgba(var(--accent-rgb),0.5)]' : 'hover:bg-white/10 text-white/50 hover:text-white'}`}
+                        className={`p-3 rounded-full transition-all ${isZenMode ? 'bg-accent text-black shadow-[0_0_15px_rgba(var(--accent-rgb),0.5)]' : 'hover:bg-panel-hover text-foreground/50 hover:text-foreground'}`}
                         title="Zen Mode"
                     >
                         <Zap className="w-5 h-5" />
@@ -119,7 +119,7 @@ export const CommandPalette = ({ onAddTasks, onSwitchTab, onStartFocus }: Comman
 
                     <button
                         onClick={onAddTasks}
-                        className="p-3 rounded-full hover:bg-white/10 text-white transition-colors"
+                        className="p-3 rounded-full hover:bg-panel-hover text-foreground transition-colors"
                         title="Quick Add Task"
                     >
                         <Plus className="w-5 h-5" />
@@ -135,9 +135,9 @@ export const CommandPalette = ({ onAddTasks, onSwitchTab, onStartFocus }: Comman
                         initial={{ opacity: 0, x: -20, scale: 0.95 }}
                         animate={{ opacity: 1, x: 0, scale: 1 }}
                         exit={{ opacity: 0, x: -20, scale: 0.95 }}
-                        className="fixed bottom-28 left-4 md:top-1/2 md:left-24 md:-translate-y-1/2 w-72 bg-black/90 backdrop-blur-3xl border border-white/10 rounded-3xl p-4 z-40 shadow-2xl"
+                        className="fixed bottom-28 left-4 md:top-1/2 md:left-24 md:-translate-y-1/2 w-72 bg-background/90 backdrop-blur-3xl border border-border-subtle rounded-3xl p-4 z-40 shadow-2xl"
                     >
-                        <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-white/40 mb-4 px-2">Navigation</h3>
+                        <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-foreground/40 mb-4 px-2">Navigation</h3>
                         <div className="grid grid-cols-1 gap-1.5">
                             <MenuButton icon={LayoutGrid} label="Dashboard" shortcut="D" onClick={() => { onSwitchTab('focus'); setIsOpen(false); setActivePanel(null); }} />
                             <MenuButton icon={Brain} label="Brain" shortcut="B" onClick={() => { onSwitchTab('focus'); onSwitchTab('brain' as any); setIsOpen(false); setActivePanel(null); }} />
@@ -157,12 +157,12 @@ const SidebarToggle = ({ isActive, onClick, icon: Icon, label }: { isActive: boo
         onClick={onClick}
         className={`p-2.5 sm:p-3 rounded-full shrink-0 transition-all group relative ${isActive
             ? 'bg-white text-black shadow-[0_0_15px_rgba(255,255,255,0.3)]'
-            : 'hover:bg-white/10 text-white/50 hover:text-white relative'}`}
+            : 'hover:bg-panel-hover text-foreground/50 hover:text-foreground relative'}`}
     >
         <Icon className="w-5 h-5" />
 
         {/* Tooltip */}
-        <span className="absolute bottom-full mb-4 md:bottom-auto md:mb-0 md:left-full md:ml-4 px-2 py-1 bg-black/90 border border-white/10 rounded-md text-xs font-medium text-white opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-50">
+        <span className="absolute bottom-full mb-4 md:bottom-auto md:mb-0 md:left-full md:ml-4 px-2 py-1 bg-background/90 border border-border-subtle rounded-md text-xs font-medium text-foreground opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-50">
             {label}
         </span>
     </button>
@@ -171,14 +171,14 @@ const SidebarToggle = ({ isActive, onClick, icon: Icon, label }: { isActive: boo
 const MenuButton = ({ icon: Icon, label, onClick, shortcut }: { icon: any, label: string, onClick: () => void, shortcut?: string }) => (
     <button
         onClick={onClick}
-        className="flex items-center justify-between p-3 rounded-xl bg-white/5 hover:bg-accent hover:text-black transition-all group w-full text-left"
+        className="flex items-center justify-between p-3 rounded-xl bg-panel hover:bg-accent hover:text-black transition-all group w-full text-left"
     >
         <div className="flex items-center gap-3">
-            <Icon className="w-5 h-5 text-white/50 group-hover:text-black/70" />
+            <Icon className="w-5 h-5 text-foreground/50 group-hover:text-black/70" />
             <span className="text-sm font-medium">{label}</span>
         </div>
         {shortcut && (
-            <span className="text-[10px] font-bold opacity-40 group-hover:opacity-100 bg-white/10 group-hover:bg-black/10 px-1.5 py-0.5 rounded uppercase tracking-widest">{shortcut}</span>
+            <span className="text-[10px] font-bold opacity-40 group-hover:opacity-100 bg-panel-hover group-hover:bg-background/10 px-1.5 py-0.5 rounded uppercase tracking-widest">{shortcut}</span>
         )}
     </button>
 );

@@ -74,7 +74,7 @@ export const AuraBreather = ({ onComplete, taskName, initialSeconds = 15 }: Aura
                         repeat: Infinity,
                         ease: "linear",
                     }}
-                    className="w-64 h-64 border-[3px] border-accent/40 rounded-full flex flex-col items-center justify-center relative z-10 bg-black/40 backdrop-blur-3xl shadow-[0_0_100px_rgba(var(--accent-rgb),0.1)]"
+                    className="w-64 h-64 border-[3px] border-accent/40 rounded-full flex flex-col items-center justify-center relative z-10 bg-background/40 backdrop-blur-3xl shadow-[0_0_100px_rgba(var(--accent-rgb),0.1)]"
                 >
                     <div className="text-4xl font-mono font-bold tracking-tighter">{seconds}</div>
                     <div className="text-[10px] font-bold uppercase tracking-[0.2em] opacity-40 mt-1">Seconds</div>

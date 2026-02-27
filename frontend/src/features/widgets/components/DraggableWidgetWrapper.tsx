@@ -80,15 +80,15 @@ export const DraggableWidgetWrapper = ({
             initial={isMobile ? { opacity: 0, y: 20 } : { opacity: 0, scale: 0.9, x: defaultPosition.x, y: defaultPosition.y }}
             animate={isMobile ? { opacity: 1, y: 0 } : { opacity: 1, scale: 1 }}
             exit={isMobile ? { opacity: 0, y: 20 } : { opacity: 0, scale: 0.9 }}
-            className={`sm:fixed relative ${isMini ? 'w-full sm:w-64' : 'w-full ' + width} sm:max-w-none max-h-[50vh] sm:max-h-[85vh] bg-[#121212]/95 backdrop-blur-3xl border border-white/20 sm:rounded-2xl rounded-xl shadow-[0_10px_30px_rgba(0,0,0,0.5)] sm:shadow-[0_30px_60px_rgba(0,0,0,0.8)] overflow-hidden sm:z-40 flex flex-col ${className} ring-1 ring-white/10 transition-[background-color] duration-300 sm:left-auto sm:right-4 sm:top-24 origin-top mb-4 sm:mb-0`}
+            className={`sm:fixed relative ${isMini ? 'w-full sm:w-64' : 'w-full ' + width} sm:max-w-none max-h-[50vh] sm:max-h-[85vh] bg-[#121212]/95 backdrop-blur-3xl border border-border-subtle sm:rounded-2xl rounded-xl shadow-[0_10px_30px_rgba(0,0,0,0.5)] sm:shadow-[0_30px_60px_rgba(0,0,0,0.8)] overflow-hidden sm:z-40 flex flex-col ${className} ring-1 ring-white/10 transition-[background-color] duration-300 sm:left-auto sm:right-4 sm:top-24 origin-top mb-4 sm:mb-0`}
         >
             {/* Header */}
             {!isMini && (
-                <div className={`flex items-center justify-between p-3 border-b border-white/5 bg-white/5 ${isMobile ? '' : 'cursor-move active:cursor-grabbing'} select-none group touch-none`}>
+                <div className={`flex items-center justify-between p-3 border-b border-white/5 bg-panel ${isMobile ? '' : 'cursor-move active:cursor-grabbing'} select-none group touch-none`}>
                     <div className="flex items-center gap-2">
-                        {!isMobile && <GripHorizontal className="w-4 h-4 text-white/20 group-hover:text-white/40 transition-colors" />}
+                        {!isMobile && <GripHorizontal className="w-4 h-4 text-foreground/20 group-hover:text-foreground/40 transition-colors" />}
                         {icon && <span className="text-accent">{icon}</span>}
-                        <span className="text-xs font-bold uppercase tracking-widest text-white/50 group-hover:text-white/80 transition-colors">
+                        <span className="text-xs font-bold uppercase tracking-widest text-foreground/50 group-hover:text-foreground/80 transition-colors">
                             {title}
                         </span>
                     </div>
@@ -97,7 +97,7 @@ export const DraggableWidgetWrapper = ({
                         {!isMobile && (
                             <button
                                 onClick={onClose}
-                                className="p-1.5 hover:bg-white/10 rounded-full text-white/40 hover:text-white transition-colors"
+                                className="p-1.5 hover:bg-panel-hover rounded-full text-foreground/40 hover:text-foreground transition-colors"
                             >
                                 <X className="w-4 h-4" />
                             </button>

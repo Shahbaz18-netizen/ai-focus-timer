@@ -15,7 +15,7 @@ export const SceneSelector = () => {
                     onClick={() => setScene(scene)}
                     className={`relative group flex-shrink-0 w-24 h-16 rounded-xl overflow-hidden border transition-all ${currentScene.id === scene.id
                             ? 'border-accent ring-2 ring-accent/30'
-                            : 'border-white/10 hover:border-white/30'
+                            : 'border-border-subtle hover:border-white/30'
                         }`}
                 >
                     {scene.url ? (
@@ -26,14 +26,14 @@ export const SceneSelector = () => {
                         />
                     ) : (
                         <div className="w-full h-full bg-zinc-900 flex items-center justify-center">
-                            <ImageIcon className="w-6 h-6 text-white/20" />
+                            <ImageIcon className="w-6 h-6 text-foreground/20" />
                         </div>
                     )}
 
-                    <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors" />
+                    <div className="absolute inset-0 bg-background/40 group-hover:bg-background/20 transition-colors" />
 
                     {/* Name Label */}
-                    <div className="absolute bottom-1 left-2 text-[9px] font-bold text-white/90 uppercase tracking-wider shadow-sm">
+                    <div className="absolute bottom-1 left-2 text-[9px] font-bold text-foreground/90 uppercase tracking-wider shadow-sm">
                         {scene.name}
                     </div>
 

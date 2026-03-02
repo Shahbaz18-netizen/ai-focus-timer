@@ -74,7 +74,7 @@ export const DashboardView = ({
             />
 
             {/* Quick Start Hero Section */}
-            <div className="relative group rounded-3xl overflow-hidden cursor-pointer shadow-xl transition-all duration-500 hover:shadow-2xl hover:-translate-y-1" onClick={() => {
+            <div className="relative group rounded-2xl overflow-hidden cursor-pointer shadow-xl transition-all duration-500 hover:shadow-2xl hover:-translate-y-1" onClick={() => {
                 if (activeTask) {
                     onSelectTask(activeTask);
                 } else {
@@ -87,7 +87,7 @@ export const DashboardView = ({
                 }
             }}>
                 <div className="absolute inset-0 bg-gradient-to-r from-accent/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-                <div className="absolute inset-0 bg-background/40 backdrop-blur-2xl border border-border-subtle rounded-3xl group-hover:border-border-subtle transition-colors" />
+                <div className="absolute inset-0 bg-background/40 backdrop-blur-2xl border border-border-subtle rounded-2xl group-hover:border-border-subtle transition-colors" />
 
                 <div className="relative p-8 flex flex-col items-center justify-center gap-4 text-center z-10">
                     <div className="w-16 h-16 rounded-full bg-accent text-black flex items-center justify-center shadow-[0_0_30px_rgba(var(--accent-rgb),0.5)] group-hover:scale-110 transition-transform duration-300">
@@ -123,7 +123,7 @@ export const DashboardView = ({
             </div>
 
             {/* Placeholder for Analytics Link */}
-            <section className="bg-background/40 backdrop-blur-2xl rounded-3xl p-6 border border-border-subtle shadow-lg flex flex-col md:flex-row justify-between items-start md:items-center gap-6 md:gap-0 transition-all hover:border-border-subtle hover:shadow-xl">
+            <section className="bg-background/40 backdrop-blur-2xl rounded-2xl p-6 border border-border-subtle shadow-lg flex flex-col md:flex-row justify-between items-start md:items-center gap-6 md:gap-0 transition-all hover:border-border-subtle hover:shadow-xl">
                 <div className="flex items-center gap-4 cursor-pointer group w-full md:w-auto" onClick={() => setIsShutdownOpen(true)}>
                     <div className="p-3 bg-red-500/10 rounded-2xl group-hover:bg-red-500/20 transition-colors shrink-0">
                         <LogOut className="w-6 h-6 text-red-500" />

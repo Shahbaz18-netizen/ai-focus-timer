@@ -24,7 +24,7 @@ import { Task } from "@/types";
 import { createClient } from "@/lib/supabase/client";
 import { CommandPalette } from "@/components/ui/CommandPalette";
 import { AppDock } from "@/components/ui/AppDock";
-import { WidgetToolbar } from "@/components/ui/WidgetToolbar";
+// import { WidgetToolbar } from "@/components/ui/WidgetToolbar";
 
 import { LandingPage } from "@/components/marketing/LandingPage";
 
@@ -428,7 +428,7 @@ export default function AuraFocusOS() {
 
   return (
     <div
-      className={`max-w-5xl mx-auto py-4 px-4 pb-24 sm:py-8 sm:px-6 min-h-[100dvh] flex flex-col relative z-0 zen-mode-transition transition-colors duration-1000 ${isZenMode ? 'zen-mode' : ''}`}
+      className={`max-w-5xl mx-auto py-4 px-4 pb-32 sm:py-8 sm:px-6 min-h-[100dvh] flex flex-col relative z-0 zen-mode-transition transition-colors duration-1000 ${isZenMode ? 'zen-mode' : ''}`}
       style={{
         '--color-accent': getAccentColor(),
         backgroundColor: currentScene?.id ? 'transparent' : 'var(--color-background)'
@@ -437,31 +437,35 @@ export default function AuraFocusOS() {
       <ImmersiveBackground />
       <AmbientPlayer />
       {/* 
-        Unified Mobile Dashboard Container 
-        On desktop, widgets float anywhere (absolute/fixed).
+        Widget Container: 
+        On desktop (sm), we use sm:contents so widgets can be fixed/absolute anywhere.
         On mobile, they are forced into this relative grid below the timer.
       */}
-      <div className="w-full max-w-lg mx-auto flex flex-col sm:contents gap-4 mt-8 px-2 z-10 relative">
-        <JournalWidget />
-        <MediaWidget />
-        <SceneSelectorWidget />
-        <SoundWidget />
-        <TaskWidget userId={USER_ID} />
+      <div className={`w-full flex flex-col sm:contents gap-2 mt-2 sm:mt-8 px-2 z-10 relative ${appPhase === 'Planning' ? 'hidden sm:flex' : ''}`}>
+        <JournalWidget side="right" defaultPosition={{ x: 0, y: 96 }} />
+        <MediaWidget side="center" defaultPosition={{ x: 0, y: 40 }} />
+        <SceneSelectorWidget side="left" defaultPosition={{ x: 0, y: 450 }} />
+        <SoundWidget side="right" defaultPosition={{ x: 0, y: 450 }} />
+        <TaskWidget userId={USER_ID} side="left" defaultPosition={{ x: 0, y: 96 }} />
       </div>
       {!isZenMode && (
         <>
-          {/* Floating Top Controls */}
-          <div className="fixed top-6 right-6 z-40 flex items-center gap-4 bg-background/20 backdrop-blur-xl border border-border-subtle rounded-full px-4 py-2 shadow-xl animate-in fade-in slide-in-from-top-4">
+          {/* Floating Top Controls - Only visible in FocusPage or on Desktop */}
+          <div className={`fixed top-4 right-4 sm:top-6 sm:right-6 z-40 flex items-center gap-3 sm:gap-4 bg-background/20 backdrop-blur-xl border border-border-subtle rounded-full px-3 py-1.5 sm:px-4 sm:py-2 shadow-xl animate-in fade-in slide-in-from-top-4 ${appPhase === 'Planning' ? 'hidden sm:flex' : 'flex'}`}>
             <UserProfile userId={USER_ID} email={userEmail} />
             <div className="w-px h-4 bg-white/20" />
             <DigitalClock />
           </div>
 
-          {/* Desktop Widget Toolbar */}
-          <WidgetToolbar />
+          {/* Desktop Widget Toolbar - REMOVED (Functionality merged into Dock) */}
+          {/* <div className={appPhase === 'Planning' ? 'hidden sm:block' : ''}>
+            <WidgetToolbar />
+          </div> */}
 
-          {/* App Dock Navigation */}
-          <AppDock currentTab={currentTab} onTabChange={setCurrentTab} />
+          {/* App Dock Navigation - Hidden on mobile during Planning phase */}
+          <div className={appPhase === 'Planning' ? 'hidden sm:block' : ''}>
+            <AppDock currentTab={currentTab} onTabChange={setCurrentTab} />
+          </div>
         </>
       )}
 
@@ -565,16 +569,18 @@ export default function AuraFocusOS() {
         }}
       />
 
-      <CommandPalette
-        onAddTasks={() => setShowTaskEditor(true)}
-        onSwitchTab={(tab) => setCurrentTab(tab)}
-        onStartFocus={() => {
-          setCurrentTab('focus');
-          setPhase('FocusPage');
-          // Optionally prompt to select a task if none active?
-          // For now just switch view.
-        }}
-      />
+      {appPhase !== 'Planning' && (
+        <CommandPalette
+          onAddTasks={() => setShowTaskEditor(true)}
+          onSwitchTab={(tab) => setCurrentTab(tab)}
+          onStartFocus={() => {
+            setCurrentTab('focus');
+            setPhase('FocusPage');
+            // Optionally prompt to select a task if none active?
+            // For now just switch view.
+          }}
+        />
+      )}
     </div>
   );
 }

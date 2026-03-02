@@ -59,18 +59,17 @@ export const CommandPalette = ({ onAddTasks, onSwitchTab, onStartFocus }: Comman
 
     return (
         <>
-            <div className="fixed bottom-8 left-1/2 -translate-x-1/2 md:bottom-auto md:top-1/2 md:left-4 md:-translate-y-1/2 md:translate-x-0 z-50 flex items-center justify-center w-full max-w-[96vw] sm:max-w-[98vw] md:max-w-max pointer-events-none pb-[env(safe-area-inset-bottom)]">
+            <div className="fixed bottom-6 left-1/2 -translate-x-1/2 md:bottom-auto md:top-1/2 md:left-4 md:-translate-y-1/2 md:translate-x-0 z-50 flex items-center justify-center w-full max-w-[96vw] sm:max-w-[98vw] md:max-w-max pointer-events-none pb-[env(safe-area-inset-bottom)]">
                 {/* Main Dock - Horizontal Bottom on Mobile, Vertical Sidebar on Desktop */}
                 <motion.div
                     layout
-                    className="bg-background/90 backdrop-blur-3xl border border-border-subtle rounded-full p-1.5 sm:p-2 flex flex-row md:flex-col items-center gap-1 sm:gap-2 md:gap-3 shadow-2xl overflow-x-auto no-scrollbar pointer-events-auto w-auto max-w-full justify-start md:justify-center"
+                    className="bg-background/80 backdrop-blur-3xl border border-white/10 rounded-2xl p-1.5 flex flex-row md:flex-col items-center gap-1 sm:gap-2 md:gap-3 shadow-2xl overflow-x-auto no-scrollbar pointer-events-auto w-auto max-w-full justify-start md:justify-center"
                 >
                     <button
-                        onClick={toggleMenu}
-                        className={`p-3 rounded-full transition-all ${activePanel === 'menu' ? 'bg-accent text-black' : 'hover:bg-panel-hover text-foreground'}`}
+                        className={`p-3 rounded-xl transition-all ${activePanel === 'menu' ? 'bg-accent text-black' : 'hover:bg-white/10 text-foreground'}`}
                         title="Menu"
                     >
-                        {activePanel === 'menu' ? <X className="w-5 h-5" /> : <Command className="w-5 h-5" />}
+                        {activePanel === 'menu' ? <X className="w-5 h-5" strokeWidth={2} /> : <Command className="w-5 h-5" strokeWidth={2} />}
                     </button>
 
                     <div className="w-[1px] h-6 md:w-8 md:h-[1px] bg-panel-hover shrink-0" />
@@ -111,18 +110,18 @@ export const CommandPalette = ({ onAddTasks, onSwitchTab, onStartFocus }: Comman
 
                     <button
                         onClick={toggleZenMode}
-                        className={`p-3 rounded-full transition-all ${isZenMode ? 'bg-accent text-black shadow-[0_0_15px_rgba(var(--accent-rgb),0.5)]' : 'hover:bg-panel-hover text-foreground/50 hover:text-foreground'}`}
+                        className={`p-3 rounded-xl transition-all ${isZenMode ? 'bg-accent text-black shadow-[0_0_15px_rgba(var(--accent-rgb),0.5)]' : 'hover:bg-white/10 text-foreground/50 hover:text-foreground'}`}
                         title="Zen Mode"
                     >
-                        <Zap className="w-5 h-5" />
+                        <Zap className="w-5 h-5" strokeWidth={2} />
                     </button>
 
                     <button
                         onClick={onAddTasks}
-                        className="p-3 rounded-full hover:bg-panel-hover text-foreground transition-colors"
+                        className="p-3 rounded-xl hover:bg-white/10 text-foreground transition-colors"
                         title="Quick Add Task"
                     >
-                        <Plus className="w-5 h-5" />
+                        <Plus className="w-5 h-5" strokeWidth={2} />
                     </button>
                     {/* Move the Plus button outside the scrollable area on mobile if needed, or leave inside. Better inside for simplicity. */}
                 </motion.div>
@@ -155,11 +154,11 @@ export const CommandPalette = ({ onAddTasks, onSwitchTab, onStartFocus }: Comman
 const SidebarToggle = ({ isActive, onClick, icon: Icon, label }: { isActive: boolean, onClick: () => void, icon: any, label: string }) => (
     <button
         onClick={onClick}
-        className={`p-2.5 sm:p-3 rounded-full shrink-0 transition-all group relative ${isActive
+        className={`p-2.5 sm:p-3 rounded-xl shrink-0 transition-all group relative ${isActive
             ? 'bg-white text-black shadow-[0_0_15px_rgba(255,255,255,0.3)]'
-            : 'hover:bg-panel-hover text-foreground/50 hover:text-foreground relative'}`}
+            : 'hover:bg-white/10 text-foreground/50 hover:text-foreground relative'}`}
     >
-        <Icon className="w-5 h-5" />
+        <Icon className="w-5 h-5" strokeWidth={2} />
 
         {/* Tooltip */}
         <span className="absolute bottom-full mb-4 md:bottom-auto md:mb-0 md:left-full md:ml-4 px-2 py-1 bg-background/90 border border-border-subtle rounded-md text-xs font-medium text-foreground opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-50">
@@ -171,10 +170,10 @@ const SidebarToggle = ({ isActive, onClick, icon: Icon, label }: { isActive: boo
 const MenuButton = ({ icon: Icon, label, onClick, shortcut }: { icon: any, label: string, onClick: () => void, shortcut?: string }) => (
     <button
         onClick={onClick}
-        className="flex items-center justify-between p-3 rounded-xl bg-panel hover:bg-accent hover:text-black transition-all group w-full text-left"
+        className="flex items-center justify-between p-3 rounded-xl bg-white/5 hover:bg-accent hover:text-black transition-all group w-full text-left"
     >
         <div className="flex items-center gap-3">
-            <Icon className="w-5 h-5 text-foreground/50 group-hover:text-black/70" />
+            <Icon className="w-5 h-5 text-foreground/50 group-hover:text-black/70" strokeWidth={2} />
             <span className="text-sm font-medium">{label}</span>
         </div>
         {shortcut && (

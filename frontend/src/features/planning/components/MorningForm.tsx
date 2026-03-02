@@ -158,18 +158,25 @@ export const MorningForm = ({ onComplete, userId }: MorningFormProps) => {
                 )}
 
                 {step === 4 && aiResponse && (
-                    <motion.div key="step4" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}>
+                    <motion.div key="step4" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="w-full">
                         <div className="space-y-6">
                             <AIStreamer content={aiResponse} isStreaming={false} agentType="Sentinel" />
 
-                            <Card className="border-accent/30 bg-accent/5 p-6 text-center">
-                                <Clock className="w-8 h-8 text-accent mx-auto mb-4" />
-                                <h3 className="text-lg font-bold">Accountability Protocol Active</h3>
-                                <p className="text-textDim mt-2">I will verify your progress at <span className="text-foreground font-mono">{targetTime}</span>.</p>
-                            </Card>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <Card className="border-accent/30 bg-accent/5 p-4 text-center">
+                                    <Clock className="w-6 h-6 text-accent mx-auto mb-2" />
+                                    <h3 className="text-sm font-bold">Sync Point</h3>
+                                    <p className="text-xs text-textDim mt-1">Checking in at <span className="text-foreground font-mono">{targetTime}</span>.</p>
+                                </Card>
+                                <Card className="border-accent/30 bg-accent/5 p-4 text-center">
+                                    <Target className="w-6 h-6 text-accent mx-auto mb-2" />
+                                    <h3 className="text-sm font-bold">Focus Goal</h3>
+                                    <p className="text-xs text-textDim mt-1">{focusTime} hours of work.</p>
+                                </Card>
+                            </div>
 
-                            <Button className="w-full py-6 text-lg" onClick={() => onComplete(true)}>
-                                Enter Focus Room
+                            <Button className="w-full py-6 text-lg shadow-[0_0_30px_rgba(var(--accent-rgb),0.3)] group" onClick={() => onComplete(true)}>
+                                Begin the Ritual <CheckCircle2 className="w-5 h-5 ml-2 group-hover:scale-110 transition-transform" />
                             </Button>
                         </div>
                     </motion.div>

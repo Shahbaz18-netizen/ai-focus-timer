@@ -34,17 +34,17 @@ export const ProgressWidget = ({ targetMinutes, actualMinutes, reportingTime, on
     return (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
             <Card className="flex flex-col items-center justify-center py-8 border-accent/20">
-                <Target className="text-accent w-8 h-8 mb-2" />
+                <Target strokeWidth={2} className="text-accent w-8 h-8 mb-2" />
                 <h3 className="text-xs uppercase tracking-widest text-textDim">Daily Target</h3>
                 <p className="text-3xl font-bold">{(targetMinutes / 60).toFixed(1)}h</p>
             </Card>
             <Card className="flex flex-col items-center justify-center py-8 border-accent/20">
-                <TrendingUp className="text-accent w-8 h-8 mb-2" />
+                <TrendingUp strokeWidth={2} className="text-accent w-8 h-8 mb-2" />
                 <h3 className="text-xs uppercase tracking-widest text-textDim">Focused Today</h3>
                 <p className="text-3xl font-bold">{(actualMinutes / 60).toFixed(1)}h</p>
             </Card>
             <Card className="relative flex flex-col items-center justify-center py-8 border-accent/20 group">
-                <Clock className="text-accent w-8 h-8 mb-2" />
+                <Clock strokeWidth={2} className="text-accent w-8 h-8 mb-2" />
                 <h3 className="text-xs uppercase tracking-widest text-textDim">Report At</h3>
 
                 {!isEditing ? (

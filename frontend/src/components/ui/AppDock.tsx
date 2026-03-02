@@ -24,7 +24,7 @@ export function AppDock({ currentTab, onTabChange }: AppDockProps) {
     ] as const;
 
     return (
-        <div className="fixed bottom-0 left-0 right-0 z-50 flex items-center justify-around px-2 py-3 bg-background/80 backdrop-blur-2xl border-t border-border-subtle pb-safe">
+        <div className="fixed bottom-0 left-0 right-0 z-50 hidden sm:flex items-center justify-around px-2 py-3 bg-background/80 backdrop-blur-2xl border-t border-border-subtle pb-safe">
             {tabs.map((tab) => {
                 const isActive = currentTab === tab.id;
                 const Icon = tab.icon;

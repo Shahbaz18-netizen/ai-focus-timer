@@ -37,14 +37,18 @@ class AnalyticsService:
         total_focus_time = sum(s.get('duration_minutes') or 0 for s in sessions)
         
         # 3. Fetch Plan Targets
-        plan_res = supabase.table("daily_plans") \
-            .select("focus_target_minutes") \
-            .eq("user_id", user_id) \
-            .gte("created_at", today_start) \
-            .limit(1) \
-            .execute()
-            
-        target_minutes = plan_res.data[0]['focus_target_minutes'] if plan_res.data else 0
+        try:
+            plan_res = supabase.table("daily_plans") \
+                .select("focus_target_minutes") \
+                .eq("user_id", user_id) \
+                .gte("created_at", today_start) \
+                .limit(1) \
+                .execute()
+                
+            target_minutes = plan_res.data[0]['focus_target_minutes'] if plan_res.data and len(plan_res.data) > 0 else 0
+        except Exception as e:
+            print(f"Non-critical: Error fetching daily plan targets: {e}")
+            target_minutes = 0
 
         # 4. Fetch Recent Memories (RAG)
         from app.services.rag_service import rag_service

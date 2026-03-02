@@ -5,7 +5,7 @@ import { BookOpen, Calendar, Save } from "lucide-react";
 import { DraggableWidgetWrapper } from "./DraggableWidgetWrapper";
 import { useEffect, useState } from "react";
 
-export const JournalWidget = () => {
+export const JournalWidget = ({ defaultPosition, side = 'right' }: { defaultPosition?: { x: number, y: number }, side?: 'left' | 'right' | 'center' }) => {
     const { activeWidgets, toggleWidget, journalContent, setJournalContent } = useWidgetStore();
     const isOpen = activeWidgets.includes("journal");
 
@@ -23,9 +23,9 @@ export const JournalWidget = () => {
             title="Journal"
             icon={<BookOpen className="w-4 h-4 text-accent" />}
             onClose={() => toggleWidget("journal")}
-            defaultPosition={{ x: 0, y: typeof window !== 'undefined' && window.innerWidth < 640 ? 350 : 0 }}
-            width="w-[280px] sm:w-[340px]"
-            className="max-w-[calc(100vw-1rem)]"
+            defaultPosition={defaultPosition || { x: 0, y: 96 }}
+            side={side}
+            width="w-full sm:w-72"
         >
             <div className="p-2 sm:p-5 flex flex-col gap-3 sm:gap-4 w-full h-full min-h-[220px] sm:min-h-[300px]">
                 {/* Header */}

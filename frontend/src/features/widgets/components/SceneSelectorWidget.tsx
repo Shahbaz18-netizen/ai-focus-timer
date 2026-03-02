@@ -16,7 +16,7 @@ const extractVideoID = (url: string) => {
     return match ? match[1] : null;
 };
 
-export const SceneSelectorWidget = () => {
+export const SceneSelectorWidget = ({ defaultPosition, side = 'left' }: { defaultPosition?: { x: number, y: number }, side?: 'left' | 'right' | 'center' }) => {
     const { activeWidgets, toggleWidget } = useWidgetStore();
     const { currentScene, setScene, setCustomScene, blurLevel, setBlurLevel, brightness, setBrightness } = useBackgroundStore();
     const isOpen = activeWidgets.includes("scenes");
@@ -43,7 +43,9 @@ export const SceneSelectorWidget = () => {
             title="Environments"
             icon={<ImageIcon className="w-4 h-4 text-accent" />}
             onClose={() => toggleWidget("scenes")}
-            width="w-full sm:w-80 xl:w-96"
+            defaultPosition={defaultPosition || { x: 0, y: 450 }}
+            side={side}
+            width="w-full sm:w-64"
             headerActions={
                 <button
                     onClick={() => setIsAddingCustom(!isAddingCustom)}

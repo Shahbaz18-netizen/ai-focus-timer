@@ -247,7 +247,7 @@ export const InteractiveTimer = ({
 
             {/* TABS ALWAYS VISIBLE */}
             {!isZenMode && (
-                <div className="flex bg-panel-hover rounded-full p-1 w-fit mx-auto relative mb-8 z-50">
+                <div className="flex bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-1 w-fit mx-auto relative mb-12 z-50">
                     {[
                         { id: 'pomodoro', label: 'Pomodoro', mins: pomodoroSettings.focusLength },
                         { id: 'shortBreak', label: 'Short Break', mins: pomodoroSettings.shortBreakLength },
@@ -267,13 +267,13 @@ export const InteractiveTimer = ({
                                 });
                                 onStatusChange?.('idle');
                             }}
-                            className={`relative px-6 py-2 rounded-full text-sm font-bold transition-colors z-10 ${mode === tab.id ? 'text-black' : 'text-foreground/60 hover:text-foreground'
+                            className={`relative px-6 py-2 rounded-xl text-sm font-bold transition-colors z-10 ${mode === tab.id ? 'text-black' : 'text-foreground/60 hover:text-foreground'
                                 }`}
                         >
                             {mode === tab.id && (
                                 <motion.div
                                     layoutId="activeTimerTab"
-                                    className="absolute inset-0 bg-white rounded-full shadow-[0_0_15px_rgba(255,255,255,0.4)]"
+                                    className="absolute inset-0 bg-white rounded-xl shadow-[0_0_15px_rgba(255,255,255,0.4)]"
                                     transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                                 />
                             )}
@@ -288,10 +288,10 @@ export const InteractiveTimer = ({
                 <div className="flex justify-end w-full mb-4 px-4 relative z-50">
                     <button
                         onClick={() => setShowSettings(!showSettings)}
-                        className="text-foreground/40 hover:text-foreground transition-colors cursor-pointer p-3 bg-background/40 hover:bg-background/60 rounded-full backdrop-blur-md border border-border-subtle shadow-lg"
+                        className="text-foreground/40 hover:text-foreground transition-colors cursor-pointer p-3 bg-white/5 hover:bg-white/10 rounded-2xl backdrop-blur-xl border border-white/10 shadow-lg"
                         title="Pomodoro Settings"
                     >
-                        <Settings className="w-5 h-5" />
+                        <Settings className="w-5 h-5" strokeWidth={2} />
                     </button>
                 </div>
             )}
@@ -405,8 +405,8 @@ export const InteractiveTimer = ({
                                     });
                                 }}
                                 className={`px-4 sm:px-8 py-3 sm:py-4 rounded-2xl border transition-all duration-300 w-[calc(50%-0.5rem)] sm:w-auto ${duration === preset
-                                    ? 'bg-white text-black border-white shadow-[0_0_30px_rgba(255,255,255,0.3)]'
-                                    : 'bg-panel border-white/5 text-foreground/40 hover:bg-panel-hover hover:text-foreground'
+                                    ? 'bg-white/10 backdrop-blur-xl border-white/20 text-white shadow-[0_0_30px_rgba(255,255,255,0.1)]'
+                                    : 'bg-white/5 border-white/5 text-foreground/40 hover:bg-white/10 hover:text-foreground'
                                     }`}
                             >
                                 <span className="text-xl sm:text-2xl font-bold font-mono block">{preset}</span>
@@ -437,160 +437,163 @@ export const InteractiveTimer = ({
                             </motion.div>
                         )}
                     </AnimatePresence>
+
                     {/* TIMER DISPLAY */}
-                    <div className={`transition-all duration-1000 opacity-100 ${isZenMode ? 'mt-8' : 'mt-0 sm:mt-2 md:mt-8'} mb-4`}>
-                        <div className={`flex flex-row items-center justify-center gap-2 sm:gap-4 md:gap-8 mb-4 md:mb-8`}>
-                            {/* MINUTES GROUP */}
-                            <div className="flex flex-col items-center gap-2 md:gap-4">
-                                <div className="flex gap-1 sm:gap-2 scale-90 sm:scale-100">
-                                    <FlipDigit digit={m1} />
-                                    <FlipDigit digit={m2} />
+                    <div className={`transition-all duration-1000 opacity-100 ${isZenMode ? 'mt-8' : 'mt-0 sm:mt-2 md:mt-8'} mb-4 w-full`}>
+                        <div className="flex flex-col items-center">
+                            <div className="flex flex-row items-center justify-center gap-4 sm:gap-6 md:gap-10 lg:gap-12 mb-6 sm:mb-10">
+                                {/* MINUTES */}
+                                <div className="flex gap-1.5 sm:gap-3">
+                                    <FlipDigit digit={m1} size={isZenMode ? 'zen' : mode === 'pomodoro' ? 'large' : 'normal'} />
+                                    <FlipDigit digit={m2} size={isZenMode ? 'zen' : mode === 'pomodoro' ? 'large' : 'normal'} />
                                 </div>
-                                <span className="text-[10px] md:text-sm font-bold text-foreground/60 tracking-[0.5em] md:tracking-[0.5em] uppercase font-mono hidden md:block">
-                                    Minutes
-                                </span>
+
+                                {/* Custom Animated Colon Separator */}
+                                <div className={`flex flex-col ${isZenMode ? 'gap-4 py-4 sm:py-8 lg:py-12' : 'gap-2 py-2 sm:gap-4 sm:py-4'} `}>
+                                    <motion.div
+                                        animate={{ opacity: [0.4, 1, 0.4], scale: [0.9, 1.1, 0.9] }}
+                                        transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                                        className="w-2 h-2 sm:w-3.5 sm:h-3.5 lg:w-4.5 lg:h-4.5 rounded-full bg-accent shadow-[0_0_15px_rgba(var(--accent-rgb),0.6)]"
+                                    />
+                                    <motion.div
+                                        animate={{ opacity: [0.4, 1, 0.4], scale: [0.9, 1.1, 0.9] }}
+                                        transition={{ duration: 2, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+                                        className="w-2 h-2 sm:w-3.5 sm:h-3.5 lg:w-4.5 lg:h-4.5 rounded-full bg-accent shadow-[0_0_15px_rgba(var(--accent-rgb),0.6)]"
+                                    />
+                                </div>
+
+                                {/* SECONDS */}
+                                <div className="flex gap-1.5 sm:gap-3">
+                                    <FlipDigit digit={s1} size={isZenMode ? 'zen' : mode === 'pomodoro' ? 'large' : 'normal'} />
+                                    <FlipDigit digit={s2} size={isZenMode ? 'zen' : mode === 'pomodoro' ? 'large' : 'normal'} />
+                                </div>
                             </div>
 
-                            {/* SEPARATOR - Dots always for sideways view */}
-                            <div className={`flex-col gap-2 md:gap-3 pb-2 md:pb-8 opacity-70 flex`}>
-                                <div className="w-1.5 h-1.5 md:w-3 md:h-3 rounded-full bg-white shadow-[0_0_10px_rgba(255,255,255,0.5)]" />
-                                <div className="w-1.5 h-1.5 md:w-3 md:h-3 rounded-full bg-white shadow-[0_0_10px_rgba(255,255,255,0.5)]" />
-                            </div>
-
-                            {/* SECONDS GROUP */}
-                            <div className="flex flex-col items-center gap-2 md:gap-4">
-                                <div className="flex gap-2">
-                                    <FlipDigit digit={s1} />
-                                    <FlipDigit digit={s2} />
+                            {/* SESSION INDICATOR */}
+                            <div className="flex flex-col items-center gap-4 mb-12">
+                                <div className="flex items-center gap-3">
+                                    <div className="h-[1px] w-8 bg-gradient-to-r from-transparent to-white/20" />
+                                    <span className="text-[10px] sm:text-xs font-black tracking-[0.3em] text-foreground/40 uppercase">
+                                        Focus Session
+                                    </span>
+                                    <div className="h-[1px] w-8 bg-gradient-to-l from-transparent to-white/20" />
                                 </div>
-                                <span className="text-[10px] md:text-sm font-bold text-foreground/60 tracking-[0.5em] md:tracking-[0.5em] uppercase font-mono hidden md:block">
-                                    Seconds
-                                </span>
+
+                                <div className="flex items-center gap-4">
+                                    {[...Array(pomodoroSettings.sessionsBeforeLongBreak)].map((_, i) => (
+                                        <div
+                                            key={i}
+                                            className={`w-2.5 h-2.5 rounded-full transition-all duration-700 ${i < ((currentPomodoroSession - 1) % pomodoroSettings.sessionsBeforeLongBreak)
+                                                ? 'bg-accent shadow-[0_0_15px_rgba(var(--accent-rgb),0.6)] scale-110'
+                                                : 'bg-white/5 border border-white/10'
+                                                }`}
+                                        />
+                                    ))}
+                                </div>
                             </div>
                         </div>
 
-                        {/* SESSION INDICATOR */}
-                        {/* Fix #7: count uses store setting; #8: uses global session counter */}
-                        <div className="flex items-center justify-center gap-3 opacity-60 hover:opacity-100 transition-opacity">
-                            <span className="text-[10px] font-bold tracking-widest text-foreground/70 uppercase mr-2">Session</span>
-                            {[...Array(pomodoroSettings.sessionsBeforeLongBreak)].map((_, i) => (
-                                <div
-                                    key={i}
-                                    className={`w-2 h-2 rounded-full transition-all ${i < ((currentPomodoroSession - 1) % pomodoroSettings.sessionsBeforeLongBreak)
-                                        ? 'bg-accent shadow-[0_0_8px_rgba(var(--accent-rgb),0.5)]'
-                                        : 'bg-white/30'
-                                        }`}
-                                />
-                            ))}
-                        </div>
-                    </div>
-
-                    {/* FLOATING CONTROLS (Pill) */}
-                    <AnimatePresence>
-                        {/* Always show controls on sm screens (mobile) or if hovered on desktop */}
-                        {(showControls || (typeof window !== 'undefined' && window.innerWidth < 640)) && (
-                            <motion.div
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, y: 20 }}
-                                className="flex items-center gap-2 sm:gap-4 bg-[#1a1a1a]/90 backdrop-blur-xl border border-border-subtle p-2 sm:p-2 rounded-full shadow-2xl z-50 mb-12 sm:mb-0 scale-90 sm:scale-100"
-                            >
-                                <button
-                                    onClick={() => {
-                                        lightTap();
-                                        // Bug fix #3: update all three — state, countdown, and wall-clock ref
-                                        const addSecs = 5 * 60;
-                                        setTimerState({
-                                            duration: duration + 5,
-                                            secondsRemaining: secondsRemaining + addSecs,
-                                            endTime: isActive && endTime ? endTime + addSecs * 1000 : endTime
-                                        });
-                                    }}
-                                    className="p-3 text-foreground/50 hover:text-foreground hover:bg-panel-hover rounded-full transition-colors"
-                                    title="+5 Minutes"
-                                >
-                                    <Plus className="w-5 h-5" />
-                                </button>
-
-                                <div className="w-[1px] h-6 bg-panel-hover" />
-
-                                <button
-                                    onClick={() => {
-                                        lightTap();
-                                        const newActive = !isActive;
-                                        setTimerState({
-                                            isActive: newActive,
-                                            endTime: newActive ? Date.now() + secondsRemaining * 1000 : null
-                                        });
-                                        if (newActive) requestLock();
-                                        else releaseLock();
-                                        onStatusChange?.(newActive ? 'focusing' : 'paused');
-                                    }}
-                                    className={`p-4 rounded-full transition-all ${isActive
-                                        ? 'bg-panel-hover text-foreground hover:bg-white/20'
-                                        : 'bg-accent text-black hover:bg-accent/90'}`}
-                                >
-                                    {isActive ? <Pause className="w-6 h-6 fill-current" /> : <Play className="w-6 h-6 fill-current" />}
-                                </button>
-
-                                <button
-                                    onClick={() => {
-                                        toggleZenMode();
-                                        if (isZenMode) exitFullscreen();
-                                        else enterFullscreen();
-                                    }}
-                                    className={`p-3 rounded-full transition-colors ${isZenMode ? 'text-accent bg-accent/10' : 'text-foreground/30 hover:text-foreground hover:bg-panel-hover'}`}
-                                    title={isZenMode ? "Exit Fullscreen" : "Enter Fullscreen"}
-                                >
-                                    {isZenMode ? <Minimize2 className="w-5 h-5" /> : <Maximize2 className="w-5 h-5" />}
-                                </button>
-
-                                {isPipSupported && (
-                                    <button
-                                        onClick={() => {
-                                            if (pipWindow) closePiP();
-                                            else requestPiP({ width: 340, height: 180 });
-                                        }}
-                                        className={`p-3 rounded-full transition-colors ${pipWindow ? 'text-accent bg-accent/10' : 'text-foreground/30 hover:text-foreground hover:bg-panel-hover'}`}
-                                        title={pipWindow ? "Close PiP" : "Pop Out Timer"}
+                        {/* FLOATING CONTROLS (Pill) */}
+                        <AnimatePresence>
+                            {(showControls || (typeof window !== 'undefined' && window.innerWidth < 640)) && (
+                                <div className="flex justify-center">
+                                    <motion.div
+                                        initial={{ opacity: 0, y: 20 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        exit={{ opacity: 0, y: 20 }}
+                                        className="flex items-center gap-2 sm:gap-4 bg-background/80 backdrop-blur-2xl border border-white/10 p-2 rounded-2xl shadow-2xl z-50 mb-20 sm:mb-0 scale-95 sm:scale-100"
                                     >
-                                        <PictureInPicture className="w-5 h-5" />
-                                    </button>
-                                )}
-
-                                <div className="w-[1px] h-6 bg-panel-hover" />
-
-                                <button
-                                    onClick={handleCancel}
-                                    className="p-3 text-foreground/50 hover:text-red-400 hover:bg-red-500/10 rounded-full transition-colors"
-                                    title="End Session"
-                                >
-                                    <X className="w-5 h-5" />
-                                </button>
-                                {mode !== 'pomodoro' && (
-                                    <>
-                                        <div className="w-[1px] h-6 bg-panel-hover" />
                                         <button
-                                            onClick={() => onComplete(duration)}
-                                            className="px-4 py-2 text-xs font-bold uppercase tracking-wider text-black bg-white rounded-full hover:bg-white/80 transition-colors"
-                                            title="Skip Break"
+                                            onClick={() => {
+                                                lightTap();
+                                                const addSecs = 5 * 60;
+                                                setTimerState({
+                                                    duration: duration + 5,
+                                                    secondsRemaining: secondsRemaining + addSecs,
+                                                    endTime: isActive && endTime ? endTime + addSecs * 1000 : endTime
+                                                });
+                                            }}
+                                            className="p-3 text-foreground/50 hover:text-foreground hover:bg-white/10 rounded-xl transition-colors"
+                                            title="+5 Minutes"
                                         >
-                                            Skip Break
+                                            <Plus className="w-5 h-5" strokeWidth={2} />
                                         </button>
-                                    </>
-                                )}
-                            </motion.div>
-                        )}
-                    </AnimatePresence>
+                                        <div className="w-[1px] h-6 bg-white/10" />
+                                        <button
+                                            onClick={() => {
+                                                lightTap();
+                                                const newActive = !isActive;
+                                                setTimerState({
+                                                    isActive: newActive,
+                                                    endTime: newActive ? Date.now() + secondsRemaining * 1000 : null
+                                                });
+                                                if (newActive) requestLock();
+                                                else releaseLock();
+                                                onStatusChange?.(newActive ? 'focusing' : 'paused');
+                                            }}
+                                            className={`p-4 rounded-xl transition-all ${isActive
+                                                ? 'bg-white/10 text-foreground hover:bg-white/20'
+                                                : 'bg-accent text-black hover:bg-accent/90 shadow-[0_0_20px_rgba(var(--accent-rgb),0.3)]'}`}
+                                        >
+                                            {isActive ? <Pause className="w-6 h-6 fill-current" strokeWidth={2} /> : <Play className="w-6 h-6 fill-current" strokeWidth={2} />}
+                                        </button>
+                                        <button
+                                            onClick={() => {
+                                                toggleZenMode();
+                                                if (isZenMode) exitFullscreen();
+                                                else enterFullscreen();
+                                            }}
+                                            className={`p-3 rounded-xl transition-colors ${isZenMode ? 'text-accent bg-accent/10' : 'text-foreground/30 hover:text-foreground hover:bg-white/10'}`}
+                                            title={isZenMode ? "Exit Fullscreen" : "Enter Fullscreen"}
+                                        >
+                                            {isZenMode ? <Minimize2 className="w-5 h-5" strokeWidth={2} /> : <Maximize2 className="w-5 h-5" strokeWidth={2} />}
+                                        </button>
+                                        {isPipSupported && (
+                                            <button
+                                                onClick={() => {
+                                                    if (pipWindow) closePiP();
+                                                    else requestPiP({ width: 340, height: 180 });
+                                                }}
+                                                className={`p-3 rounded-xl transition-colors ${pipWindow ? 'text-accent bg-accent/10' : 'text-foreground/30 hover:text-foreground hover:bg-white/10'}`}
+                                                title={pipWindow ? "Close PiP" : "Pop Out Timer"}
+                                            >
+                                                <PictureInPicture className="w-5 h-5" strokeWidth={2} />
+                                            </button>
+                                        )}
+                                        <div className="w-[1px] h-6 bg-white/10" />
+                                        <button
+                                            onClick={handleCancel}
+                                            className="p-3 text-foreground/50 hover:text-red-400 hover:bg-red-500/10 rounded-xl transition-colors"
+                                            title="End Session"
+                                        >
+                                            <X className="w-5 h-5" strokeWidth={2} />
+                                        </button>
+                                        {mode !== 'pomodoro' && (
+                                            <>
+                                                <div className="w-[1px] h-6 bg-white/10" />
+                                                <button
+                                                    onClick={() => onComplete(duration)}
+                                                    className="px-4 py-2 text-xs font-bold uppercase tracking-wider text-black bg-white rounded-xl hover:bg-white/80 transition-colors"
+                                                    title="Skip Break"
+                                                >
+                                                    Skip
+                                                </button>
+                                            </>
+                                        )}
+                                    </motion.div>
+                                </div>
+                            )}
+                        </AnimatePresence>
 
-                    {/* MINIMALIST PROGRESS BAR (Bottom) */}
-                    <div className="fixed bottom-0 left-0 right-0 h-1 bg-panel z-50">
-                        <motion.div
-                            className="h-full bg-accent shadow-[0_0_20px_rgba(var(--accent-rgb),0.6)]"
-                            initial={{ width: 0 }}
-                            animate={{ width: `${progress * 100}%` }}
-                            transition={{ duration: 1, ease: "linear" }}
-                        />
+                        {/* MINIMALIST PROGRESS BAR (Bottom) */}
+                        <div className="fixed bottom-0 left-0 right-0 h-1 bg-panel z-50">
+                            <motion.div
+                                className="h-full bg-accent shadow-[0_0_20px_rgba(var(--accent-rgb),0.6)]"
+                                initial={{ width: 0 }}
+                                animate={{ width: `${progress * 100}%` }}
+                                transition={{ duration: 1, ease: "linear" }}
+                            />
+                        </div>
                     </div>
                 </div>
             )}

@@ -4,7 +4,7 @@ load_dotenv()
 
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
-from app.api.v1 import timer, journal, analytics, coach, orchestrator
+from app.api.v1 import timer, journal, analytics, orchestrator
 from app.core.middleware import log_requests
 
 # 🌟 Welcome to the Aura Focus OS Backend! 🌟
@@ -55,7 +55,7 @@ app.include_router(orchestrator.router, prefix="/api/v1/brain", tags=["Orchestra
 app.include_router(timer.router, prefix="/api/v1/timer", tags=["Timer"])
 app.include_router(journal.router, prefix="/api/v1/journal", tags=["Journal"])
 app.include_router(analytics.router, prefix="/api/v1/analytics", tags=["Analytics"])
-app.include_router(coach.router, prefix="/api/v1/coach", tags=["AI Coach"])
+# coach router removed as logic is now handled by orchestrator
 
 
 # ==========================================

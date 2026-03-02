@@ -10,7 +10,7 @@ import { orchestratorService } from "@/services/api"; // Assuming we can import 
 import { Task } from "@/types";
 import { useHaptics } from "@/hooks/useHaptics";
 
-export const TaskWidget = ({ userId }: { userId: string }) => {
+export const TaskWidget = ({ userId, defaultPosition, side = 'left' }: { userId: string, defaultPosition?: { x: number, y: number }, side?: 'left' | 'right' | 'center' }) => {
     const { activeWidgets, toggleWidget } = useWidgetStore();
     const { dailyTasks, setTasks, activeTask, setActiveTask } = useAppStore();
     const { lightTap, successDoubleTap } = useHaptics();
@@ -88,8 +88,9 @@ export const TaskWidget = ({ userId }: { userId: string }) => {
             title="Focus Tasks"
             icon={<CheckSquare className="w-3 h-3" />}
             onClose={() => toggleWidget("tasks")}
-            defaultPosition={{ x: 0, y: typeof window !== 'undefined' && window.innerWidth < 640 ? 300 : 0 }}
-            width="w-[280px] sm:w-80"
+            defaultPosition={defaultPosition || { x: 0, y: 96 }}
+            side={side}
+            width="w-full sm:w-72"
         >
             <div className="flex flex-col max-h-[40vh] sm:h-96">
                 {/* Task List */}

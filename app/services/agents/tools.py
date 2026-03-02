@@ -2,6 +2,8 @@ from langchain_core.tools import tool
 from app.core.supabase_client import supabase
 from app.services.vector_db import vector_db  # Bug fix #6: was missing, caused NameError
 from datetime import datetime
+import re
+from typing import Union, List
 
 @tool
 def fetch_user_history(user_id: str):
@@ -32,37 +34,60 @@ async def search_past_journals(user_id: str, query: str):
         return f"Error searching memory: {str(e)}"
 
 @tool
-def record_morning_ritual(user_id: str, tasks: list, target_focus_mins: int, reporting_time: str):
+def record_morning_ritual(user_id: str, tasks: Union[list, str], target_focus_mins: int, reporting_time: str):
     """
     Saves the user's daily intentions. 
-    tasks: List of task objects like {"title": "Learn Langchain", "duration": 60}
+    tasks: Either a list of task objects like {"title": "X", "duration": 0} OR a comma-separated string of titles.
     target_focus_mins: Total goal for focus today (e.g. 240)
-    reporting_time: When the user wants the EOD analysis (e.g. "2026-02-16T18:00:00")
+    reporting_time: When the user wants the EOD analysis (e.g. "18:00" or "6pm")
     """
     try:
-        # 1. Create Daily Plan entry
+        # 1. Normalize tasks
+        processed_tasks = []
+        if isinstance(tasks, str):
+            processed_tasks = [{"title": t.strip(), "duration": 0} for t in tasks.split(",") if t.strip()]
+        else:
+            processed_tasks = tasks
+
+        # 2. Normalize reporting_time to ISO timestamp
+        # Assume it's for today's date
+        now = datetime.now()
+        iso_reporting_time = reporting_time
+        
+        # Simple HH:mm parser
+        time_match = re.match(r'(\d{1,2}):(\d{1,2})', reporting_time)
+        if time_match:
+            hh, mm = map(int, time_match.groups())
+            target_dt = now.replace(hour=hh, minute=mm, second=0, microsecond=0)
+            iso_reporting_time = target_dt.isoformat()
+        elif "pm" in reporting_time.lower() or "am" in reporting_time.lower():
+            # Basic fallback for am/pm if we want to be fancy, but keeping it simple for now
+            pass
+
+        # 3. Create Daily Plan entry
         plan_entry = {
             "user_id": user_id,
             "focus_target_minutes": target_focus_mins,
-            "reporting_time": reporting_time,
+            "reporting_time": iso_reporting_time,
             "tasks": {"raw": "Interactive Ritual"}
         }
         plan_res = supabase.table("daily_plans").insert(plan_entry).execute()
         
-        # 2. Bulk insert tasks
-        if tasks:
+        # 4. Bulk insert tasks
+        if processed_tasks:
             task_entries = [
                 {
                     "user_id": user_id,
                     "title": t.get("title", "Untitled Task"),
                     "estimated_minutes": t.get("duration", 25),
                     "is_completed": False
-                } for t in tasks
+                } for t in processed_tasks
             ]
             supabase.table("tasks").insert(task_entries).execute()
         
-        return "Morning ritual recorded. Strategy locked in."
+        return f"Morning ritual recorded for {user_id}. {len(processed_tasks)} tasks synced."
     except Exception as e:
+        print(f"ERROR in record_morning_ritual: {e}")
         return f"Error recording ritual: {str(e)}"
 
 @tool

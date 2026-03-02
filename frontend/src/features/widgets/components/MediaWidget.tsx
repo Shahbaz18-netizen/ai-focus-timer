@@ -16,7 +16,7 @@ const extractVideoID = (url: string) => {
     return match ? match[1] : null;
 };
 
-export const MediaWidget = () => {
+export const MediaWidget = ({ defaultPosition, side = 'center' }: { defaultPosition?: { x: number, y: number }, side?: 'left' | 'right' | 'center' }) => {
     const { activeWidgets, toggleWidget } = useWidgetStore();
     const { isDucking } = useSceneStore();
     const { lightTap } = useHaptics();
@@ -146,12 +146,13 @@ export const MediaWidget = () => {
     return (
         <DraggableWidgetWrapper
             id="media"
-            title="Media Player"
+            title="Music & Atmosphere"
             icon={<Music className="w-4 h-4 text-accent" />}
             onClose={() => toggleWidget("media")}
             isMini={isMini}
-            defaultPosition={{ x: 0, y: typeof window !== 'undefined' && window.innerWidth < 640 ? 250 : 0 }}
-            className="w-[280px] sm:w-96 max-w-[calc(100vw-1rem)]"
+            defaultPosition={defaultPosition || { x: 0, y: 40 }}
+            side={side}
+            width="w-full sm:w-[450px]"
             headerActions={
                 <>
                     <button

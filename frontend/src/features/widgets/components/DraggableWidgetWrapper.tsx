@@ -6,6 +6,8 @@ import { motion } from "framer-motion";
 import { X, GripHorizontal } from "lucide-react";
 import { useHaptics } from "@/hooks/useHaptics";
 
+import { useWidgetStore } from "@/features/widgets/stores/useWidgetStore";
+
 interface DraggableWidgetWrapperProps {
     id: string;
     title: string;
@@ -14,6 +16,7 @@ interface DraggableWidgetWrapperProps {
     headerActions?: ReactNode;
     icon?: ReactNode;
     defaultPosition?: { x: number; y: number };
+    side?: 'left' | 'right' | 'center';
     width?: string;
     className?: string;
     isMini?: boolean;
@@ -26,61 +29,41 @@ export const DraggableWidgetWrapper = ({
     children,
     headerActions,
     icon,
-    defaultPosition = { x: 0, y: 0 },
+    defaultPosition = { x: 0, y: 96 },
+    side = 'right',
     width = "w-80",
     className = "",
     isMini = false,
 }: DraggableWidgetWrapperProps) => {
+    const { activeWidgets } = useWidgetStore();
     const { lightTap } = useHaptics();
-    const widgetRef = useRef<HTMLDivElement>(null);
-
-    // Start with loose bounds to avoid hydration mismatch, then snap to window bounds
-    const [constraints, setConstraints] = useState({ left: -2000, right: 2000, top: -2000, bottom: 2000 });
     const [isMobile, setIsMobile] = useState(false);
 
     useEffect(() => {
-        const updateConstraints = () => {
-            if (!widgetRef.current) return;
-            const widgetWidth = widgetRef.current.offsetWidth;
-            const widgetHeight = widgetRef.current.offsetHeight;
-
-            const mobile = window.innerWidth < 640;
-            setIsMobile(mobile);
-
-            if (mobile) return; // No constraints needed if not dragging
-
-            const originX = window.innerWidth - widgetWidth - 16;
-            const originY = 96;
-
-            setConstraints({
-                left: -originX + 16,
-                right: window.innerWidth - originX - widgetWidth - 16,
-                top: -originY + 16,
-                bottom: window.innerHeight - originY - widgetHeight
-            });
-        };
-
-        setTimeout(updateConstraints, 100);
-        window.addEventListener('resize', updateConstraints);
-        return () => window.removeEventListener('resize', updateConstraints);
+        const checkMobile = () => setIsMobile(window.innerWidth < 640);
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        return () => window.removeEventListener('resize', checkMobile);
     }, []);
+
+    if (!activeWidgets.includes(id)) return null;
+
+    // Desktop positioning logic based on side
+    const desktopStyle: React.CSSProperties = !isMobile ? {
+        top: defaultPosition.y,
+        left: side === 'left' ? 16 : side === 'center' ? '50%' : 'auto',
+        right: side === 'right' ? 16 : 'auto',
+        transform: side === 'center' ? 'translateX(-50%)' : 'none',
+    } : {};
 
     return (
         <motion.div
-            ref={widgetRef}
             drag={!isMobile}
             dragMomentum={true}
-            dragConstraints={constraints}
-            dragTransition={{
-                power: 0.1, // Low power to stop quickly
-                timeConstant: 200,
-                modifyTarget: (target) => Math.round(target / 100) * 100
-            }}
+            dragElastic={0.1}
             onDragEnd={() => !isMobile && lightTap()}
-            initial={isMobile ? { opacity: 0, y: 20 } : { opacity: 0, scale: 0.9, x: defaultPosition.x, y: defaultPosition.y }}
-            animate={isMobile ? { opacity: 1, y: 0 } : { opacity: 1, scale: 1 }}
-            exit={isMobile ? { opacity: 0, y: 20 } : { opacity: 0, scale: 0.9 }}
-            className={`sm:fixed relative ${isMini ? 'w-full sm:w-64' : 'w-full ' + width} sm:max-w-none max-h-[50vh] sm:max-h-[85vh] bg-[#121212]/95 backdrop-blur-3xl border border-border-subtle sm:rounded-2xl rounded-xl shadow-[0_10px_30px_rgba(0,0,0,0.5)] sm:shadow-[0_30px_60px_rgba(0,0,0,0.8)] overflow-hidden sm:z-40 flex flex-col ${className} ring-1 ring-white/10 transition-[background-color] duration-300 sm:left-auto sm:right-4 sm:top-24 origin-top mb-4 sm:mb-0`}
+            style={desktopStyle}
+            className={`sm:fixed relative ${isMini ? 'w-full sm:w-64' : 'w-full ' + width} sm:max-w-none max-h-[50vh] sm:max-h-[85vh] bg-[#121212]/95 backdrop-blur-3xl border border-border-subtle sm:rounded-2xl rounded-xl shadow-[0_10px_30px_rgba(0,0,0,0.5)] sm:shadow-[0_30px_60px_rgba(0,0,0,0.8)] overflow-hidden sm:z-40 flex flex-col ${className} ring-1 ring-white/10 transition-[background-color] duration-300 origin-top mb-4 sm:mb-0`}
         >
             {/* Header */}
             {!isMini && (

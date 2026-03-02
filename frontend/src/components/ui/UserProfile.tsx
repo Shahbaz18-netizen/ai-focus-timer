@@ -55,7 +55,7 @@ export const UserProfile = ({ userId, email }: UserProfileProps) => {
                         <Sparkles size={8} /> Level 1
                     </span>
                 </div>
-                <ChevronDown size={14} className={`text-textDim transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`} />
+                <ChevronDown strokeWidth={2} size={14} className={`text-textDim transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`} />
             </button>
 
             <AnimatePresence>
@@ -75,7 +75,7 @@ export const UserProfile = ({ userId, email }: UserProfileProps) => {
                         <div className="p-1">
                             {/* Placeholder for future links like Settings */}
                             <button className="w-full flex items-center gap-3 px-3 py-2 text-sm text-textDim hover:text-foreground hover:bg-panel rounded-lg transition-colors text-left" onClick={() => { }}>
-                                <User size={16} /> Portfolio (Coming Soon)
+                                <User strokeWidth={2} size={16} /> Portfolio (Coming Soon)
                             </button>
 
                             <div className="h-px bg-panel my-1" />
@@ -84,7 +84,7 @@ export const UserProfile = ({ userId, email }: UserProfileProps) => {
                                 onClick={handleSignOut}
                                 className="w-full flex items-center gap-3 px-3 py-2 text-sm text-red-400 hover:text-red-300 hover:bg-red-500/10 rounded-lg transition-colors text-left"
                             >
-                                <LogOut size={16} /> Sign Out
+                                <LogOut strokeWidth={2} size={16} /> Sign Out
                             </button>
                         </div>
                     </motion.div>

@@ -21,10 +21,11 @@ export const MorningForm = ({ onComplete, userId }: MorningFormProps) => {
     // Form State
     const [tasks, setTasks] = useState<string[]>([]);
     const [currentTask, setCurrentTask] = useState("");
-    const [focusHours, setFocusHours] = useState(4);
+    const [focusTime, setFocusTime] = useState("04:00");
     const [targetTime, setTargetTime] = useState("17:00");
 
     const [aiResponse, setAiResponse] = useState<string | null>(null);
+    const [error, setError] = useState<string | null>(null);
 
     const addTask = (e?: React.FormEvent) => {
         e?.preventDefault();
@@ -40,13 +41,18 @@ export const MorningForm = ({ onComplete, userId }: MorningFormProps) => {
 
     const submitPlan = async () => {
         setLoading(true);
+        setError(null);
         try {
             // Just join the tasks
             const taskString = tasks.join(", ");
 
+            // Convert focusTime (HH:mm) to total minutes
+            const [h, m] = focusTime.split(':').map(Number);
+            const totalMinutes = (h * 60) + m;
+
             const res = await orchestratorService.generateMorningPlan(
                 userId,
-                focusHours * 60,
+                totalMinutes,
                 taskString,
                 targetTime
             );
@@ -57,21 +63,22 @@ export const MorningForm = ({ onComplete, userId }: MorningFormProps) => {
             // Wait a bit then notify parent
             // setTimeout(() => onComplete(res), 5000); 
             // Actually, let user click "Start Day"
-        } catch (error) {
-            console.error(error);
+        } catch (err: any) {
+            console.error(err);
+            setError(err.response?.data?.detail || "Failed to initialize day. Please try again.");
         } finally {
             setLoading(false);
         }
     };
 
     return (
-        <div className="max-w-2xl mx-auto w-full">
+        <div className="max-w-2xl mx-auto w-full px-2 sm:px-0 flex flex-col items-center justify-center min-h-[60vh] sm:min-h-0">
             <AnimatePresence mode="wait">
                 {step === 1 && (
                     <motion.div key="step1" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
-                        <Card className="glass-card p-8 border-accent/20">
-                            <h2 className="text-3xl font-bold mb-2">Morning Design</h2>
-                            <p className="text-textDim mb-8">What are your absolute must-dos today?</p>
+                        <Card className="glass-card p-4 sm:p-8 border-accent/20 shadow-2xl backdrop-blur-2xl">
+                            <h2 className="text-xl sm:text-3xl font-bold mb-1 sm:mb-2">Morning Design</h2>
+                            <p className="text-textDim text-xs sm:text-base mb-6 sm:mb-8">What are your absolute must-dos today?</p>
 
                             <div className="space-y-4 mb-8">
                                 <ul className="space-y-2">
@@ -104,41 +111,45 @@ export const MorningForm = ({ onComplete, userId }: MorningFormProps) => {
 
                 {step === 2 && (
                     <motion.div key="step2" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
-                        <Card className="glass-card p-8 border-accent/20">
-                            <h2 className="text-3xl font-bold mb-2">Priority & Focus</h2>
-                            <p className="text-textDim mb-8">Define your north star.</p>
+                        <Card className="glass-card p-4 sm:p-8 border-accent/20 shadow-2xl backdrop-blur-2xl">
+                            <h2 className="text-xl sm:text-3xl font-bold mb-1 sm:mb-2">Priority & Focus</h2>
+                            <p className="text-textDim text-xs sm:text-base mb-6 sm:mb-8">Define your north star.</p>
 
                             <div className="space-y-6 mb-8">
 
 
-                                <div className="grid grid-cols-2 gap-4">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                                     <div>
-                                        <label className="block text-sm font-bold uppercase tracking-widest text-accent mb-2">Focus Budget</label>
+                                        <label className="block text-[10px] sm:text-sm font-bold uppercase tracking-[0.2em] text-accent mb-3 sm:mb-4 opacity-80">Total hours you want to focus today</label>
                                         <div className="flex items-center gap-2">
                                             <Input
-                                                type="number"
-                                                value={focusHours}
-                                                onChange={(e) => setFocusHours(Number(e.target.value))}
-                                                className="font-mono text-lg"
+                                                type="time"
+                                                value={focusTime}
+                                                onChange={(e) => setFocusTime(e.target.value)}
+                                                className="font-mono text-lg bg-white/5 border-white/10 focus:border-accent/40 h-12"
                                             />
-                                            <span className="text-textDim">Hours</span>
                                         </div>
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-bold uppercase tracking-widest text-accent mb-2">Check-in Time</label>
+                                        <label className="block text-[10px] sm:text-sm font-bold uppercase tracking-[0.2em] text-accent mb-3 sm:mb-4 opacity-80">What time should I check your progress?</label>
                                         <Input
                                             type="time"
                                             value={targetTime}
                                             onChange={(e) => setTargetTime(e.target.value)}
-                                            className="font-mono text-lg"
+                                            className="font-mono text-lg bg-white/5 border-white/10 focus:border-accent/40 h-12"
                                         />
                                     </div>
                                 </div>
+                                {error && (
+                                    <div className="p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-sm mb-4">
+                                        {error}
+                                    </div>
+                                )}
                             </div>
 
                             <div className="flex justify-between">
                                 <Button variant="outline" onClick={() => setStep(1)}>Back</Button>
-                                <Button onClick={submitPlan} disabled={tasks.length === 0}>
+                                <Button onClick={submitPlan} disabled={tasks.length === 0} className="shadow-[0_0_20px_rgba(var(--accent-rgb),0.2)]">
                                     {loading ? "Designing..." : "Initialize Day"} <ArrowRight className="w-4 h-4 ml-2" />
                                 </Button>
                             </div>

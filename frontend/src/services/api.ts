@@ -6,9 +6,14 @@ import {
     StrategyResponse,
     DashboardStatsResponse
 } from '@/types';
-import { offlineSyncService } from './offlineSync';
-
-const supabase = createClient();
+// Use lazy initialization for supabase to avoid issues with circular imports or timing
+let _supabase: any = null;
+const getSupabase = () => {
+    if (!_supabase) {
+        _supabase = createClient();
+    }
+    return _supabase;
+};
 
 const api = axios.create({
     baseURL: API_BASE_URL,
@@ -19,9 +24,14 @@ const api = axios.create({
 
 // Add request interceptor to attach Bearer token
 api.interceptors.request.use(async (config) => {
-    const { data: { session } } = await supabase.auth.getSession();
-    if (session?.access_token) {
-        config.headers.Authorization = `Bearer ${session.access_token}`;
+    try {
+        const supabase = getSupabase();
+        const { data: { session } } = await supabase.auth.getSession();
+        if (session?.access_token) {
+            config.headers.Authorization = `Bearer ${session.access_token}`;
+        }
+    } catch (e) {
+        console.warn("Auth interceptor error:", e);
     }
     return config;
 }, (error) => {
@@ -46,7 +56,7 @@ api.interceptors.response.use((response) => response, (error) => {
 export const orchestratorService = {
     async generateMorningPlan(userId: string, targetMinutes: number, tasks: string, targetEndTime: string): Promise<MorningPlanResponse> {
         // userId ignored, handled by token
-        const res = await api.post(`${API_BASE_URL}/brain/plan/morning`, {
+        const res = await api.post(`brain/plan/morning`, {
             target_minutes: targetMinutes,
             tasks,
             target_end_time: targetEndTime
@@ -55,7 +65,7 @@ export const orchestratorService = {
     },
 
     getSessionStrategy: async (userId: string, intent: string, durationMins: number): Promise<StrategyResponse> => {
-        const response = await api.post('/brain/session/strategy', {
+        const response = await api.post('brain/session/strategy', {
             intent,
             duration_mins: durationMins,
         });
@@ -63,14 +73,14 @@ export const orchestratorService = {
     },
 
     async getDashboardStats(userId: string) {
-        const response = await api.get(`/brain/dashboard/stats`);
+        const response = await api.get(`brain/dashboard/stats`);
         return response.data;
     },
 
     getEodReport: async (userId: string): Promise<{ report: string }> => {
         // Corrected to use history endpoint
         try {
-            const response = await api.get(`/brain/reports/history`, { params: { limit: 1 } });
+            const response = await api.get(`brain/reports/history`, { params: { limit: 1 } });
             const reports = response.data;
             if (Array.isArray(reports) && reports.length > 0) {
                 return { report: reports[0].summary || JSON.stringify(reports[0]) };
@@ -83,29 +93,31 @@ export const orchestratorService = {
     },
 
     getTasks: async (userId: string) => {
-        const response = await api.get(`/brain/tasks`);
+        const response = await api.get(`brain/tasks`);
         return response.data;
     },
 
     getLatestPlan: async (userId: string) => {
-        const response = await api.get(`/brain/plan/latest`);
+        const response = await api.get(`brain/plan/latest`);
         return response.data;
     },
 
     updateTask: async (taskId: number, isCompleted: boolean) => {
         if (typeof window !== 'undefined' && !navigator.onLine) {
+            const { offlineSyncService } = await import('./offlineSync');
             await offlineSyncService.enqueueAction({
                 type: 'UPDATE_TASK',
                 payload: { taskId, isCompleted }
             });
             return { message: "Queued offline" };
         }
-        const response = await api.patch(`/brain/tasks/${taskId}`, { is_completed: isCompleted });
+        const response = await api.patch(`brain/tasks/${taskId}`, { is_completed: isCompleted });
         return response.data;
     },
 
     createTask: async (userId: string, title: string) => {
         if (typeof window !== 'undefined' && !navigator.onLine) {
+            const { offlineSyncService } = await import('./offlineSync');
             await offlineSyncService.enqueueAction({
                 type: 'CREATE_TASK',
                 payload: { userId, title }
@@ -113,31 +125,33 @@ export const orchestratorService = {
             // Return fake response for optimistic UI
             return { id: -Date.now(), title, is_completed: false };
         }
-        const response = await api.post(`/brain/tasks`, { title });
+        const response = await api.post(`brain/tasks`, { title });
         return response.data;
     },
 
     deleteTask: async (taskId: number) => {
         if (typeof window !== 'undefined' && !navigator.onLine) {
+            const { offlineSyncService } = await import('./offlineSync');
             await offlineSyncService.enqueueAction({
                 type: 'DELETE_TASK',
                 payload: { taskId }
             });
             return { message: "Queued offline" };
         }
-        const response = await api.delete(`/brain/tasks/${taskId}`);
+        const response = await api.delete(`brain/tasks/${taskId}`);
         return response.data;
     },
 
     logSession: async (userId: string, taskIntent: string, durationMinutes: number, startTime: string) => {
         if (typeof window !== 'undefined' && !navigator.onLine) {
+            const { offlineSyncService } = await import('./offlineSync');
             await offlineSyncService.enqueueAction({
                 type: 'LOG_SESSION',
                 payload: { userId, taskIntent, durationMinutes, startTime }
             });
             return { message: "Queued offline" };
         }
-        const response = await api.post('/brain/sessions/log', {
+        const response = await api.post('brain/sessions/log', {
             task_intent: taskIntent,
             duration_minutes: durationMinutes,
             start_time: startTime
@@ -146,7 +160,7 @@ export const orchestratorService = {
     },
 
     submitFeedback: async (sessionId: number, rating: number, miniJournal: string) => {
-        const response = await api.post('/brain/sessions/feedback', {
+        const response = await api.post('brain/sessions/feedback', {
             session_id: sessionId,
             focus_rating: rating,
             mini_journal: miniJournal
@@ -155,28 +169,29 @@ export const orchestratorService = {
     },
 
     addMemory: async (userId: string, content: string) => {
-        const response = await api.post(`/brain/memories`, { content });
+        const response = await api.post(`brain/memories`, { content });
         return response.data;
     },
 
     getMemories: async (userId: string) => {
-        const response = await api.get(`/brain/memories`);
+        const response = await api.get(`brain/memories`);
         return response.data;
     },
 
     deleteMemory: async (memoryId: number) => {
-        const response = await api.delete(`/brain/memories/${memoryId}`);
+        const response = await api.delete(`brain/memories/${memoryId}`);
         return response.data;
     },
 
     generateDailyReport: async (userId: string, journalText: string) => {
-        const response = await api.post(`/brain/report/daily`, {
+        const response = await api.post(`brain/report/daily`, {
             journal_text: journalText
         });
         return response.data;
     },
 
     streamCoachResponse: async (userId: string, message: string, history: { role: string, content: string }[], phase: string, onEvent: (data: unknown) => void) => {
+        const supabase = getSupabase();
         const { data: { session } } = await supabase.auth.getSession();
 
         const response = await fetch(`${API_BASE_URL}/brain/stream`, {
@@ -217,12 +232,12 @@ export const orchestratorService = {
     },
 
     getReportHistory: async (userId: string, date?: string) => {
-        const response = await api.get(`/brain/reports/history`, { params: { date } });
+        const response = await api.get(`brain/reports/history`, { params: { date } });
         return response.data;
     },
 
     updateReportingTime: async (userId: string, time: string) => {
-        const response = await api.patch(`/brain/plan/reporting-time`, {
+        const response = await api.patch(`brain/plan/reporting-time`, {
             reporting_time: time
         });
         return response.data;
